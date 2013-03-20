@@ -10,7 +10,3 @@ CREATE TABLE PUBLIC.SIMPLECUSTOMER (
 	
 INSERT INTO PUBLIC.SIMPLECUSTOMER (FIRSTNAME, LASTNAME, USERNAME, PASSWORD, EMAIL) VALUES ('Jaquira', 'himmelpfortsleitner', 'jaqui', 'jahi', 'jaqui@gmx.at');
 delete from PUBLIC.SIMPLECUSTOMER;
-
-COMMIT;
-
-SELECT * FROM public.simplecustomer;

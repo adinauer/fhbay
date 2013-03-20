@@ -15,11 +15,13 @@ public class FhBayConsoleClient {
 
 	private static void testSimpleCustomerAdmin() throws Exception {
 		InitialContext ctx = new InitialContext();
-		Object ref = ctx.lookup("fhbay-beans/SimpleCustomerAdminBean!sve2.fhbay.interfaces.SimpleCustomerAdminRemote");
+		Object ref = ctx
+				.lookup("fhbay-beans/SimpleCustomerAdminBean!sve2.fhbay.interfaces.SimpleCustomerAdminRemote");
 		SimpleCustomerAdminRemote customerAdminProxy = (SimpleCustomerAdminRemote) ref;
-		
-		Customer fklammer = new Customer("Franz", "Klammer", "fklammer", "fklammer@example.com", "geheim");
-		
+
+		Customer fklammer = new Customer("Franz", "Klammer", "fklammer",
+				"fklammer@example.com", "geheim");
+
 		System.out.println("client: saveCustomer");
 		customerAdminProxy.saveCustomer(fklammer);
 	}

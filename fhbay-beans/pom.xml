@@ -32,7 +32,7 @@
 		</repository>
 	</repositories>
 
-		<build>
+	<build>
 		<finalName>${project.artifactId}</finalName>
 
 		<!-- Compiler plugin enforces Java 1.7 compatibility and activates annotation 
@@ -134,29 +134,13 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--
-		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<version>${org.jboss.arquillian.version}</version>
-			<scope>test</scope>
-		</dependency>
+		<!-- <dependency> <groupId>org.jboss.arquillian.junit</groupId> <artifactId>arquillian-junit-container</artifactId> 
+			<version>${org.jboss.arquillian.version}</version> <scope>test</scope> </dependency> 
+			<dependency> <groupId>org.jboss.arquillian.protocol</groupId> <artifactId>arquillian-protocol-servlet</artifactId> 
+			<version>${org.jboss.arquillian.version}</version> <scope>test</scope> </dependency> 
+			<dependency> <groupId>org.jboss.as</groupId> <artifactId>jboss-as-arquillian-container-managed</artifactId> 
+			<version>${org.jboss.jbossas.version}</version> <scope>test</scope> </dependency> -->
 
-		<dependency>
-			<groupId>org.jboss.arquillian.protocol</groupId>
-			<artifactId>arquillian-protocol-servlet</artifactId>
-			<version>${org.jboss.arquillian.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.as</groupId>
-			<artifactId>jboss-as-arquillian-container-managed</artifactId>
-			<version>${org.jboss.jbossas.version}</version>
-			<scope>test</scope>
-		</dependency>
- -->
- 
 	</dependencies>
 
 </project>

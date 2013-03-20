@@ -7,15 +7,12 @@
 		<session>
 			<ejb-name>SimpleCustomerDaoBean</ejb-name>
 			<ejb-class>sve2.fhbay.beans.dao.SimpleCustomerDaoBean</ejb-class>
-			<!-- version 1b), 2b), 2c) -->
 			<resource-ref>
 				<res-ref-name>jdbc/FhBayDS</res-ref-name>
 				<res-type>javax.sql.DataSource</res-type>
 				<mapped-name>java:jboss/datasources/FhBayDS</mapped-name>
-				<!-- only for 2c) -->
 				<injection-target>
 					<injection-target-class>sve2.fhbay.beans.dao.SimpleCustomerDaoBean</injection-target-class>
-					<!-- calls setDataSource(x) -->
 					<injection-target-name>dataSource</injection-target-name>
 				</injection-target>
 			</resource-ref>

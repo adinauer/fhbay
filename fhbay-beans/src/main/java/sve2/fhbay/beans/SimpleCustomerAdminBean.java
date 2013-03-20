@@ -13,7 +13,7 @@ import sve2.fhbay.interfaces.dao.SimpleCustomerDao;
 @Stateless
 @Remote(SimpleCustomerAdminRemote.class)
 public class SimpleCustomerAdminBean implements SimpleCustomerAdminRemote {
-	
+
 	@EJB
 	private SimpleCustomerDao customerDao;
 
