@@ -54,18 +54,18 @@ public class FhBayConsoleClient {
 	      for (Customer c : custAdmin.findAllCustomers()) {
 	        System.out.println(c);
 
-//	        if (! c.getPhones().isEmpty()) {
-//	        	System.out.println("  phone numbers:");
-//	    			for (Phone phone : c.getPhones())
-//	    				System.out.println("     " + phone);
-////		  			for (Entry<String, Phone> entry : c.getPhones().entrySet())
-////		  				System.out.println("     " + entry.getKey() + ": " + entry.getValue());
-//	        }
-//	        if (! c.getShippingAddresses().isEmpty()) {
-//	        	System.out.println("  shipping addresses:");
-//		        for (Address a : c.getShippingAddresses())
-//		          System.out.println("     " + a);
-//	        }
+	        if (! c.getPhones().isEmpty()) {
+	        	System.out.println("  phone numbers:");
+	    			for (Phone phone : c.getPhones())
+	    				System.out.println("     " + phone);
+//		  			for (Entry<String, Phone> entry : c.getPhones().entrySet())
+//		  				System.out.println("     " + entry.getKey() + ": " + entry.getValue());
+	        }
+	        if (! c.getShippingAddresses().isEmpty()) {
+	        	System.out.println("  shipping addresses:");
+		        for (Address a : c.getShippingAddresses())
+		          System.out.println("     " + a);
+	        }
 //	        if (! c.getPaymentData().isEmpty()) {
 //	        	System.out.println("  payment data:");
 //		        for (PaymentData pd : c.getPaymentData())

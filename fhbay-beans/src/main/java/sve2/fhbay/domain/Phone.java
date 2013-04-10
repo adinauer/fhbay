@@ -11,7 +11,7 @@ import javax.persistence.Id;
 public class Phone implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
-  private long id;
+//  private long id;
 	private String type; // variant 1
   private String countryCode;
   private String number;
@@ -32,13 +32,13 @@ public class Phone implements Serializable {
 //		this.number = number;
 //	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
+//	public long getId() {
+//		return id;
+//	}
+//
+//	public void setId(long id) {
+//		this.id = id;
+//	}
 
 	// variant 1
 	public String getType() {
