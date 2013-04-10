@@ -1,5 +1,7 @@
 package sve2.fhbay.client;
 
+import java.util.Map.Entry;
+
 import sve2.fhbay.domain.Address;
 import sve2.fhbay.domain.Customer;
 import sve2.fhbay.domain.Phone;
@@ -27,8 +29,8 @@ public class FhBayConsoleClient {
 	          new Customer("Jaquira", "Hummelbrunner", "jaqui", "pwd",
 	              "Johann.Heinzelreiter@fh-hagenberg.at");
 	      cust1.setBillingAddress(new Address("4232", "Hagenberg", "Hauptstraﬂe 117"));
-//	  		cust1.addPhone("mobile", new Phone("+43", "(0) 555 333"));
-	  		cust1.addPhone(new Phone("mobile", "+43", "(0) 555 333"));
+	  		cust1.addPhone("mobile", new Phone("+43", "(0) 555 333"));
+//	  		cust1.addPhone(new Phone("mobile", "+43", "(0) 555 333"));
 	      cust1.addShippingAddress(new Address("5555", "Mostbusch", "Linzerstraﬂe 15"));
 //	      cust1.addPaymentData(new CreditCard("Himmelbrunner", "010448812", 
 //	                                          DateUtil.getDate(2007, 07, 1)));
@@ -56,10 +58,10 @@ public class FhBayConsoleClient {
 
 	        if (! c.getPhones().isEmpty()) {
 	        	System.out.println("  phone numbers:");
-	    			for (Phone phone : c.getPhones())
-	    				System.out.println("     " + phone);
-//		  			for (Entry<String, Phone> entry : c.getPhones().entrySet())
-//		  				System.out.println("     " + entry.getKey() + ": " + entry.getValue());
+//	    			for (Phone phone : c.getPhones())
+//	    				System.out.println("     " + phone);
+		  			for (Entry<String, Phone> entry : c.getPhones().entrySet())
+		  				System.out.println("     " + entry.getKey() + ": " + entry.getValue());
 	        }
 	        if (! c.getShippingAddresses().isEmpty()) {
 	        	System.out.println("  shipping addresses:");

@@ -2,8 +2,9 @@ package sve2.fhbay.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
@@ -39,9 +41,9 @@ public class Customer implements Serializable {
 	@JoinColumn(name="customer_id")
 	@OrderColumn(name="ordercol")
 	private List<Address> shippingAddresses = new ArrayList<>();
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="phone")
-	private Set<Phone> phoneNumbers = new HashSet<>();
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@MapKeyColumn(name="phone_type")
+	private Map<String, Phone> phoneNumbers = new HashMap<>();
 	
 	public Customer() {
 		/* do nothing */
@@ -121,11 +123,11 @@ public class Customer implements Serializable {
 		shippingAddresses.add(shippingAddress);
 	}
 	
-	public Set<Phone> getPhones() {
+	public Map<String, Phone> getPhones() {
 		return phoneNumbers;
 	}
-	public void addPhone(Phone phoneNumber) {
-		phoneNumbers.add(phoneNumber);
+	public void addPhone(String type, Phone phoneNumber) {
+		phoneNumbers.put(type, phoneNumber);
 	}
 
 	@Override
