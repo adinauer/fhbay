@@ -44,6 +44,12 @@ public class Customer implements Serializable {
 	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	@MapKeyColumn(name="phone_type")
 	private Map<String, Phone> phoneNumbers = new HashMap<>();
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@JoinColumn(name="customer_id")
+	@OrderColumn(name="ordercol")
+	private List<PaymentData> paymentData = new ArrayList<>();
+	
+	
 	
 	public Customer() {
 		/* do nothing */
@@ -138,5 +144,13 @@ public class Customer implements Serializable {
 		if (billingAddress != null) sb.append("; billing address: " + billingAddress);
 		
 		return sb.toString();
+	}
+
+	public void addPaymentData(PaymentData paymentData) {
+		this.paymentData.add(paymentData);
+	}
+
+	public List<PaymentData> getPaymentData() {
+		return paymentData;
 	}
 }

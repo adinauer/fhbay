@@ -1,6 +1,10 @@
 package sve2.fhbay.domain;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("BA")
 public class BankAccount extends PaymentData {
   private static final long serialVersionUID = 1L;
 

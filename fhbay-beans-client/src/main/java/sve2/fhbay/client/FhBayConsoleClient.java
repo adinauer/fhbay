@@ -3,10 +3,13 @@ package sve2.fhbay.client;
 import java.util.Map.Entry;
 
 import sve2.fhbay.domain.Address;
+import sve2.fhbay.domain.CreditCard;
 import sve2.fhbay.domain.Customer;
+import sve2.fhbay.domain.PaymentData;
 import sve2.fhbay.domain.Phone;
 import sve2.fhbay.interfaces.CustomerAdminRemote;
 import sve2.fhbay.interfaces.exceptions.IdNotFoundException;
+import sve2.util.DateUtil;
 import sve2.util.JndiUtil;
 import sve2.util.LoggingUtil;
 
@@ -32,8 +35,8 @@ public class FhBayConsoleClient {
 	  		cust1.addPhone("mobile", new Phone("+43", "(0) 555 333"));
 //	  		cust1.addPhone(new Phone("mobile", "+43", "(0) 555 333"));
 	      cust1.addShippingAddress(new Address("5555", "Mostbusch", "Linzerstraﬂe 15"));
-//	      cust1.addPaymentData(new CreditCard("Himmelbrunner", "010448812", 
-//	                                          DateUtil.getDate(2007, 07, 1)));
+	      cust1.addPaymentData(new CreditCard("Himmelbrunner", "010448812", 
+	                                          DateUtil.getDate(2007, 07, 1)));
 
 	      Customer cust2 =
 	          new Customer("Maggi", "Weibold", "maggi", "Johann.Heinzelreiter@fh-hagenberg.at", "wei");
@@ -68,11 +71,11 @@ public class FhBayConsoleClient {
 		        for (Address a : c.getShippingAddresses())
 		          System.out.println("     " + a);
 	        }
-//	        if (! c.getPaymentData().isEmpty()) {
-//	        	System.out.println("  payment data:");
-//		        for (PaymentData pd : c.getPaymentData())
-//		          System.out.println("     " + pd);
-//	        }
+	        if (! c.getPaymentData().isEmpty()) {
+	        	System.out.println("  payment data:");
+		        for (PaymentData pd : c.getPaymentData())
+		          System.out.println("     " + pd);
+	        }
 	      }
 
 	      System.out.println("--------------- findCustomerById ---------------");

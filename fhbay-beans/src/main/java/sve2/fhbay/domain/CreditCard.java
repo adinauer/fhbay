@@ -2,6 +2,11 @@ package sve2.fhbay.domain;
 
 import java.util.Date;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("CC")
 public class CreditCard extends PaymentData {
   private static final long serialVersionUID = 1L;
 
