@@ -45,13 +45,6 @@
 			<artifactId>fhbay-commons</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>at.dinauer</groupId>
-			<artifactId>fhbay-server</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<type>ejb-client</type>
-		</dependency>
-
 
 		<!-- runtime dependencies: We just need these jars in our runtime classpath -->
  		<dependency>
