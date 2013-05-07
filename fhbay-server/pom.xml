@@ -14,10 +14,6 @@
     
     <name>fhbay-server</name>
 
-	<properties>
-		<jboss-as-maven-plugin.version>7.4.Final</jboss-as-maven-plugin.version>
-	</properties>
-
 	<build>
 		<finalName>${project.artifactId}</finalName>
 
@@ -32,20 +28,16 @@
 					<generateClient>true</generateClient>
 				</configuration>
 			</plugin>
-
-			<!-- JBoss AS plugin to deploy the application -->
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>${jboss-as-maven-plugin.version}</version>
-				<configuration>
-					<filename>${project.build.finalName}.jar</filename>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>at.dinauer</groupId>
+			<artifactId>fhbay-commons</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+        
 		<!-- Import the Common Annotations API (JSR-250), we use provided scope as the API is included in JBoss AS 7 -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.annotation</groupId>

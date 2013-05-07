@@ -6,13 +6,13 @@
 	<enterprise-beans>
 		<session>
 			<ejb-name>SimpleCustomerDaoBean</ejb-name>
-			<ejb-class>sve2.fhbay.beans.dao.SimpleCustomerDaoBean</ejb-class>
+			<ejb-class>at.dinauer.fhbay.beans.dao.SimpleCustomerDaoBean</ejb-class>
 			<resource-ref>
 				<res-ref-name>jdbc/FhBayDS</res-ref-name>
 				<res-type>javax.sql.DataSource</res-type>
 				<mapped-name>java:jboss/datasources/FhBayDS</mapped-name>
 				<injection-target>
-					<injection-target-class>sve2.fhbay.beans.dao.SimpleCustomerDaoBean</injection-target-class>
+					<injection-target-class>at.dinauer.fhbay.beans.dao.SimpleCustomerDaoBean</injection-target-class>
 					<injection-target-name>dataSource</injection-target-name>
 				</injection-target>
 			</resource-ref>

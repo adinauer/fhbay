@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>at.dinauer</groupId>
+		<artifactId>fhbay-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../fhbay-parent</relativePath>
+	</parent>
+    
+	<artifactId>fhbay-ear</artifactId>
+	<packaging>ear</packaging>
+    
+    <name>fhbay-ear</name>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+
+		<plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <modules>
+                        <ejbModule>
+                            <groupId>at.dinauer</groupId>
+                            <artifactId>fhbay-server</artifactId>
+                            <bundleFileName>fhbay-server.jar</bundleFileName>
+                        </ejbModule>
+                        <jarModule>
+                            <groupId>at.dinauer</groupId>
+                            <artifactId>fhbay-commons</artifactId>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                    </modules>
+                </configuration>
+            </plugin>
+            
+			<!-- JBoss AS plugin to deploy the application -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${jboss-as-maven-plugin.version}</version>
+				<configuration>
+					<filename>${project.build.finalName}.ear</filename>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>at.dinauer</groupId>
+			<artifactId>fhbay-commons</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>at.dinauer</groupId>
+			<artifactId>fhbay-server</artifactId>
+			<version>1.0-SNAPSHOT</version>
+            <type>ejb</type>
+		</dependency>
+	</dependencies>
+</project>
