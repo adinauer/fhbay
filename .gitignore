@@ -4,3 +4,5 @@ RemoteSystemsTempFiles
 target
 .classpath
 .project
+.springBeans
+webContent
