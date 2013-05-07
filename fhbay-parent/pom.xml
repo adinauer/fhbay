@@ -26,6 +26,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jboss-as-maven-plugin.version>7.4.Final</jboss-as-maven-plugin.version>
+        <spring.version>3.1.2.RELEASE</spring.version>
 	</properties>
 
 	<build>

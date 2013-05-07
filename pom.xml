@@ -6,7 +6,7 @@
 		<module>fhbay-parent</module>
 		<module>fhbay-commons</module>
 		<module>fhbay-server</module>
-		<module>fhbay-cli</module>
+		<module>fhbay-web</module>
 		<module>fhbay-ear</module>
 	</modules>
 

@@ -9,10 +9,10 @@
 		<relativePath>../fhbay-parent</relativePath>
 	</parent>
     
-	<artifactId>fhbay-cli</artifactId>
-    <packaging>jar</packaging>
+	<artifactId>fhbay-web</artifactId>
+    <packaging>war</packaging>
     
-    <name>fhbay-cli</name>
+    <name>fhbay-web</name>
 
 	<properties>
 		<org.jboss.jbossas.version>7.1.1.Final</org.jboss.jbossas.version>
@@ -44,6 +44,13 @@
 			<groupId>at.dinauer</groupId>
 			<artifactId>fhbay-commons</artifactId>
 			<version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+		</dependency>
+        
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- runtime dependencies: We just need these jars in our runtime classpath -->
@@ -105,5 +112,11 @@
 			<version>${org.jboss.jbossas.version}</version>
 			<type>pom</type>
 		</dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 	</dependencies>
 </project>
