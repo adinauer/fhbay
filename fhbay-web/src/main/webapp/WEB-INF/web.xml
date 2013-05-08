@@ -6,10 +6,6 @@
 	
 	<display-name>FHBay</display-name>
 	
-	<welcome-file-list>
-		<welcome-file>greeting.do</welcome-file>
-	</welcome-file-list>
-
 	<!-- Spring MVC -->
 	<servlet>
 		<servlet-name>fhbay-web-dispatcher</servlet-name>
@@ -24,6 +20,11 @@
 	<servlet-mapping>
 		<servlet-name>fhbay-web-dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>fhbay-web-dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
 	<!-- static content -->

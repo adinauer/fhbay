@@ -10,20 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 	 
-		@RequestMapping(value="/welcome", method = RequestMethod.GET)
-		public String printWelcome(ModelMap model, Principal principal ) {
-	 
-			String name = principal.getName();
-			model.addAttribute("username", name);
+		@RequestMapping(value="/", method = RequestMethod.GET)
+		public String printWelcome(ModelMap model) {
 			model.addAttribute("message", "Spring Security Custom Form example");
-			return "hello";
-	 
+			
+			return "index";
 		}
 	 
 		@RequestMapping(value="/login", method = RequestMethod.GET)
 		public String login(ModelMap model) {
 	 
-			return "login";
+			return "index";
 	 
 		}
 	 
@@ -31,14 +28,14 @@ public class LoginController {
 		public String loginerror(ModelMap model) {
 	 
 			model.addAttribute("error", "true");
-			return "login";
+			return "index";
 	 
 		}
 	 
 		@RequestMapping(value="/logout", method = RequestMethod.GET)
 		public String logout(ModelMap model) {
 	 
-			return "login";
+			return "index";
 	 
 		}
 }

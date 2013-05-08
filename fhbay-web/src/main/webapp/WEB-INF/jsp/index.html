@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>FHBay</title>
+	
+	<script type="text/javascript" src="./js/jquery-1.9.1.js"></script>
+	<style>
+		html, body {
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+		   font-weight: 300;
+		}
+		
+		#header {
+			width: 100%;
+			height: 100px;
+			background-color: #ddd;
+			margin-bottom: 25px;
+		}
+		
+		#logo {
+			width: 90px;
+			height: 90px;
+			margin-top: 5px;
+			margin-left: 15px;
+			float: left;
+		}
+		
+		#header h1 {
+			margin-top: 0;
+			padding-top: 18px;
+			margin-left: 5px;
+			float: left;
+		}
+		
+		#leftPane {
+			width: 250px;
+			margin-left: 10px;
+		}
+		
+		#leftPane fieldset {
+			margin-bottom: 25px;
+		}
+		
+		#leftPane fieldset legend {
+			font-size: 1.1em;
+			font-weight: bold;
+		}
+	
+		#login span {
+			display: block;
+		}
+		
+		#leftPane div {
+			margin-bottom: 15px;
+		}
+		
+		#leftPane label {
+			font-family: Arial;
+			font-size: 0.8em;
+		}
+		
+		#leftPane input, #leftPane select {
+			width: 100%;
+		}
+		
+		.button {
+			display: block; 
+			font-size: 12px; 
+			text-decoration: none!important; 
+			font-family: Helvetica, Arial, sans serif;
+			padding: 8px 12px; 
+			border-radius: 3px; 
+			-moz-border-radius: 3px; 
+			box-shadow: inset 0px 0px 2px #fff;
+			-o-box-shadow: inset 0px 0px 2px #fff;
+			-webkit-box-shadow: inset 0px 0px 2px #fff;
+			-moz-box-shadow: inset 0px 0px 2px #fff;
+		}
+		.button:active {
+			box-shadow: inset 0px 0px 3px #999;
+			-o-box-shadow: inset 0px 0px 3px #999;
+			-webkit-box-shadow: inset 0px 0px 3px #999;
+			-moz-box-shadow: inset 0px 0px 3px #999;
+		}
+		
+		.grey {
+			color: #444;
+			border: 1px solid #d0d0d0;
+			background-image: -moz-linear-gradient(#ededed, #e1e1e1);
+			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
+			background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
+			background-image: -o-linear-gradient(#ededed, #e1e1e1);
+			text-shadow: 1px 1px 1px #fff;
+			background-color: #e1e1e1;
+		}
+		.grey:hover {
+			border: 1px solid #b0b0b0;
+			background-image: -moz-linear-gradient(#e1e1e1, #ededed);
+			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
+			background-image: -webkit-linear-gradient(#e1e1e1, #ededed);
+			background-image: -o-linear-gradient(#e1e1e1, #ededed);
+			background-color: #ededed;
+		}
+		.grey:active {border: 1px solid #666;}
+		
+		#leftPane select {
+			-webkit-appearance: none;
+		    border-radius: 3px;
+		    border: none;
+		    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+		    transition: all 0.2s linear;
+		    position: relative;
+		    height: 36px;
+			  -webkit-box-sizing: border-box;
+			     -moz-box-sizing: border-box;
+			          box-sizing: border-box;
+		    padding-left: 30px;
+		    
+		    &::-webkit-input-placeholder {
+		       color: #999999;
+		    }
+		    
+		    &:-moz-placeholder {
+		       color: #999999;
+		    }
+		}
+		
+		#leftPane #search select {
+		    background: url(./img/categoryIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane #search select:focus {
+		    background: url(./img/categoryIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane select option {
+		    font-family: "Helvetica Neue", sans-serif;
+		    font-size: 13px;
+		    color: #222222;
+		}
+		
+		#leftPane input[type=password], #leftPane input[type=text] {
+		    border-radius: 3px;
+		    border: none;
+		    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+		    transition: all 0.2s linear;
+		    font-family: "Helvetica Neue", sans-serif;
+		    font-size: 13px;
+		    color: #222222;
+		    position: relative;
+		    height: 36px;
+			  -webkit-box-sizing: border-box;
+			     -moz-box-sizing: border-box;
+			          box-sizing: border-box;
+		    padding-left: 30px;
+		    
+		    &::-webkit-input-placeholder {
+		       color: #999999;
+		    }
+		    
+		    &:-moz-placeholder {
+		       color: #999999;
+		    }
+		}
+		
+		#leftPane #search input[type=text] {
+		    background: url(./img/searchIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane #search input[type=text]:focus {
+		    background: url(./img/searchIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane #login input[type=text] {
+		    background: url(./img/userIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane #login input[type=text]:focus {
+		    background: url(./img/userIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane input[type=password] {
+		    background: url(./img/keyIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#leftPane input[type=password]:focus {
+		    background: url(./img/keyIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		}
+		
+		#categories li {
+			list-style: none;
+		}
+		
+		#categories .firstLevel {
+			margin: 0;
+		}
+		
+		#categories .firstLevel > li {
+			margin-top: 10px;
+			margin-left: -40px;
+			font-weight: bold;
+			color: #777;
+		}
+		
+		#categories .secondLevel > li {
+			margin-top: 5px;
+			margin-left: -10px;
+			font-weight: normal;
+			color: #666;
+		}
+		
+		.visibilityToggle {
+			width: 10px;
+			height: 10px;
+		}
+	</style>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#categories .secondLevel").hide();
+		});
+	
+		function toggleCategoryVisibility(toggle) {
+			var subcategories = $(toggle).siblings("ul");
+			if (subcategories.is(":visible")) {
+				subcategories.hide();
+				toggle.src = "./img/arrowRight.png";
+			} else {
+				subcategories.show();
+				toggle.src = "./img/arrowDown.png";
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+<div id="header">
+	<a href="#"><img id="logo" src="./img/shopping.png" alt="FHBay" /></a>
+	<h1>FHBay</h1>
+</div>
+
+<div id="leftPane">
+	<div id="search">
+		<form name="searchForm" method="GET" action="#">
+		<fieldset>
+			<legend>Search</legend>
+		
+			<div>
+				<input type="text" placeholder="Search for an article"/>
+			</div>
+			
+			<div>
+				<select>
+					<option>All Categories</option>
+					<option>Photography Equipment</option>
+					<option>Audio</option>
+					<option>Video</option>
+				</select>
+			</div>
+			
+			<div>
+				<span><input id="btn_search" class="button grey" type="submit" value="search" /></span>
+			</div>
+		</fieldset>
+		</form>
+	</div>
+	
+	<div id="login">
+		<form name="loginForm" method="POST" action="j_spring_security_check">
+		<fieldset>
+			<legend>Login</legend>
+			
+			<div>
+				<span><label for="j_username">Username</label></span>
+				<span><input id="j_username" type="text" placeholder="enter your username"/></span>
+			</div>
+			
+			<div>
+				<span><label for="j_password">Password</label></span>
+				<span><input id="j_password" type="password" placeholder="enter your password"/></span>
+			</div>
+			
+			<div>
+				<span><input id="btn_login" class="button grey" type="submit" value="login" /></span>
+			</div>
+		</fieldset>
+		</form>
+	</div>
+	
+	<div id="categories">
+		<fieldset>
+			<legend>Categories</legend>
+			<ul class="firstLevel">
+				<li>
+					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					Photography Equipment
+					
+					<ul class="secondLevel">
+						<li>Cameras</li>
+						<li>Lenses</li>
+						<li>Memory Cards</li>
+						<li>Batteries</li>
+					</ul>
+				</li>
+				
+				<li>
+					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					Audio
+					
+					<ul class="secondLevel">
+						<li>Receiver</li>
+						<li>Speakers</li>
+						<li>Cables</li>
+					</ul>
+				</li>
+				
+				<li>
+					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					Video
+					
+					<ul class="secondLevel">
+						<li>TVs</li>
+						<li>Cables</li>
+						<li>Recorder</li>
+					</ul>					
+				</li>
+			</ul>
+		</fieldset>
+	</div>
+</div>
+
+</body>
+</html>
