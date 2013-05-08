@@ -106,7 +106,7 @@
 			background-color: #ededed;
 		}
 		.grey:active {border: 1px solid #666;}
-		
+		/*
 		#leftPane select {
 			-webkit-appearance: none;
 		    border-radius: 3px;
@@ -136,11 +136,95 @@
 		#leftPane #search select:focus {
 		    background: url(./img/categoryIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 		}
+		*/
 		
-		#leftPane select option {
-		    font-family: "Helvetica Neue", sans-serif;
-		    font-size: 13px;
-		    color: #222222;
+		.dselect {
+			position: relative;
+			display: inline-block;
+			border: 1px solid #c7c7c7;
+			border-radius: 3px;
+			height: 35px;
+			width: 100%;
+			line-height: 22px;
+			/* FF3.6+ */
+			background: -moz-linear-gradient(top,  #fefefe 0%, #eeeeee 100%);
+			/* Chrome10+, Safari5.1+ */
+			background: -webkit-linear-gradient(top,  #fefefe 0%,#eeeeee 100%);
+			/* IE10+ */
+			background: -ms-linear-gradient(top,  #fefefe 0%,#eeeeee 100%);
+			/* W3C */
+			background: linear-gradient(to bottom,  #fefefe 0%,#eeeeee 100%);
+		}
+		
+		.dselect select {
+			margin: 0;
+			padding: 3px;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			width: inherit;
+			height: 100%;
+			background: transparent none;
+			border: 1px solid transparent;
+		}
+		
+		/* this @media selector targets browsers newer than IE8 */
+		@media screen and (min-width:0) {
+			.dselect select {
+				padding: 0;
+				border-width: 1px 30px 1px 6px;
+				position: relative;
+				z-index: 4;
+				cursor: pointer;
+				opacity: 0;
+			}
+		  
+			.dselect:before {
+		    	content: attr(title);
+		    	display: block;
+		    	position: absolute;
+		    	left: 6px;
+		    	top: 3px;
+		    	right: 23px;
+		    	bottom: 3px;
+		    	padding-right: 6px;
+		    	line-height: 18px;
+		    	z-index: 2;
+		    	white-space: nowrap;
+		    	overflow: hidden;
+		    	border-right: 1px solid #c7c7c7;
+			}
+			
+			.dselect:after {
+		    	content: " ";
+		    	display: block;
+		    	position: absolute;
+		    	right: 8px;
+		    	top: 10px;
+		    	width: 0;
+		    	height: 0;
+		    	border: 4px solid transparent;
+		    	border-top-color: #333;
+		    	z-index: 3;
+			}
+		}
+		
+		@-moz-document url-prefix() {
+			/* for Firefox */
+			.dselect select {
+				display: block;
+			}
+		}
+		
+		@media screen and (-webkit-min-device-pixel-ratio:0) {
+			/* for Webkit */
+			.dselect select {
+				-webkit-appearance: none;
+				opacity: 1;
+			}
+			
+			.dselect:before {
+				content: " ";
+			}
 		}
 		
 		#leftPane input[type=password], #leftPane input[type=text] {
@@ -234,6 +318,14 @@
 				toggle.src = "./img/arrowDown.png";
 			}
 		}
+		
+		jQuery(function($) {
+			var update = function() {
+				$(this).parent().attr('title', $(this).val());
+			};
+			$(document).on('click change update', '.dselect>select', update);
+			$('.dselect>select').trigger('update');
+		});
 	</script>
 </head>
 
@@ -254,7 +346,7 @@
 				<input type="text" placeholder="Search for an article"/>
 			</div>
 			
-			<div>
+			<div class="dselect">
 				<select>
 					<option>All Categories</option>
 					<option>Photography Equipment</option>
