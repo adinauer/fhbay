@@ -2,6 +2,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>at.dinauer</groupId>
+	<artifactId>fhbay</artifactId>
+	<version>1.0-SNAPSHOT</version>
+    
+	<packaging>pom</packaging>
+
+	<name>fhbay</name>
+    
 	<modules>
 		<module>fhbay-parent</module>
 		<module>fhbay-commons</module>
@@ -9,11 +17,4 @@
 		<module>fhbay-web</module>
 		<module>fhbay-ear</module>
 	</modules>
-
-	<groupId>at.dinauer</groupId>
-	<artifactId>fhbay</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-
-	<name>fhbay</name>
 </project>
