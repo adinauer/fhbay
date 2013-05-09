@@ -104,27 +104,27 @@ em {
 	}
 	
 	#search input[type=text] {
-	    background: url(../img/searchIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/search_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#search input[type=text]:focus {
-	    background: url(../img/searchIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/search.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#login input[type=text] {
-	    background: url(../img/userIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/user_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#login input[type=text]:focus {
-	    background: url(../img/userIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/user.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#leftPane input[type=password] {
-	    background: url(../img/keyIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/key_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#leftPane input[type=password]:focus {
-	    background: url(../img/keyIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+	    background: url(../img/key.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
 	}
 	
 	#login .forgotPassword, #login .signUp {
@@ -148,6 +148,21 @@ em {
 		#logout {
 			font-size: 0.8em;
 			margin-top: -20px !important;
+			color: #888;
+		}
+		
+			#logout a {
+				color: #888;
+			}
+		
+		#userLinks li {
+			list-style: none;
+			margin-left: -20px;
+			margin-top: 15px;
+		}
+		
+		#userLinks a {
+			color: #777;
 		}
 	
 	#categories li {
@@ -244,85 +259,212 @@ em {
 		height: 12px;
 	}
 
-#articleDetails {
-	font-size: 0.9em;
-	border-top: 1px solid #ddd;
-	margin-top: 5px;
-}
+	#articleDetails {
+		font-size: 0.9em;
+		border-top: 1px solid #ddd;
+		margin-top: 5px;
+	}
+	
+		#articleDetails h1 {
+			margin-top: 25px;
+			font-size: 1.3em;
+		}
+		
+		#articleDetails h2 {
+			font-size: 1.1em;
+		}
+		
+		#articleInfos {
+			border-spacing: 0;
+			border-collapse: collapse;
+			color: #333;
+		}
+		
+			#articleInfos td {
+				padding: 10px;
+				vertical-align: top;
+			}
+			
+			#articleInfos .biddingArea {
+				background-color: #ddd;
+			}
+			
+			.noBottomSpacing td {
+				padding-bottom: 0 !important;
+			}
+			
+			#articleInfos .label {
+				text-align: right;
+				font-size: 0.8em;
+				color: #777;
+				padding-right: 0;
+			}
+			
+			#articleInfos .endDate {
+				font-size: 0.7em;
+			}
+			
+			#articleInfos .price {
+				font-size: 1.2em;
+				font-weight: bold;
+			}
+			
+			#articleInfos .bids {
+				font-size: 0.8em;
+			}
+			
+			#articleInfos input {
+				width: 100%;
+				margin-bottom: 5px;
+			}
+			
+			#articleInfos .nextBidHint {
+				font-size: 0.8em;
+				color: #555;
+			}
+		
+			#bidAmount {
+			    background: url(../img/euro_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+			}
+		
+			#bidAmount:focus {
+			    background: url(../img/euro.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+			}
+			
+			#bidButton {
+				padding: 20px 15px !important;
+				font-size: 1em;
+			}
+			
+			.shippingInfo {
+				font-size: 0.7em;
+			}
 
-	#articleDetails h1 {
-		margin-top: 25px;
-		font-size: 1.3em;
+	#bids {
+		font-size: 0.9em;
+		border-top: 1px solid #ddd;
+		margin-top: 5px;
 	}
 	
-	#articleDetails h2 {
-		font-size: 1.1em;
-	}
-	
-	#articleInfos {
-		border-spacing: 0;
-		border-collapse: collapse;
-		color: #333;
-	}
-	
-		#articleInfos td {
-			padding: 10px;
-			vertical-align: top;
+		#bids h1 {
+			margin-top: 25px;
+			font-size: 1.3em;
+			font-weight: normal;
+			color: #777;
 		}
 		
-		#articleInfos .biddingArea {
-			background-color: #ddd;
+			#bids h1 em {
+				color: #000;
+			}
+		
+		#bidList {
+			width: 100%;
+			color: #555;
+			border-collapse: collapse;
 		}
 		
-		.noBottomSpacing td {
-			padding-bottom: 0 !important;
-		}
+			#bidList thead {
+				font-size: 0.7em;
+				text-align: left;
+			}
+			
+			#bidList tbody tr {
+				border-top: 1px solid #ddd;
+			}
+			
+				#bidList tbody td {
+					padding: 15px 0px;
+				}
 		
-		#articleInfos .label {
-			text-align: right;
+			.noBidsPlacedYet {
+				margin: 100px;
+				font-weight: bold;
+				font-size: 1.1em;
+			}
+			
+			#bidList .startingPrice {
+				color: #888;
+			}
+			
+			#bidList .winningBid {
+				font-weight: bold;
+			}
+			
+		.bidExplanation {
 			font-size: 0.8em;
 			color: #777;
-			padding-right: 0;
 		}
-		
-		#articleInfos .endDate {
-			font-size: 0.7em;
-		}
-		
-		#articleInfos .price {
-			font-size: 1.2em;
-			font-weight: bold;
-		}
-		
-		#articleInfos .bids {
-			font-size: 0.8em;
-		}
-		
-		#articleInfos input {
-			width: 100%;
-			margin-bottom: 5px;
-		}
-		
-		#articleInfos .nextBidHint {
-			font-size: 0.8em;
-			color: #555;
+			
+	#offerArticle {
+		font-size: 0.9em;
+	}
+	
+		#offerArticle h1 {
+			margin-top: 25px;
+			font-size: 1.3em;
 		}
 	
-		#bidAmount {
-		    background: url(../img/euro_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-	
-		#bidAmount:focus {
-		    background: url(../img/euro.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+		#addArticle {
+			border-spacing: 0;
+			border-collapse: collapse;
+			color: #333;
 		}
 		
-		#bidButton {
-			padding: 20px 15px !important;
-		}
+			#addArticle td {
+				padding: 10px;
+			}
+			
+			#addArticle .label {
+				text-align: right;
+				font-size: 0.8em;
+				color: #777;
+				padding-right: 0;
+			}
+			
+			#addArticle input {
+				width: 100%;
+			}
 		
-		.shippingInfo {
-			font-size: 0.7em;
-		}
+				#startDate, #endDate {
+				    background: url(../img/clock_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				    cursor: pointer;
+				}
+			
+				#startDate:focus, #endDate:focus {
+				    background: url(../img/clock.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				}
+				
+				#initialPrice {
+				    background: url(../img/euro_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				}
+			
+				#initialPrice:focus {
+				    background: url(../img/euro.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				}
+				
+				#articleName {
+				    background: url(../img/name_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				}
+				
+				#articleName:focus {
+				    background: url(../img/name.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+				}
+				
+			#description {
+			    border-radius: 3px;
+			    border: none;
+			    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+			    transition: all 0.2s linear;
+			    font-family: "Helvetica Neue", sans-serif;
+			    font-size: 13px;
+			    color: #222222;
+			    position: relative;
+			    background: 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
+			}
+			
+			#addArticle input[type=submit] {
+				font-size: 1.2em;
+			}
 
 .clear {
 	clear: both;
@@ -522,3 +664,22 @@ em {
 				content: " ";
 			}
 		}
+
+
+/**************************
+	timepicker 
+ **************************/
+ .ui-widget {
+ 	font-size: 14px !important;
+ }
+ 
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }

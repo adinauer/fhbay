@@ -5,7 +5,10 @@
 	<title>FHBay</title>
 	
 	<script type="text/javascript" src="./js/lib/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="./js/lib/jquery-ui-1.10.3.custom.js"></script>
+	<script type="text/javascript" src="./js/lib/jquery-ui-timepicker-addon.js"></script>
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<link rel="stylesheet" type="text/css" href="./css/jquery-ui.css">
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -23,12 +26,33 @@
 			}
 		}
 		
-		jQuery(function($) {
+		// activate styled select form fields
+		$(function() {
 			var update = function() {
 				$(this).parent().attr('title', $(this).val());
 			};
 			$(document).on('click change update', '.dselect>select', update);
 			$('.dselect>select').trigger('update');
+		});
+		
+		// activate datetimepickers
+		$(function() {
+			$("#startDate").datetimepicker({
+				dateFormat: 'dd.mm.yy',
+				timeFormat: 'HH:mm:ss',
+				minDateTime: 0
+			});
+			
+			$("#endDate").datetimepicker({
+				dateFormat: 'dd.mm.yy',
+				timeFormat: 'HH:mm:ss',
+				minDateTime: 0
+			});
+		});
+		
+		// indent sub-options in select form elements
+		$(function() {
+			$("select .sub").prepend("&nbsp;&nbsp;&nbsp;&nbsp;");
 		});
 	</script>
 </head>
@@ -51,9 +75,13 @@
 			
 			<div class="dselect">
 				<select>
-					<option>All Categories</option>
+					<option>All categories</option>
 					<option>Photography Equipment</option>
+						<option class="sub">Receiver</option>
 					<option>Audio</option>
+						<option class="sub">Receiver</option>
+						<option class="sub">Speakers</option>
+						<option class="sub">Cables</option>
 					<option>Video</option>
 				</select>
 			</div>
@@ -97,14 +125,26 @@
 		<fieldset>
 			<legend>Joe User</legend>
 			
-			<span id="logout"><a href="#logout">Logout</a></span>
+			<span id="logout">[ <a href="#logout">Logout</a> ]</span><br />
+			
+			<ul id="userLinks">
+				<li>
+					<span><a href="#offerArticle">Offer an article</a></span>
+				</li>
+				<li>
+					<span><a>Articles I'm offering</a></span>
+				</li>
+				<li>
+					<span><a>Articles I'm bidding on</a></span>
+				</li>
+			</ul>
 		</fieldset>
 	</div>
 	
 	<div id="categories">
 		<fieldset>
 			<legend>Categories</legend>
-			<ul class="firstLevel">
+			<ul id="categoryList" class="firstLevel">
 				<li>
 					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
 					Photography Equipment
@@ -369,6 +409,116 @@
 		<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque porta, arcu sit amet dictum fringilla, magna nunc fringilla lorem, in rutrum leo lectus id augue. Duis ac orci enim, tincidunt sagittis ante. Suspendisse a augue tellus, ac pellentesque sem. Integer pellentesque, dolor at cursus varius, diam arcu posuere risus, at mollis eros dui at ligula. Morbi rutrum velit nec turpis placerat ut lacinia neque ultrices. Maecenas hendrerit odio libero. Praesent adipiscing imperdiet justo, nec fermentum ligula elementum ac. Aenean ut est dui, eu tristique justo. Cras in lacus neque. Phasellus eget lectus eget ligula tristique adipiscing. Suspendisse et adipiscing elit. Integer ipsum purus, tristique hendrerit porttitor a, accumsan eu leo. Pellentesque pulvinar nunc ac diam vestibulum at ultricies turpis dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut in eros sit amet urna gravida aliquet. Quisque laoreet, orci sit amet tristique molestie, ligula neque commodo enim, eget commodo magna massa eu enim.
 		</p>
+	</div>
+	
+	<!-- list of bids (need to be admin) -->
+	<div class="breadcrumbs">
+		<a href="#back">
+			<img class="back" src="./img/back.png" />
+			back to Canon EOS 1D X (SLR) Body
+		</a>
+	</div>
+	<div id="bids">
+		<h1>Bids for <em>Canon EOS 1D X (SLR) Body</em></h1> 
+		<table id="bidList">
+			<thead>
+				<tr>
+					<th>Bidder</th>
+					<th>Bid Amount</th>
+					<th>Bid Time</th>
+					<th>Price at time of Bid</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="4" align="center" valign="middle">
+						<div class="noBidsPlacedYet">No bids have been placed yet.</div>
+					</td>
+				</tr>
+				<tr class="winningBid">
+					<td>Joe User</td>
+					<td>€ 2.99</td>
+					<td>May-08-13 19:20:08 PDT</td>
+					<td>€ 1.99</td>
+				</tr>
+				<tr>
+					<td>John Doe</td>
+					<td>€ 1.99</td>
+					<td>May-08-13 19:20:08 PDT</td>
+					<td>€ 0.99</td>
+				</tr>
+				<tr>
+					<td class="startingPrice">Starting Price</td>
+					<td>€ 0.99</td>
+					<td>May-08-13 19:20:08 PDT</td>
+					<td>-</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="bidExplanation">If two people bid the same amount, the first bid has priority. </p>
+	</div>
+	
+	<!-- offer new article form -->
+	<div id="offerArticle">
+		<h1>Offer an article</h1>
+		<form>
+		<table id="addArticle" align="center">
+			<tbody>
+				<tr>
+					<td class="label">Name:</td>
+					<td>
+						<input id="articleName" class="styledInput" type="text" placeholder="name of the article" required />
+					</td>
+				</tr>
+				<tr>
+					<td class="label">Initial Price:</td>
+					<td>
+						<input id="initialPrice" class="styledInput" type="number" placeholder="initial price of the article" min="0" required />
+					</td>
+				</tr>
+				<tr>
+					<td class="label">Start Date:</td>
+					<td>
+						<input id="startDate" class="styledInput" type="text" placeholder="when to start the auction (click for datepicker)" required />
+					</td>
+				</tr>
+				<tr>
+					<td class="label">End Date:</td>
+					<td>
+						<input id="endDate" class="styledInput" type="text" placeholder="when to end the auction (click for datepicker)" required />
+					</td>
+				</tr>
+				<tr>
+					<td class="label">Category:</td>
+					<td>
+						<div class="dselect">
+							<select id="category">
+								<option>--- Please select a category ---</option>
+								<option>Photography Equipment</option>
+									<option class="sub">Receiver</option>
+								<option>Audio</option>
+									<option class="sub">Receiver</option>
+									<option class="sub">Speakers</option>
+									<option class="sub">Cables</option>
+								<option>Video</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="label">Description:</td>
+					<td>
+						<textarea id="description" placeholder="description of the article" rows="10" cols="50"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input class="cupid-green-button" type="submit" value="Offer article" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
 	</div>
 </div>
 
