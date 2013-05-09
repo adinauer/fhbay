@@ -1,14 +1,16 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>FHBay</title>
 	
-	<script type="text/javascript" src="./js/lib/jquery-1.9.1.js"></script>
-	<script type="text/javascript" src="./js/lib/jquery-ui-1.10.3.custom.js"></script>
-	<script type="text/javascript" src="./js/lib/jquery-ui-timepicker-addon.js"></script>
-	<link rel="stylesheet" type="text/css" href="./css/style.css">
-	<link rel="stylesheet" type="text/css" href="./css/jquery-ui.css">
+	<script type="text/javascript" src="./static/js/lib/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="./static/js/lib/jquery-ui-1.10.3.custom.js"></script>
+	<script type="text/javascript" src="./static/js/lib/jquery-ui-timepicker-addon.js"></script>
+	<link rel="stylesheet" type="text/css" href="./static/css/style.css">
+	<link rel="stylesheet" type="text/css" href="./static/css/jquery-ui.css">
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -19,10 +21,10 @@
 			var subcategories = $(toggle).siblings("ul");
 			if (subcategories.is(":visible")) {
 				subcategories.hide();
-				toggle.src = "./img/arrowRight.png";
+				toggle.src = "./static/img/arrowRight.png";
 			} else {
 				subcategories.show();
-				toggle.src = "./img/arrowDown.png";
+				toggle.src = "./static/img/arrowDown.png";
 			}
 		}
 		
@@ -60,7 +62,7 @@
 <body>
 
 <div id="header">
-	<a href="#"><img id="logo" src="./img/fhbay.png" alt="FHBay" /></a>
+	<a href="#"><img id="logo" src="./static/img/fhbay.png" alt="FHBay" /></a>
 </div>
 
 <div id="leftPane">
@@ -146,7 +148,7 @@
 			<legend>Categories</legend>
 			<ul id="categoryList" class="firstLevel">
 				<li>
-					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
 					Photography Equipment
 					
 					<ul class="secondLevel">
@@ -158,12 +160,12 @@
 				</li>
 				
 				<li>
-					<img class="visibilityToggle" src="./img/dash.png" />
+					<img class="visibilityToggle" src="./static/img/dash.png" />
 					Software					
 				</li>
 				
 				<li>
-					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
 					Audio
 					
 					<ul class="secondLevel">
@@ -174,7 +176,7 @@
 				</li>
 				
 				<li>
-					<img class="visibilityToggle" src="./img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
+					<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
 					Video
 					
 					<ul class="secondLevel">
@@ -335,7 +337,7 @@
 	<!-- article details -->
 	<div class="breadcrumbs">
 		<a href="#back">
-			<img class="back" src="./img/back.png" />
+			<img class="back" src="./static/img/back.png" />
 			back to article list
 		</a>
 		| 
@@ -414,7 +416,7 @@
 	<!-- list of bids (need to be admin) -->
 	<div class="breadcrumbs">
 		<a href="#back">
-			<img class="back" src="./img/back.png" />
+			<img class="back" src="./static/img/back.png" />
 			back to Canon EOS 1D X (SLR) Body
 		</a>
 	</div>
