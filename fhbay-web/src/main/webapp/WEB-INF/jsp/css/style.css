@@ -41,6 +41,7 @@ body {
 fieldset legend {
 	font-size: 1.1em;
 	font-weight: bold;
+	font-style: italic;
 }
 
 #login span {
@@ -201,9 +202,9 @@ fieldset legend {
     color: #222222;
     position: relative;
     height: 36px;
-	  -webkit-box-sizing: border-box;
-	     -moz-box-sizing: border-box;
-	          box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
     padding-left: 30px;
     
     &::-webkit-input-placeholder {
@@ -249,14 +250,14 @@ fieldset legend {
 
 #categories .firstLevel > li {
 	margin-top: 10px;
-	margin-left: -40px;
+	margin-left: -35px;
 	font-weight: bold;
 	color: #777;
 }
 
 #categories .secondLevel > li {
 	margin-top: 5px;
-	margin-left: -10px;
+	margin-left: -15px;
 	font-weight: normal;
 	color: #666;
 }
@@ -327,6 +328,8 @@ fieldset legend {
 
 #articles .noArticlesFound {
 	margin: 100px;
+	font-weight: bold;
+	font-size: 1.1em;
 }
 
 .clear {
