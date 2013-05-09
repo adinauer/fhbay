@@ -4,304 +4,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>FHBay</title>
 	
-	<script type="text/javascript" src="./js/jquery-1.9.1.js"></script>
-	<style>
-		html, body {
-			width: 100%;
-			margin: 0;
-			padding: 0;
-		   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-		   font-weight: 300;
-		}
-		
-		#header {
-			width: 100%;
-			height: 100px;
-			background-color: #ddd;
-			margin-bottom: 25px;
-		}
-		
-		#logo {
-			width: 90px;
-			height: 90px;
-			margin-top: 5px;
-			margin-left: 15px;
-			float: left;
-		}
-		
-		#header h1 {
-			margin-top: 0;
-			padding-top: 18px;
-			margin-left: 5px;
-			float: left;
-		}
-		
-		#leftPane {
-			width: 250px;
-			margin-left: 10px;
-		}
-		
-		#leftPane fieldset {
-			margin-bottom: 25px;
-		}
-		
-		#leftPane fieldset legend {
-			font-size: 1.1em;
-			font-weight: bold;
-		}
-	
-		#login span {
-			display: block;
-		}
-		
-		#leftPane div {
-			margin-bottom: 15px;
-		}
-		
-		#leftPane label {
-			font-family: Arial;
-			font-size: 0.8em;
-		}
-		
-		#leftPane input, #leftPane select {
-			width: 100%;
-		}
-		
-		.button {
-			display: block; 
-			font-size: 12px; 
-			text-decoration: none!important; 
-			font-family: Helvetica, Arial, sans serif;
-			padding: 8px 12px; 
-			border-radius: 3px; 
-			-moz-border-radius: 3px; 
-			box-shadow: inset 0px 0px 2px #fff;
-			-o-box-shadow: inset 0px 0px 2px #fff;
-			-webkit-box-shadow: inset 0px 0px 2px #fff;
-			-moz-box-shadow: inset 0px 0px 2px #fff;
-		}
-		.button:active {
-			box-shadow: inset 0px 0px 3px #999;
-			-o-box-shadow: inset 0px 0px 3px #999;
-			-webkit-box-shadow: inset 0px 0px 3px #999;
-			-moz-box-shadow: inset 0px 0px 3px #999;
-		}
-		
-		.grey {
-			color: #444;
-			border: 1px solid #d0d0d0;
-			background-image: -moz-linear-gradient(#ededed, #e1e1e1);
-			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(#ededed));
-			background-image: -webkit-linear-gradient(#ededed, #e1e1e1);
-			background-image: -o-linear-gradient(#ededed, #e1e1e1);
-			text-shadow: 1px 1px 1px #fff;
-			background-color: #e1e1e1;
-		}
-		.grey:hover {
-			border: 1px solid #b0b0b0;
-			background-image: -moz-linear-gradient(#e1e1e1, #ededed);
-			background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ededed), to(#e1e1e1));
-			background-image: -webkit-linear-gradient(#e1e1e1, #ededed);
-			background-image: -o-linear-gradient(#e1e1e1, #ededed);
-			background-color: #ededed;
-		}
-		.grey:active {border: 1px solid #666;}
-		/*
-		#leftPane select {
-			-webkit-appearance: none;
-		    border-radius: 3px;
-		    border: none;
-		    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
-		    transition: all 0.2s linear;
-		    position: relative;
-		    height: 36px;
-			  -webkit-box-sizing: border-box;
-			     -moz-box-sizing: border-box;
-			          box-sizing: border-box;
-		    padding-left: 30px;
-		    
-		    &::-webkit-input-placeholder {
-		       color: #999999;
-		    }
-		    
-		    &:-moz-placeholder {
-		       color: #999999;
-		    }
-		}
-		
-		#leftPane #search select {
-		    background: url(./img/categoryIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane #search select:focus {
-		    background: url(./img/categoryIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		*/
-		
-		.dselect {
-			position: relative;
-			display: inline-block;
-			border: 1px solid #c7c7c7;
-			border-radius: 3px;
-			height: 35px;
-			width: 100%;
-			line-height: 22px;
-			/* FF3.6+ */
-			background: -moz-linear-gradient(top,  #fefefe 0%, #eeeeee 100%);
-			/* Chrome10+, Safari5.1+ */
-			background: -webkit-linear-gradient(top,  #fefefe 0%,#eeeeee 100%);
-			/* IE10+ */
-			background: -ms-linear-gradient(top,  #fefefe 0%,#eeeeee 100%);
-			/* W3C */
-			background: linear-gradient(to bottom,  #fefefe 0%,#eeeeee 100%);
-		}
-		
-		.dselect select {
-			margin: 0;
-			padding: 3px;
-			-moz-box-sizing: border-box;
-			box-sizing: border-box;
-			width: inherit;
-			height: 100%;
-			background: transparent none;
-			border: 1px solid transparent;
-		}
-		
-		/* this @media selector targets browsers newer than IE8 */
-		@media screen and (min-width:0) {
-			.dselect select {
-				padding: 0;
-				border-width: 1px 30px 1px 6px;
-				position: relative;
-				z-index: 4;
-				cursor: pointer;
-				opacity: 0;
-			}
-		  
-			.dselect:before {
-		    	content: attr(title);
-		    	display: block;
-		    	position: absolute;
-		    	left: 6px;
-		    	top: 3px;
-		    	right: 23px;
-		    	bottom: 3px;
-		    	padding-right: 6px;
-		    	line-height: 18px;
-		    	z-index: 2;
-		    	white-space: nowrap;
-		    	overflow: hidden;
-		    	border-right: 1px solid #c7c7c7;
-			}
-			
-			.dselect:after {
-		    	content: " ";
-		    	display: block;
-		    	position: absolute;
-		    	right: 8px;
-		    	top: 10px;
-		    	width: 0;
-		    	height: 0;
-		    	border: 4px solid transparent;
-		    	border-top-color: #333;
-		    	z-index: 3;
-			}
-		}
-		
-		@-moz-document url-prefix() {
-			/* for Firefox */
-			.dselect select {
-				display: block;
-			}
-		}
-		
-		@media screen and (-webkit-min-device-pixel-ratio:0) {
-			/* for Webkit */
-			.dselect select {
-				-webkit-appearance: none;
-				opacity: 1;
-			}
-			
-			.dselect:before {
-				content: " ";
-			}
-		}
-		
-		#leftPane input[type=password], #leftPane input[type=text] {
-		    border-radius: 3px;
-		    border: none;
-		    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
-		    transition: all 0.2s linear;
-		    font-family: "Helvetica Neue", sans-serif;
-		    font-size: 13px;
-		    color: #222222;
-		    position: relative;
-		    height: 36px;
-			  -webkit-box-sizing: border-box;
-			     -moz-box-sizing: border-box;
-			          box-sizing: border-box;
-		    padding-left: 30px;
-		    
-		    &::-webkit-input-placeholder {
-		       color: #999999;
-		    }
-		    
-		    &:-moz-placeholder {
-		       color: #999999;
-		    }
-		}
-		
-		#leftPane #search input[type=text] {
-		    background: url(./img/searchIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane #search input[type=text]:focus {
-		    background: url(./img/searchIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane #login input[type=text] {
-		    background: url(./img/userIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane #login input[type=text]:focus {
-		    background: url(./img/userIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane input[type=password] {
-		    background: url(./img/keyIcon_grey.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#leftPane input[type=password]:focus {
-		    background: url(./img/keyIcon.png) 8px 11px no-repeat, linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%);
-		}
-		
-		#categories li {
-			list-style: none;
-		}
-		
-		#categories .firstLevel {
-			margin: 0;
-		}
-		
-		#categories .firstLevel > li {
-			margin-top: 10px;
-			margin-left: -40px;
-			font-weight: bold;
-			color: #777;
-		}
-		
-		#categories .secondLevel > li {
-			margin-top: 5px;
-			margin-left: -10px;
-			font-weight: normal;
-			color: #666;
-		}
-		
-		.visibilityToggle {
-			width: 10px;
-			height: 10px;
-		}
-	</style>
+	<script type="text/javascript" src="./js/lib/jquery-1.9.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -332,8 +36,7 @@
 <body>
 
 <div id="header">
-	<a href="#"><img id="logo" src="./img/shopping.png" alt="FHBay" /></a>
-	<h1>FHBay</h1>
+	<a href="#"><img id="logo" src="./img/fhbay.png" alt="FHBay" /></a>
 </div>
 
 <div id="leftPane">
@@ -425,6 +128,153 @@
 		</fieldset>
 	</div>
 </div>
+
+<div id="content">
+	<div class="breadcrumbs">Listing articles in category: Video > Cables</div>
+	<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in All Categories</div>
+	<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in category: Photography Equipment > Camera</div>
+	<table id="articles">
+		<tbody>
+			<tr>
+				<td colspan="3" align="center" valign="middle">
+					<div class="noArticlesFound">No articles found.</div>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" valign="top">
+					<a class="articleName" href="">Article A</a>
+				</td>
+				<td align="right" valign="top">
+					<span class="remainingTime">ends 2013/05/16 15:41</span>
+				</td>
+				<td align="right" valign="top">
+					<span class="price">$ 0.98</span><br />
+					<span class="bids">10 bids</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="clear"></div>
+<div id="footer"></div>
 
 </body>
 </html>
