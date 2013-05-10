@@ -57,13 +57,15 @@
 					<div class="dselect">
 						<select id="category">
 							<option>--- Please select a category ---</option>
-							<option>Photography Equipment</option>
-								<option class="sub">Receiver</option>
-							<option>Audio</option>
-								<option class="sub">Receiver</option>
-								<option class="sub">Speakers</option>
-								<option class="sub">Cables</option>
-							<option>Video</option>
+							
+							<c:forEach var="category" items="${categories}">
+								<option>${category.getName()}</option>
+								<c:if test="${not empty category.getSubCategories()}">
+									<c:forEach var="subCategory" items="${category.getSubCategories()}">
+										<option class="sub">${subCategory.getName()}</option>
+									</c:forEach>
+								</c:if>
+							</c:forEach>
 						</select>
 					</div>
 				</td>

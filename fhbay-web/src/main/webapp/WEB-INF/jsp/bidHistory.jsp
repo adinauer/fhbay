@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="breadcrumbs">
-	<a href="<c:url value='article' />?id=123">
-		<img class="back" src="./static/img/back.png" />
+	<a href="javascript:window.history.back()">
+		<img class="back" src="<c:url value='/static/img/back.png' />" />
 		back to Canon EOS 1D X (SLR) Body
 	</a>
 </div>

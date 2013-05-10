@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td align="left" valign="top">
-				<a class="articleName" href="<c:url value='article' />?id=123">Article A</a>
+				<a class="articleName" href="<c:url value='/article/123/' />Canon-EOS-1D-X-(SLR)-Body">Canon EOS 1D X (SLR) Body</a>
 			</td>
 			<td align="right" valign="top">
 				<span class="remainingTime"><span class="ended">ended</span></span>

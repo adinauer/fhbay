@@ -7,6 +7,7 @@
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 	
 	<http auto-config="true">
+		<intercept-url pattern="/offerArticle" access="ROLE_USER" />
 		<form-login login-page="/login.do" default-target-url="/"
 			authentication-failure-url="/loginfailed.do" />
 		<logout logout-success-url="/logout.do" />

@@ -3,44 +3,28 @@
 	<fieldset>
 		<legend>Categories</legend>
 		<ul id="categoryList" class="firstLevel">
+			<c:forEach var="category" items="${categories}">
 			<li>
-				<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
-				Photography Equipment
-				
-				<ul class="secondLevel">
-					<li>Cameras</li>
-					<li>Lenses</li>
-					<li>Memory Cards</li>
-					<li>Batteries</li>
-				</ul>
+				<c:choose>
+					<c:when test="${not empty category.getSubCategories()}">
+						<img class="visibilityToggle" src="<c:url value='/static/img/arrowRight.png' />" onclick="toggleCategoryVisibility(this)" />
+						<a href="<c:url value='/category/${category.getId()}/' />${category.getName()}">${category.getName()}</a>
+						
+						<ul class="secondLevel">
+							<c:forEach var="subCategory" items="${category.getSubCategories()}">
+							<li>
+								<a href="<c:url value='/category/${subCategory.getId()}/' />${subCategory.getName()}">${subCategory.getName()}</a>
+							</li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<img class="visibilityToggle" src="<c:url value='/static/img/dash.png' />" />
+						${category.getName()}
+					</c:otherwise>
+				</c:choose>
 			</li>
-			
-			<li>
-				<img class="visibilityToggle" src="./static/img/dash.png" />
-				Software					
-			</li>
-			
-			<li>
-				<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
-				Audio
-				
-				<ul class="secondLevel">
-					<li>Receiver</li>
-					<li>Speakers</li>
-					<li>Cables</li>
-				</ul>
-			</li>
-			
-			<li>
-				<img class="visibilityToggle" src="./static/img/arrowRight.png" onclick="toggleCategoryVisibility(this)" />
-				Video
-				
-				<ul class="secondLevel">
-					<li>TVs</li>
-					<li>Cables</li>
-					<li>Recorder</li>
-				</ul>					
-			</li>
+			</c:forEach>
 		</ul>
 	</fieldset>
 </div>

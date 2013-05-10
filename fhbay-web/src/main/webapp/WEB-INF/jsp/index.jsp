@@ -8,11 +8,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>FHBay</title>
 	
-	<script type="text/javascript" src="./static/js/lib/jquery-1.9.1.js"></script>
-	<script type="text/javascript" src="./static/js/lib/jquery-ui-1.10.3.custom.js"></script>
-	<script type="text/javascript" src="./static/js/lib/jquery-ui-timepicker-addon.js"></script>
-	<link rel="stylesheet" type="text/css" href="./static/css/style.css">
-	<link rel="stylesheet" type="text/css" href="./static/css/jquery-ui.css">
+	<script type="text/javascript" src="<c:url value='/static/js/lib/jquery-1.9.1.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/static/js/lib/jquery-ui-1.10.3.custom.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/static/js/lib/jquery-ui-timepicker-addon.js' />"></script>
+	<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/style.css' />">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/static/css/jquery-ui.css' />">
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -23,10 +23,10 @@
 			var subcategories = $(toggle).siblings("ul");
 			if (subcategories.is(":visible")) {
 				subcategories.hide();
-				toggle.src = "./static/img/arrowRight.png";
+				toggle.src = "<c:url value='/static/img/arrowRight.png' />";
 			} else {
 				subcategories.show();
-				toggle.src = "./static/img/arrowDown.png";
+				toggle.src = "<c:url value='/static/img/arrowDown.png' />";
 			}
 		}
 		
@@ -45,7 +45,7 @@
 
 <div id="header">
 	<a href="<c:url value='/' />">
-		<img id="logo" src="./static/img/fhbay.png" alt="FHBay" />
+		<img id="logo" src="<c:url value='/static/img/fhbay.png' />" alt="FHBay" />
 	</a>
 </div>
 
