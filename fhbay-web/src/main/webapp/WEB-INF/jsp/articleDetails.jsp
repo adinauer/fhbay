@@ -27,7 +27,7 @@
 				<td>
 					<span class="bids">
 						[ 
-							<a href="<c:url value='bidHistory' />?articleId=123">5 bids</a> 
+							<a href="<c:url value='/bidHistory?articleId=123' />">5 bids</a> 
 						]
 					</span>
 				</td>
