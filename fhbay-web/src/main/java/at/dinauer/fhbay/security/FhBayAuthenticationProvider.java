@@ -23,6 +23,7 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 
 		List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_USER.toString()));
+		grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_ADMIN.toString()));
 		
 		Authentication processedAuthentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
 		System.out.println(format("user: %s; pwd: %s, ok? %s", username, password, processedAuthentication.isAuthenticated()));

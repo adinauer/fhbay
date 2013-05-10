@@ -18,7 +18,6 @@
 					<span class="endDate">(May 10, 2013 19:36:44 PDT)</span>
 				</td>
 			</tr>
-			<form method="post" action="#bid">
 			<tr class="biddingArea noBottomSpacing">
 				<td class="label" rowspan="2">Current bid:</td>
 				<td>
@@ -27,11 +26,19 @@
 				<td>
 					<span class="bids">
 						[ 
-							<a href="<c:url value='/bidHistory?articleId=123' />">5 bids</a> 
+						
+							<sec:authorize ifAnyGranted="ROLE_ADMIN">
+								<a href="<c:url value='/bidHistory?articleId=123' />">5 bids</a> 
+							</sec:authorize>
+							<sec:authorize ifNotGranted="ROLE_ADMIN">
+								5 bids 
+							</sec:authorize>
 						]
 					</span>
 				</td>
 			</tr>
+			<sec:authorize ifAnyGranted="ROLE_USER">
+			<form method="post" action="#bid">
 			<tr class="biddingArea">
 				<td>
 					<input id="bidAmount" class="styledInput" type="text" placeholder="enter your bid here" /><br />
@@ -42,6 +49,14 @@
 				</td>
 			</tr>
 			</form>
+			</sec:authorize>
+			<sec:authorize ifNotGranted="ROLE_USER">
+			<tr class="biddingArea">
+				<td colspan="2">
+					<em>Please login to place a bid.</em>
+				</td>
+			</tr>
+			</sec:authorize>
 			<tr>
 				<td class="label">Shipping:</td>
 				<td colspan="2">
