@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="breadcrumbs">Listing articles in category: Video > Cables</div>
-<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in All Categories</div>
-<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in category: Photography Equipment > Camera</div>
+<c:choose>
+	<c:when test="${not empty searchString}"> 
+	<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in All Categories</div>
+	<div class="breadcrumbs">
+		Searching for "
+			<span class="searchString">${searchString}</span>
+		" in category: Photography Equipment > Camera
+	</div>
+	</c:when>
+	<c:otherwise>
+		<div class="breadcrumbs">Listing articles in category: Video > Cables</div>
+	</c:otherwise>
+</c:choose>
+
 <table id="articles">
 	<tbody>
 		<tr>

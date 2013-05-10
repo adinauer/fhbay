@@ -37,4 +37,13 @@ public class IndexController {
 
 		return "index";
 	}
+
+	@RequestMapping(value = "/search")
+	public String search(Model model, @RequestParam("q") String searchString) {
+		System.out.println("searching for articles: " + searchString);
+		model.addAttribute("showArticleList", true);
+		model.addAttribute("searchString", searchString);
+
+		return "index";
+	}
 }

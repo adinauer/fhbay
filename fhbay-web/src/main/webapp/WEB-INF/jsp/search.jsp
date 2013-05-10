@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div id="search">
-	<form name="searchForm" method="GET" action="#">
+	<form name="searchForm" method="GET" action="search">
 	<fieldset>
 		<legend>Search</legend>
 	
 		<div>
-			<input class="styledInput" type="text" placeholder="Search for an article"/>
+			<input name="q" class="styledInput" type="text" placeholder="Search for an article"/>
 		</div>
 		
 		<div class="dselect">
