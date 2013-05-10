@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
+import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
 public class IndexController {
@@ -84,6 +86,23 @@ public class IndexController {
 
 	private void fetchDomainData(Model model) {
 		fetchCategories(model);
+		fetchArticles(model);
+	}
+
+	private void fetchArticles(Model model) {
+		List<Article> articles = new ArrayList<>();
+		
+		Article canonEos1Dx = new Article("Canon EOS 1D X (SLR) Body", "bla bla", 6499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 50));
+		Article canonEos7D = new Article("Canon EOS 7D (SLR) Body", "bla blub", 1199.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 100));
+		Article canonEos60D = new Article("Canon EOS 60D (SLR) Body", "bla blub bla", 799.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 200));
+		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
+		
+		articles.add(canonEos1Dx);
+		articles.add(canonEos7D);
+		articles.add(canonEos60D);
+		articles.add(canonEos500D);
+		
+		model.addAttribute("articles", articles);
 	}
 
 	private void fetchCategories(Model model) {
