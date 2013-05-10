@@ -8,7 +8,7 @@
 		
 		<ul id="userLinks">
 			<li>
-				<span><a href="<c:url value='offerArticle' />">Offer an article</a></span>
+				<span><a href="<c:url value='/offerArticle' />">Offer an article</a></span>
 			</li>
 			<li>
 				<span><a>Articles I'm offering</a></span>
