@@ -1,5 +1,6 @@
 package at.dinauer.fhbay.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class IndexController {
 		model.addAttribute("showArticleDetails", true);
 		
 		fetchDomainData(model);
+		
+		model.addAttribute("selectedArticle", new Article("Nikon D40 (SLR) Body", "abcdef", 599.00, DateUtil.addSeconds(DateUtil.now(), -30), DateUtil.addSeconds(DateUtil.now(), -600)));
 
 		return "index";
 	}
@@ -87,6 +90,10 @@ public class IndexController {
 	private void fetchDomainData(Model model) {
 		fetchCategories(model);
 		fetchArticles(model);
+		
+		model.addAttribute("currentDateAndTime", DateUtil.now());
+		SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+		model.addAttribute("dateAndTimeFormat", dateAndTimeFormat);
 	}
 
 	private void fetchArticles(Model model) {
@@ -96,11 +103,13 @@ public class IndexController {
 		Article canonEos7D = new Article("Canon EOS 7D (SLR) Body", "bla blub", 1199.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 100));
 		Article canonEos60D = new Article("Canon EOS 60D (SLR) Body", "bla blub bla", 799.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 200));
 		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
+		Article canonEos1000D = new Article("Canon EOS 1000D (SLR) Body", "bla blub blub", 399.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), -60));
 		
 		articles.add(canonEos1Dx);
 		articles.add(canonEos7D);
 		articles.add(canonEos60D);
 		articles.add(canonEos500D);
+		articles.add(canonEos1000D);
 		
 		model.addAttribute("articles", articles);
 	}
