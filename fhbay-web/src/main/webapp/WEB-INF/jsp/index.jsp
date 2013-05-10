@@ -38,6 +38,11 @@
 			$(document).on('click change update', '.dselect>select', update);
 			$('.dselect>select').trigger('update');
 		});
+		
+		// indent sub-options in select form elements
+		$(function() {
+			$("select .sub").prepend("&nbsp;&nbsp;&nbsp;&nbsp;");
+		});
 	</script>
 </head>
 

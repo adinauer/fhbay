@@ -15,11 +15,6 @@
 			minDateTime: 0
 		});
 	});
-	
-	// indent sub-options in select form elements
-	$(function() {
-		$("select .sub").prepend("&nbsp;&nbsp;&nbsp;&nbsp;");
-	});
 </script>
 
 <div id="offerArticle">
