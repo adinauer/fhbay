@@ -13,7 +13,7 @@
 						<ul class="secondLevel">
 							<c:forEach var="subCategory" items="${category.getSubCategories()}">
 							<li>
-								<a href="<c:url value='/category/${subCategory.getId()}/' />${subCategory.getName()}">${subCategory.getName()}</a>
+								<a href="<c:url value='/category/${subCategory.getId()}/' />${category.getName()}/${subCategory.getName()}">${subCategory.getName()}</a>
 							</li>
 							</c:forEach>
 						</ul>

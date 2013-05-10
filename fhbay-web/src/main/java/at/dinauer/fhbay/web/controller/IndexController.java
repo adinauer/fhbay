@@ -14,7 +14,11 @@ import at.dinauer.fhbay.domain.Category;
 @Controller
 public class IndexController {
 
-	@RequestMapping(value = {"/", "/index", "/login", "/loginfailed", "/logout"})
+	@RequestMapping(value = {
+			"/", 
+			"/login", 
+			"/loginfailed", 
+			"/logout"})
 	public String showArticles(Model model) {
 		model.addAttribute("showArticleList", true);
 
@@ -23,7 +27,9 @@ public class IndexController {
 		return "index";
 	}
 
-	@RequestMapping(value = {"/article/{articleId}/{name}", "/article/{articleId}"})
+	@RequestMapping(value = {
+			"/article/{articleId}/{name}", 
+			"/article/{articleId}"})
 	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) {
 		System.out.println("showing details for article with id: " + articleId);
 		model.addAttribute("showArticleDetails", true);
@@ -33,7 +39,10 @@ public class IndexController {
 		return "index";
 	}
 
-	@RequestMapping(value = {"/category/{categoryId}/{name}", "/category/{categoryId}"})
+	@RequestMapping(value = {
+			"/category/{categoryId}/{categoryName}/{subCategoryName}", 
+			"/category/{categoryId}/{name}", 
+			"/category/{categoryId}"})
 	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) {
 		System.out.println("showing articles in category with id: " + categoryId);
 		model.addAttribute("showArticleList", true);
