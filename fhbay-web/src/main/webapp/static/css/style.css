@@ -477,15 +477,16 @@ em {
 
 #footer {
 	margin-top: 5px;
-	margin-bottom: 15px;
+	margin-bottom: 30px;
 }
 
 	#copyright {
-		margin-left: 275px;
+		position: absolute;
+		margin-left: -10px;
+		margin-top: 20px;
 		font-size: 0.7em;
 		text-align: right;
 		color: #aaa;
-		width: 500px;
 	}
 
 

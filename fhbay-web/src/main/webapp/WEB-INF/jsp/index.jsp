@@ -54,7 +54,6 @@
 	</a>
 </div>
 
-<div>
 <div id="leftPane">
 	<%@ include file="/WEB-INF/jsp/search.jsp" %>
 	
@@ -85,11 +84,10 @@
 	<c:if test="${showOfferArticleForm}">
 		<%@ include file="/WEB-INF/jsp/offerArticleForm.jsp" %>
 	</c:if>
-</div>
-</div>
-
-<div id="footer">
 	<span id="copyright">Copyright © 2013 FHBay. All Rights Reserved.</span>
 </div>
+
+<div id="footer" class="clear"></div>
+
 </body>
 </html>
