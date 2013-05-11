@@ -54,10 +54,10 @@
 							<option>--- Please select a category ---</option>
 							
 							<c:forEach var="category" items="${categories}">
-								<option>${category.getName()}</option>
-								<c:if test="${not empty category.getSubCategories()}">
-									<c:forEach var="subCategory" items="${category.getSubCategories()}">
-										<option class="sub">${subCategory.getName()}</option>
+								<option>${category.name}</option>
+								<c:if test="${not empty category.subCategories}">
+									<c:forEach var="subCategory" items="${category.subCategories}">
+										<option class="sub">${subCategory.name}</option>
 									</c:forEach>
 								</c:if>
 							</c:forEach>
