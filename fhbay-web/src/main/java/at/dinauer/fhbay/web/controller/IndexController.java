@@ -65,6 +65,8 @@ public class IndexController {
 		model.addAttribute("showArticleList", true);
 		
 		fetchDomainData(model);
+		
+		model.addAttribute("selectedCategoryName", "Photography > Cameras");
 
 		return "index";
 	}

@@ -1,15 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:choose>
 	<c:when test="${not empty searchString}"> 
-	<div class="breadcrumbs">Searching for "<span class="searchString">Canon EOS 1D X</span>" in All Categories</div>
 	<div class="breadcrumbs">
-		Searching for "
-			<span class="searchString">${searchString}</span>
-		" in category: Photography Equipment > Camera
+		Searching for "<span class="searchString">${searchString}</span>" in 
+		<c:choose>
+			<c:when test="${empty selectedCategoryName}">
+				all categories.
+			</c:when>
+			
+			<c:otherwise>
+				category: ${selectedCategoryName}
+			</c:otherwise>
+		</c:choose>
 	</div>
 	</c:when>
 	<c:otherwise>
-		<div class="breadcrumbs">Listing articles in category: Video > Cables</div>
+		<div class="breadcrumbs">
+			<c:choose>
+				<c:when test="${empty selectedCategoryName}">
+					Listing all articles.
+				</c:when>
+				
+				<c:otherwise>
+					Listing articles in category: ${selectedCategoryName}
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</c:otherwise>
 </c:choose>
 
@@ -23,6 +39,7 @@
 					</td>
 				</tr>
 			</c:when>
+			
 			<c:otherwise>
 				<c:forEach var="article" items="${articles}">
 					<tr>
@@ -35,6 +52,7 @@
 									<c:when test="${article.hasAuctionEnded}">
 										<span class="ended">ended</span>
 									</c:when>
+									
 									<c:otherwise>
 										${article.timeRemainingFormatted} left<br />
 										ends ${article.endDateFormatted}
