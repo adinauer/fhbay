@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.presentation.PmodArticle;
+import at.dinauer.fhbay.presentation.PmodCategory;
 import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
@@ -126,7 +127,7 @@ public class IndexController {
 	}
 
 	private void fetchCategories(Model model) {
-		List<Category> categories = new ArrayList<>();
+		List<PmodCategory> categories = new ArrayList<>();
 		
 		Category photography = new Category("Photography");
 		photography.setId(1L);
@@ -161,10 +162,10 @@ public class IndexController {
 			video.addSubCategory(videoCables);
 			video.addSubCategory(recorder);
 		
-		categories.add(photography);
-		categories.add(software);
-		categories.add(audio);
-		categories.add(video);
+		categories.add(new PmodCategory(photography));
+		categories.add(new PmodCategory(software));
+		categories.add(new PmodCategory(audio));
+		categories.add(new PmodCategory(video));
 		
 		model.addAttribute("categories", categories);
 	}
