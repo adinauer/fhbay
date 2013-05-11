@@ -105,6 +105,8 @@ public class IndexController {
 		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
 		Article canonEos1000D = new Article("Canon EOS 1000D (SLR) Body", "bla blub blub", 399.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), -60));
 		
+		canonEos1Dx.setId(12345L);
+		
 		articles.add(canonEos1Dx);
 		articles.add(canonEos7D);
 		articles.add(canonEos60D);
