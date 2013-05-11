@@ -34,10 +34,11 @@
 	</c:when>
 	<c:otherwise>
 		<sec:authorize ifAnyGranted="ROLE_USER">
-		<form method="post" action="#bid">
+		<form method="post" action="<c:url value='/bid' />">
+			<input type="hidden" name="articleId" value="${selectedArticle.id}" />
 		<tr class="biddingArea">
 			<td>
-				<input id="bidAmount" class="styledInput" type="text" placeholder="enter your bid here" /><br />
+				<input name="amount" id="bidAmount" class="styledInput" type="text" placeholder="enter your bid here" /><br />
 				<span class="nextBidHint">Enter € ${selectedArticle.minimumBid} or more</span>
 			</td>
 			<td>

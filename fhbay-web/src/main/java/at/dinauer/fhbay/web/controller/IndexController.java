@@ -48,7 +48,7 @@ public class IndexController {
 		selectedArticle.setDescription("abcdefg");
 		selectedArticle.setInitialPrice(599.00);
 		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -30));
-		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), -600));
+		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), 600));
 		selectedArticle.setSellerName("Joe User");
 		selectedArticle.setCategoryName("Photography > Cameras");
 		
@@ -90,9 +90,10 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value = "/bid", method = RequestMethod.POST)
-	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") double amount) {
+	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") String amount) {
 		System.out.println("received new bid for article " + articleId + ": " + amount);
-		return "index";
+		
+		return "redirect:/article/" + articleId;
 	}
 
 	@RequestMapping(value = "/offerArticle")
