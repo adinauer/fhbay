@@ -100,10 +100,6 @@ public class IndexController {
 	private void fetchDomainData(Model model) {
 		fetchCategories(model);
 		fetchArticles(model);
-		
-		model.addAttribute("currentDateAndTime", DateUtil.now());
-		SimpleDateFormat dateAndTimeFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
-		model.addAttribute("dateAndTimeFormat", dateAndTimeFormat);
 	}
 
 	private void fetchArticles(Model model) {
