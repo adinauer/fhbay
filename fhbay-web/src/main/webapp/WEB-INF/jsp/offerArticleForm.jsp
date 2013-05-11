@@ -51,13 +51,13 @@
 				<td>
 					<div class="dselect">
 						<select name="category" id="category">
-							<option>--- Please select a category ---</option>
+							<option value="-1">--- Please select a category ---</option>
 							
 							<c:forEach var="category" items="${categories}">
-								<option>${category.name}</option>
+								<option value="${category.id}">${category.name}</option>
 								<c:if test="${not empty category.subCategories}">
 									<c:forEach var="subCategory" items="${category.subCategories}">
-										<option class="sub">${subCategory.name}</option>
+										<option value="${subCategory.id}" class="sub">${subCategory.name}</option>
 									</c:forEach>
 								</c:if>
 							</c:forEach>
