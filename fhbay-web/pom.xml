@@ -57,6 +57,17 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+            
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+			<scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
 
 		<!-- runtime dependencies: We just need these jars in our runtime classpath -->
  		<dependency>

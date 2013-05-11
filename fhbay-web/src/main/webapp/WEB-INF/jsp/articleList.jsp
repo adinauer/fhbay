@@ -27,23 +27,24 @@
 				<c:forEach var="article" items="${articles}">
 					<tr>
 						<td align="left" valign="top">
-							<a class="articleName" href="<c:url value='/article/${article.getId()}/' />${article.getName().replace(' ' , '-')}">${article.getName()}</a>
+							<a class="articleName" href="<c:url value='/article/${article.id}/' />${article.urlName}">${article.name}</a>
 						</td>
 						<td align="right" valign="top">
 							<span class="remainingTime">
 								<c:choose>
-									<c:when test="${article.getEndDate() < currentDateAndTime}">
+									<c:when test="${article.hasAuctionEnded}">
 										<span class="ended">ended</span>
 									</c:when>
 									<c:otherwise>
-										ends ${dateAndTimeFormat.format(article.getEndDate())}
+										${article.timeRemainingFormatted} left<br />
+										ends ${article.endDateFormatted}
 									</c:otherwise>
 								</c:choose>
 							</span>
 						</td>
 						<td align="right" valign="top">
-							<span class="price">€ ${article.getInitialPrice()}</span><br />
-							<span class="bids">10 bids</span>
+							<span class="price">€ ${article.currentPrice}</span><br />
+							<span class="bids">${article.numberOfBids} bids</span>
 						</td>
 					</tr>
 				</c:forEach>

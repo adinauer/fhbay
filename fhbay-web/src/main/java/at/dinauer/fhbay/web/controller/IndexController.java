@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
+import at.dinauer.fhbay.presentation.PmodArticle;
 import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
@@ -39,8 +40,16 @@ public class IndexController {
 		
 		fetchDomainData(model);
 		
-		model.addAttribute("selectedArticle", new Article("Nikon D40 (SLR) Body", "abcdef", 599.00, DateUtil.addSeconds(DateUtil.now(), -30), DateUtil.addSeconds(DateUtil.now(), -600)));
-
+		PmodArticle selectedArticle = new PmodArticle();
+		selectedArticle.setId(123456L);
+		selectedArticle.setName("Nikon D40 (SLR) Body");
+		selectedArticle.setDescription("abcdefg");
+		selectedArticle.setInitialPrice(599.00);
+		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -30));
+		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), -600));
+		
+		model.addAttribute("selectedArticle", selectedArticle);
+		
 		return "index";
 	}
 
@@ -97,7 +106,7 @@ public class IndexController {
 	}
 
 	private void fetchArticles(Model model) {
-		List<Article> articles = new ArrayList<>();
+		List<PmodArticle> articles = new ArrayList<>();
 		
 		Article canonEos1Dx = new Article("Canon EOS 1D X (SLR) Body", "bla bla", 6499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 50));
 		Article canonEos7D = new Article("Canon EOS 7D (SLR) Body", "bla blub", 1199.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 100));
@@ -107,11 +116,11 @@ public class IndexController {
 		
 		canonEos1Dx.setId(12345L);
 		
-		articles.add(canonEos1Dx);
-		articles.add(canonEos7D);
-		articles.add(canonEos60D);
-		articles.add(canonEos500D);
-		articles.add(canonEos1000D);
+		articles.add(new PmodArticle(canonEos1Dx));
+		articles.add(new PmodArticle(canonEos7D));
+		articles.add(new PmodArticle(canonEos60D));
+		articles.add(new PmodArticle(canonEos500D));
+		articles.add(new PmodArticle(canonEos1000D));
 		
 		model.addAttribute("articles", articles);
 	}

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <div class="breadcrumbs">
 	<a href="javascript:window.history.back()">
 		<img class="back" src="<c:url value='/static/img/back.png' />" />
@@ -8,14 +9,14 @@
 	Listed in in category: Video > Cables
 </div>
 <div id="articleDetails">
-	<h1>${selectedArticle.getName()}</h1>
+	<h1>${selectedArticle.name}</h1>
 	<table id="articleInfos" align="center">
 		<tbody>
 			<tr>
 				<td class="label">Time left:</td>
 				<td colspan="2">
-					<span class="timeLeft">1 day 14 hours</span> 
-					<span class="endDate">(${dateAndTimeFormat.format(selectedArticle.getEndDate())})</span>
+					<span class="timeLeft">${selectedArticle.timeRemainingFormatted}</span> 
+					<span class="endDate">(${selectedArticle.endDateFormatted})</span>
 				</td>
 			</tr>
 			
@@ -34,7 +35,7 @@
 				<td colspan="2">
 					<span>
 						Estimated between<br />
-						Tue. May 14 and Tue May 28
+						${selectedArticle.deliveryDateMinFormatted} and ${selectedArticle.deliveryDateMaxFormatted}
 					</span> 
 				</td>
 			</tr>
@@ -51,5 +52,5 @@
 	</table>
 	
 	<h2>Description</h2>
-	<p>${selectedArticle.getDescription()}</p>
+	<p>${selectedArticle.description}</p>
 </div>
