@@ -96,13 +96,34 @@ public class IndexController {
 		return "redirect:/article/" + articleId;
 	}
 
-	@RequestMapping(value = "/offerArticle")
+	@RequestMapping(value = "/offerArticle", method = RequestMethod.GET)
 	public String showOfferArticleForm(Model model) {
 		model.addAttribute("showOfferArticleForm", true);
 
 		fetchDomainData(model);
 		
 		return "index";
+	}
+
+	@RequestMapping(value = "/offerArticle", method = RequestMethod.POST)
+	public String offerArticle(Model model, 
+			@RequestParam("name") String name, 
+			@RequestParam("initialPrice") String initialPrice,
+			@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate,
+			@RequestParam("category") String categoryId,
+			@RequestParam("description") String description) {
+		
+		System.out.println("name: " + name);
+		System.out.println("initialPrice: " + initialPrice);
+		System.out.println("startDate: " + startDate);
+		System.out.println("endDate: " + endDate);
+		System.out.println("categoryId: " + categoryId);
+		System.out.println("description: " + description);
+		
+		Long articleId = 666L;
+		
+		return "redirect:/article/" + articleId;
 	}
 
 	@RequestMapping(value = "/search")
