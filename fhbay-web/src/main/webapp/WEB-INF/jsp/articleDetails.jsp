@@ -6,7 +6,7 @@
 		back to article list
 	</a>
 	| 
-	Listed in in category: Video > Cables
+	Listed in in category: ${selectedArticle.categoryName}
 </div>
 <div id="articleDetails">
 	<h1>${selectedArticle.name}</h1>

@@ -50,6 +50,7 @@ public class IndexController {
 		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -30));
 		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), -600));
 		selectedArticle.setSellerName("Joe User");
+		selectedArticle.setCategoryName("Photography > Cameras");
 		
 		model.addAttribute("selectedArticle", selectedArticle);
 		

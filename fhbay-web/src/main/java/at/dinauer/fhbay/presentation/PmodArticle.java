@@ -30,6 +30,8 @@ public class PmodArticle {
 	private Date now;
 	private String sellerName;
 
+	private String categoryName;
+
 	public PmodArticle() {
 		now = DateUtil.now();
 		
@@ -155,5 +157,13 @@ public class PmodArticle {
 
 	public void setSellerName(String sellerName) {
 		this.sellerName = sellerName;
+	}
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }
