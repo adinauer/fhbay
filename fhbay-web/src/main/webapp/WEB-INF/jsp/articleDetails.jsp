@@ -32,6 +32,11 @@
 			<%@ include file="/WEB-INF/jsp/biddingArea.jsp" %>
 			
 			<tr>
+				<td class="label">Seller:</td>
+				<td colspan="2">${selectedArticle.sellerName}</td>
+			</tr>
+			
+			<tr>
 				<td class="label">Shipping:</td>
 				<td colspan="2">
 					<span><em>FREE</em> Economy Shipping</span><br />
@@ -39,6 +44,7 @@
 					<span class="shippingInfo">Ships to: <em>Austria</em></span>
 				</td>
 			</tr>
+			
 			<tr>
 				<td class="label">Delivery:</td>
 				<td colspan="2">
@@ -48,6 +54,7 @@
 					</span> 
 				</td>
 			</tr>
+			
 			<tr>
 				<td class="label">Returns:</td>
 				<td colspan="2">

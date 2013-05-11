@@ -16,6 +16,11 @@ public class PmodArticle {
 
 	private static final int SECONDS_PER_DAY = 60 * 60 * 24;
 	
+	private PeriodFormatter timeRemainingFormat;
+	private SimpleDateFormat deliveryDateFormat;
+	private SimpleDateFormat dateAndTimeFormat;
+	
+	
 	private Long id;
 	private String name;
 	private String description;
@@ -23,10 +28,7 @@ public class PmodArticle {
 	private Date startDate;
 	private Date endDate;
 	private Date now;
-	private PeriodFormatter timeRemainingFormat;
-	private SimpleDateFormat deliveryDateFormat;
-	private SimpleDateFormat dateAndTimeFormat;
-	
+	private String sellerName;
 
 	public PmodArticle() {
 		now = DateUtil.now();
@@ -141,5 +143,13 @@ public class PmodArticle {
 	
 	public String getDeliveryDateMaxFormatted() {
 		return deliveryDateFormat.format(DateUtil.addSeconds(endDate, 17 * SECONDS_PER_DAY));
+	}
+
+	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
 	}
 }

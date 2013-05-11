@@ -1,6 +1,5 @@
 package at.dinauer.fhbay.web.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class IndexController {
 		selectedArticle.setInitialPrice(599.00);
 		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -30));
 		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), -600));
+		selectedArticle.setSellerName("Joe User");
 		
 		model.addAttribute("selectedArticle", selectedArticle);
 		
