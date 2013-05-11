@@ -27,7 +27,7 @@
 				<c:forEach var="article" items="${articles}">
 					<tr>
 						<td align="left" valign="top">
-							<a class="articleName" href="<c:url value='/article/${article.getId()}/' />${article.getName()}">${article.getName()}</a>
+							<a class="articleName" href="<c:url value='/article/${article.getId()}/' />${article.getName().replace(' ' , '-')}">${article.getName()}</a>
 						</td>
 						<td align="right" valign="top">
 							<span class="remainingTime">
