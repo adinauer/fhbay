@@ -2,11 +2,11 @@
 <div class="breadcrumbs">
 	<a href="javascript:window.history.back()">
 		<img class="back" src="<c:url value='/static/img/back.png' />" />
-		back to Canon EOS 1D X (SLR) Body
+		back to ${selectedArticle.name}
 	</a>
 </div>
 <div id="bids">
-	<h1>Bids for <em>Canon EOS 1D X (SLR) Body</em></h1> 
+	<h1>Bids for <em>${selectedArticle.name}</em></h1> 
 	<table id="bidList">
 		<thead>
 			<tr>
@@ -17,30 +17,33 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td colspan="4" align="center" valign="middle">
-					<div class="noBidsPlacedYet">No bids have been placed yet.</div>
-				</td>
-			</tr>
-			<tr class="winningBid">
-				<td>Joe User</td>
-				<td>€ 2.99</td>
-				<td>May-08-13 19:20:08 PDT</td>
-				<td>€ 1.99</td>
-			</tr>
-			<tr>
-				<td>John Doe</td>
-				<td>€ 1.99</td>
-				<td>May-08-13 19:20:08 PDT</td>
-				<td>€ 0.99</td>
-			</tr>
+			<c:choose>
+				<c:when test="${empty bids}">
+					<tr>
+						<td colspan="4" align="center" valign="middle">
+							<div class="noBidsPlacedYet">No bids have been placed.</div>
+						</td>
+					</tr>
+				</c:when>
+				
+				<c:otherwise>
+					<c:forEach var="bid" items="${bids}">
+						<tr<c:if test="${bid.winning}"> class="winningBid"</c:if>>
+							<td>${bid.bidderName}</td>
+							<td>€ ${bid.amount}</td>
+							<td>${bid.bidTimeFormatted}</td>
+							<td>€ ${bid.priceAtBidTime}</td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 			<tr>
 				<td class="startingPrice">Starting Price</td>
-				<td>€ 0.99</td>
-				<td>May-08-13 19:20:08 PDT</td>
+				<td>€ ${selectedArticle.initialPrice}</td>
+				<td>${selectedArticle.startDateFormatted}</td>
 				<td>-</td>
 			</tr>
 		</tbody>
 	</table>
-	<p class="bidExplanation">If two people bid the same amount, the first bid has priority. </p>
+	<p class="bidExplanation">If two people bid the same amount, the first bid has priority.</p>
 </div>

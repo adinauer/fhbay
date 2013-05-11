@@ -8,7 +8,7 @@
 		<span class="bids">
 			[ 
 				<sec:authorize ifAnyGranted="ROLE_ADMIN">
-					<a href="<c:url value='/bidHistory?articleId=123' />">${article.numberOfBids} bids</a> 
+					<a href="<c:url value='/bidHistory?articleId=${selectedArticle.id}' />">${selectedArticle.numberOfBids} bids</a> 
 				</sec:authorize>
 				<sec:authorize ifNotGranted="ROLE_ADMIN">
 					${selectedArticle.numberOfBids} bids 

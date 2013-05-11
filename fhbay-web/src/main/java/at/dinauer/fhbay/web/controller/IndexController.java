@@ -7,11 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.presentation.PmodArticle;
+import at.dinauer.fhbay.presentation.PmodBid;
 import at.dinauer.fhbay.presentation.PmodCategory;
 import at.dinauer.fhbay.util.DateUtil;
 
@@ -73,7 +75,20 @@ public class IndexController {
 		model.addAttribute("showBids", true);
 		
 		fetchDomainData(model);
+		
+		PmodArticle selectedArticle = new PmodArticle();
+		selectedArticle.setName("Nikon D40 (SLR) Body");
+		selectedArticle.setInitialPrice(599.00);
+		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -300));
+		
+		model.addAttribute("selectedArticle", selectedArticle);
 
+		return "index";
+	}
+	
+	@RequestMapping(value = "/bid", method = RequestMethod.POST)
+	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") double amount) {
+		System.out.println("received new bid for article " + articleId + ": " + amount);
 		return "index";
 	}
 
@@ -100,6 +115,29 @@ public class IndexController {
 	private void fetchDomainData(Model model) {
 		fetchCategories(model);
 		fetchArticles(model);
+		fetchBids(model);
+	}
+
+	private void fetchBids(Model model) {
+		List<PmodBid> bids = new ArrayList<>();
+		
+		PmodBid johnDoe199 = new PmodBid();
+		johnDoe199.setBidderName("John Doe");
+		johnDoe199.setAmount(1.99);
+		johnDoe199.setBidTime(DateUtil.addSeconds(DateUtil.now(), -100));
+		johnDoe199.setPriceAtBidTime(0.99);
+		
+		PmodBid joeUser299 = new PmodBid();
+		joeUser299.setBidderName("Joe User");
+		joeUser299.setAmount(2.99);
+		joeUser299.setBidTime(DateUtil.addSeconds(DateUtil.now(), -50));
+		joeUser299.setPriceAtBidTime(1.99);
+		joeUser299.setWinning(true);
+		
+		bids.add(joeUser299);
+		bids.add(johnDoe199);
+		
+		model.addAttribute("bids", bids);
 	}
 
 	private void fetchArticles(Model model) {
