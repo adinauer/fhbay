@@ -15,7 +15,16 @@
 			<tr>
 				<td class="label">Time left:</td>
 				<td colspan="2">
-					<span class="timeLeft">${selectedArticle.timeRemainingFormatted}</span> 
+					<span class="timeLeft">
+						<c:choose>
+							<c:when test="${selectedArticle.hasAuctionEnded}">
+								<span class="ended">ended</span>
+							</c:when>
+							<c:otherwise>
+								${selectedArticle.timeRemainingFormatted}
+							</c:otherwise>
+						</c:choose>
+					</span> 
 					<span class="endDate">(${selectedArticle.endDateFormatted})</span>
 				</td>
 			</tr>
