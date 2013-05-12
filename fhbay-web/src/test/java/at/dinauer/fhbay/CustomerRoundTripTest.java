@@ -14,9 +14,7 @@ import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Address;
 import at.dinauer.fhbay.domain.Customer;
-import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
-import at.dinauer.fhbay.util.JndiUtil;
 
 
 public class CustomerRoundTripTest {
