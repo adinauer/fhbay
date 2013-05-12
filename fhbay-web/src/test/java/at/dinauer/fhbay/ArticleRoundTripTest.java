@@ -106,6 +106,10 @@ public class ArticleRoundTripTest {
 		nex7.setSeller(aSeller);
 		kd84.setSeller(aSeller);
 		
+		Category photography = new Category();
+		photography.setId(categoryAdmin.saveCategory(photography));
+		cameras.setParent(photography);
+		
 		cameras.setId(categoryAdmin.saveCategory(cameras));
 		tvs.setId(categoryAdmin.saveCategory(tvs));
 		
@@ -114,12 +118,20 @@ public class ArticleRoundTripTest {
 		nex7.setId(articleAdmin.offerArticle(nex7, aSeller.getId()));
 		kd84.setId(articleAdmin.offerArticle(kd84, aSeller.getId()));
 		
-		List<Article> articles = articleAdmin.findAllMatchingArticles(cameras.getId(), "Sony", true);
+		List<Article> articlesInCameras = articleAdmin.findAllMatchingArticles(cameras.getId(), "Sony", true);
 		
-		assertThat(articles, contains(anArticleWithName("Sony Alpha NEX-7")));
-		assertThat(articles, not(contains(anArticleWithName("Canon EOS 7D"))));
-		assertThat(articles, not(contains(anArticleWithName("Nikon D40"))));
-		assertThat(articles, not(contains(anArticleWithName("Sony KD-84X9005"))));
+		assertThat(articlesInCameras, contains(anArticleWithName("Sony Alpha NEX-7")));
+		assertThat(articlesInCameras, not(contains(anArticleWithName("Canon EOS 7D"))));
+		assertThat(articlesInCameras, not(contains(anArticleWithName("Nikon D40"))));
+		assertThat(articlesInCameras, not(contains(anArticleWithName("Sony KD-84X9005"))));
+		
+		
+		List<Article> articlesInPhotographyOrSubcategories = articleAdmin.findAllMatchingArticles(photography.getId(), "Sony", true);
+		
+		assertThat(articlesInPhotographyOrSubcategories, contains(anArticleWithName("Sony Alpha NEX-7")));
+		assertThat(articlesInPhotographyOrSubcategories, not(contains(anArticleWithName("Canon EOS 7D"))));
+		assertThat(articlesInPhotographyOrSubcategories, not(contains(anArticleWithName("Nikon D40"))));
+		assertThat(articlesInPhotographyOrSubcategories, not(contains(anArticleWithName("Sony KD-84X9005"))));
 	}
 
 	private Category categoryWithName(String name) {
