@@ -17,6 +17,7 @@ import org.junit.Test;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.ArticleState;
 import at.dinauer.fhbay.domain.Customer;
+import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.util.DateUtil;
@@ -74,6 +75,29 @@ public class ArticleRoundTripTest {
 		assertThat(articles, containsInAnyOrder(
 				anArticleWithName("Canon EOS 7D"),
 				anArticleWithName("Canon EOS 1D X")));
+	}
+	
+	@Test
+	public void findsOnlyArticlesMatchingAPattern() throws Exception {
+		Article eos7D = anArticle();
+		eos7D.setName("Canon EOS 7D");
+		
+		Article d40 = anArticle();
+		d40.setName("Nikon D40");
+		
+		Article nex7 = anArticle();
+		nex7.setName("Sony Alpha NEX-7");
+		
+		Customer aSeller = aSeller();
+		articleAdmin.offerArticle(eos7D, aSeller.getId());
+		articleAdmin.offerArticle(d40, aSeller.getId());
+		articleAdmin.offerArticle(nex7, aSeller.getId());
+		
+		List<Article> articles = articleAdmin.findAllMatchingArticles(null, "Sony", true);
+		
+		assertThat(articles, contains(anArticleWithName("Sony Alpha NEX-7")));
+		assertThat(articles, not(contains(anArticleWithName("Canon EOS 7D"))));
+		assertThat(articles, not(contains(anArticleWithName("Nikon D40"))));
 	}
 
 	private Matcher<Article> anArticleWithName(final String name) {

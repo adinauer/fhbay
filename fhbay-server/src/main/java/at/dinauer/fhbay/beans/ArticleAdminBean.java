@@ -43,7 +43,7 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 			String pattern, boolean includeSubCategories)
 			throws IdNotFoundException {
 //		Category category = categoryDao.findById(categoryId);
-		return new ArrayList<>(findAllMatchingArticles(/*category, */pattern, includeSubCategories));
+		return findAllMatchingArticles(/*category, */pattern, includeSubCategories);
 	}
 
 	private List<Article> findAllMatchingArticles(/* Category category, */String pattern, boolean includeSubCategories) throws IdNotFoundException {
