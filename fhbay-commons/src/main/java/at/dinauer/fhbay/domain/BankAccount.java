@@ -9,6 +9,7 @@ public class BankAccount extends PaymentData {
   private static final long serialVersionUID = 1L;
 
   private String accountNo;
+  
   private String bank;
   
   public BankAccount() {

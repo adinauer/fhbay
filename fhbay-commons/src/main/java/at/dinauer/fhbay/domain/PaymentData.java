@@ -18,6 +18,7 @@ public abstract class PaymentData implements Serializable {
 
   @Id @GeneratedValue
   private Long   id;
+  
   private String owner;
 
   public PaymentData() {

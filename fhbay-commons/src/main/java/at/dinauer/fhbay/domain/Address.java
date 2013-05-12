@@ -6,15 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-// @Embeddable
 @Entity
 public class Address implements Serializable {
   private static final long serialVersionUID = -1L;
 
   @Id @GeneratedValue
   private Long              id;
+  
   private String            zipCode;
+  
   private String            city;
+  
   private String            street;
   
   public Address() {

@@ -3,6 +3,7 @@ package at.dinauer.fhbay.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-// could also be placed in the deployment descriptor
 @NamedQuery(name="qryFindByCategoryAndPattern", query="SELECT a FROM Article a WHERE lower(a.name) LIKE :pattern OR lower(a.description) LIKE :pattern")
 public class Article implements Serializable, Comparable<Article> {
 
@@ -30,9 +30,10 @@ public class Article implements Serializable, Comparable<Article> {
   @Column(length=5000)
   private String            description;
   
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   private Customer          seller;
-  @ManyToOne
+  
+  @ManyToOne(cascade = CascadeType.ALL)
   private Customer          buyer;
   
   @Column(nullable=false)

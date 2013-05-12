@@ -3,6 +3,8 @@ package at.dinauer.fhbay.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,10 +22,10 @@ public class Category {
 	@ManyToOne
 	private Category parent;
 	  
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Category> subCategories = new ArrayList<>();
 	  
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Article> articles = new ArrayList<>();
 
 	public Category(String name) {

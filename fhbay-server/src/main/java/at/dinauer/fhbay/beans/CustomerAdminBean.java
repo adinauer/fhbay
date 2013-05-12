@@ -21,8 +21,10 @@ public class CustomerAdminBean implements CustomerAdminRemote {
 	@Override
 	public Long saveCustomer(Customer customer) {
 		System.out.printf("saveCustomer(%s)%n", customer);
-		customer = customerDao.merge(customer);
-		return customer.getId();
+		
+		Customer persistedCustomer = customerDao.merge(customer);
+		
+		return persistedCustomer.getId();
 	}
 
 	@Override

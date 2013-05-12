@@ -11,6 +11,7 @@ public class CreditCard extends PaymentData {
   private static final long serialVersionUID = 1L;
 
   private String number;
+  
   private Date expirationDate;
   
   public CreditCard() {

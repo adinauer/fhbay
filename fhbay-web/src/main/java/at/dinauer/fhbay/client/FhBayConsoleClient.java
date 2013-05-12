@@ -63,7 +63,7 @@ public class FhBayConsoleClient {
 					"Hauptstrasse 117"));
 			cust1.addPhone("mobile", new Phone("+43", "(0) 555 333"));
 			// cust1.addPhone(new Phone("mobile", "+43", "(0) 555 333"));
-			cust1.addShippingAddress(new Address("5555", "Mostbusch",
+			cust1.setShippingAddress(new Address("5555", "Mostbusch",
 					"Linzerstrasse 15"));
 			cust1.addPaymentData(new CreditCard("Himmelbrunner", "010448812",
 					DateUtil.getDate(2007, 07, 1)));
@@ -72,7 +72,7 @@ public class FhBayConsoleClient {
 					"Johann.Heinzelreiter@fh-hagenberg.at", "wei");
 			cust2.setBillingAddress(new Address("4020", "Linz",
 					"Hauptstrasse 117"));
-			cust2.addShippingAddress(new Address("8050", "Koenigsbrunn",
+			cust2.setShippingAddress(new Address("8050", "Koenigsbrunn",
 					"Maisfeld 15"));
 
 			System.out
@@ -85,9 +85,9 @@ public class FhBayConsoleClient {
 			System.out
 					.println("--------------- addShippingAddress ---------------");
 			cust1 = custAdmin.findCustomerById(cust1Id);
-			cust1.addShippingAddress(new Address("1000", "Wien",
+			cust1.setShippingAddress(new Address("1000", "Wien",
 					"Haudumgasse 87a"));
-			cust1.addShippingAddress(new Address("5000", "Salzburg",
+			cust1.setShippingAddress(new Address("5000", "Salzburg",
 					"Moritzwinkel 5"));
 			custAdmin.saveCustomer(cust1);
 
@@ -104,11 +104,9 @@ public class FhBayConsoleClient {
 						System.out.println("     " + entry.getKey() + ": "
 								+ entry.getValue());
 				}
-				if (!c.getShippingAddresses().isEmpty()) {
-					System.out.println("  shipping addresses:");
-					for (Address a : c.getShippingAddresses())
-						System.out.println("     " + a);
-				}
+				
+				System.out.println("  shipping address:" + c.getShippingAddress());
+				
 				if (!c.getPaymentData().isEmpty()) {
 					System.out.println("  payment data:");
 					for (PaymentData pd : c.getPaymentData())

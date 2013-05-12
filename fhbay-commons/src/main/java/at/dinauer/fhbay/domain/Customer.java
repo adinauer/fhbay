@@ -24,33 +24,35 @@ public class Customer implements Serializable {
 
 	@Id @GeneratedValue
 	private Long id;
+	
 	@Column(length=20, nullable=true)
 	private String firstName;
+	
 	private String lastName;
+	
 	private String userName;
+	
 	private String password;
+	
 	private String email;
-//	@Embedded wuerde die properties von Address als spalten in der Customer tabelle hinzufuegen
-//	 ohne annotation wird die adresse serialisiert in einer spalte in der Customer tabelle gespeichert
+	
 	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
 	private Address billingAddress;
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
-	@JoinColumn(name="customer_id")
-	@OrderColumn(name="ordercol")
-	private List<Address> shippingAddresses = new ArrayList<>();
+	
+	@OneToOne(cascade=CascadeType.ALL, orphanRemoval=true)
+	private Address shippingAddress;
+
 	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	@MapKeyColumn(name="phone_type")
 	private Map<String, Phone> phoneNumbers = new HashMap<>();
+	
 	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="customer_id")
 	@OrderColumn(name="ordercol")
 	private List<PaymentData> paymentData = new ArrayList<>();
 	
 	
-	
-	public Customer() {
-		/* do nothing */
-	}
+	public Customer() {}
 
 	public Customer(String firstName, String lastName, String userName,
 			String email, String password) {
@@ -118,12 +120,12 @@ public class Customer implements Serializable {
 		this.billingAddress = billingAddress;
 	}
 	
-	public List<Address> getShippingAddresses() {
-		return shippingAddresses;
+	public Address getShippingAddress() {
+		return shippingAddress;
 	}
 	
-	public void addShippingAddress(Address shippingAddress) {
-		shippingAddresses.add(shippingAddress);
+	public void setShippingAddress(Address shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 	
 	public Map<String, Phone> getPhones() {
