@@ -5,8 +5,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.Collection;
 
 import org.hamcrest.FeatureMatcher;
@@ -16,6 +14,7 @@ import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Address;
 import at.dinauer.fhbay.domain.Customer;
+import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.util.JndiUtil;
 
@@ -25,21 +24,12 @@ public class CustomerRoundTripTest {
 	
 	@Before
 	public void lookupCustomerAdminBean() throws Exception {
-		customerAdmin = JndiUtil.getRemoteObject(
-			"fhbay-ear/fhbay-server/CustomerAdminBean!at.dinauer.fhbay.interfaces.CustomerAdminRemote",
-			CustomerAdminRemote.class);
+		customerAdmin = new ServiceLocator().locate(CustomerAdminRemote.class);
 	}
-	
+
 	@Before
 	public void clearDatabase() throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:13306/fhbay", "fhbay", "pwd");
-
-        conn.createStatement().execute("SET FOREIGN_KEY_CHECKS=0");
-        conn.createStatement().execute("TRUNCATE TABLE Customer");
-        conn.createStatement().execute("SET FOREIGN_KEY_CHECKS=1");
-        
-        conn.close();
+		new DatabaseCleaner().clean();
 	}
 	
 	@Test

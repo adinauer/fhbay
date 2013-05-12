@@ -1,8 +1,10 @@
 package at.dinauer.fhbay.interfaces;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
-@Remote
-public interface ArticleAdminRemote extends ArticleAdmin {
+import at.dinauer.fhbay.domain.Article;
 
-}
+@Remote
+public interface ArticleAdminRemote extends ArticleAdmin {}

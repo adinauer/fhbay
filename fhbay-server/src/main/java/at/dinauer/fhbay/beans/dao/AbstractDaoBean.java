@@ -3,6 +3,7 @@ package at.dinauer.fhbay.beans.dao;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +34,7 @@ public class AbstractDaoBean<T, ID extends Serializable> {
 		return getEntityManager().find(entityType, id);
 	}
 
-	public Collection<T> findAll() {
+	public List<T> findAll() {
 		return getEntityManager().createQuery(String.format("SELECT entity FROM %s entity", entityType.getName()), entityType).getResultList();
 	}
 

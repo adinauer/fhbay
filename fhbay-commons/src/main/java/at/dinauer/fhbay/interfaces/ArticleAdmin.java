@@ -13,6 +13,8 @@ public interface ArticleAdmin {
 
 	Long offerArticle(Article article, Long sellerId)
 		throws IdNotFoundException;
+	
+	List<Article> findAllArticles();
 
 //	Category findCategoryById(Long id) throws IdNotFoundException;
 //

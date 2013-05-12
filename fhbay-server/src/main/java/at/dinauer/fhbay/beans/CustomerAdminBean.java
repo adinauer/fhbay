@@ -1,9 +1,8 @@
 package at.dinauer.fhbay.beans;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import at.dinauer.fhbay.domain.Customer;
@@ -28,7 +27,7 @@ public class CustomerAdminBean implements CustomerAdminRemote {
 	}
 
 	@Override
-	public Collection<Customer> findAllCustomers() {
+	public List<Customer> findAllCustomers() {
 		System.out.printf("findAllCustomers%n");
 		return customerDao.findAll();
 	}

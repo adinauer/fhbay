@@ -1,6 +1,6 @@
 package at.dinauer.fhbay.interfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Remote;
 
@@ -11,7 +11,7 @@ import at.dinauer.fhbay.exceptions.IdNotFoundException;
 public interface CustomerAdminRemote {
 	Long saveCustomer(Customer customer);
 
-	Collection<Customer> findAllCustomers();
+	List<Customer> findAllCustomers();
 
 	Customer findCustomerById(Long id) throws IdNotFoundException;
 }

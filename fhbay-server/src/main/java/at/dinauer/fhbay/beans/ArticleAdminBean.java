@@ -1,6 +1,7 @@
 package at.dinauer.fhbay.beans;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -45,8 +46,8 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 		return new ArrayList<>(findAllMatchingArticles(/*category, */pattern, includeSubCategories));
 	}
 
-	private Set<Article> findAllMatchingArticles(/* Category category, */String pattern, boolean includeSubCategories) throws IdNotFoundException {
-		Set<Article> matchingArticles = articleDao.findByCategoryAndPattern(/*category.getId()*/null, pattern); 
+	private List<Article> findAllMatchingArticles(/* Category category, */String pattern, boolean includeSubCategories) throws IdNotFoundException {
+		List<Article> matchingArticles = articleDao.findByCategoryAndPattern(/*category.getId()*/null, pattern); 
 		
 //		if (includeSubCategories) {
 //			for (Category subCategory : category.getSubCategories()) {
@@ -69,6 +70,10 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 		auction.addAuctionFinishTimer(article);
 		
 		return article.getId();
+	}
+	
+	public List<Article> findAllArticles() {
+		return articleDao.findAll();
 	}
 
 }

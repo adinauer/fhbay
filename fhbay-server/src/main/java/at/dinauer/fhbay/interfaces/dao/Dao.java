@@ -2,6 +2,7 @@ package at.dinauer.fhbay.interfaces.dao;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 public interface Dao<T, ID extends Serializable> {
 
@@ -11,6 +12,6 @@ public interface Dao<T, ID extends Serializable> {
 
 	T findById(ID id);
 
-	Collection<T> findAll();
+	List<T> findAll();
 
 }
