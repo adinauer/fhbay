@@ -7,6 +7,5 @@ import at.dinauer.fhbay.domain.Article;
 
 @Local
 public interface AuctionLocal extends Auction {
-	// timer fuehrt das finish einer auktion durch
 	void addAuctionFinishTimer(Article article);
 }

@@ -1,9 +1,7 @@
 package at.dinauer.fhbay.beans.dao;
 
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -27,7 +25,6 @@ public class ArticleDaoBean extends AbstractDaoBean<Article, Long> implements Ar
 		
 		articleQuery.setParameter("pattern", "%" + pattern.toLowerCase() + "%");
 		
-		// TODO: improve (replace set with list)
 		return articleQuery.getResultList();
 	}
 }
