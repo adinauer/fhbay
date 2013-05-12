@@ -28,7 +28,7 @@ public class ArticleRoundTripTest {
 	private CustomerAdminRemote customerAdmin;
 	
 	@Before
-	public void lookupArticleAdminBean() throws Exception {
+	public void lookupBeans() throws Exception {
 		ServiceLocator serviceLocator = new ServiceLocator();
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
