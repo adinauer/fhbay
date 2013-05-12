@@ -100,11 +100,11 @@
         <subsystem xmlns="urn:jboss:domain:datasources:1.0">
             <datasources>
                 <datasource jndi-name="java:jboss/datasources/FhBayDS" pool-name="FhBayDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:h2:~/h2/FhBayDb;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1</connection-url>
-                    <driver>h2</driver>
+                    <connection-url>jdbc:mysql://localhost:13306/fhbay</connection-url>
+                    <driver>mysql</driver>
                     <security>
-                        <user-name>sa</user-name>
-                        <password>sa</password>
+                        <user-name>fhbay</user-name>
+                        <password>pwd</password>
                     </security>
                 </datasource>
                 <datasource jndi-name="java:/DefaultDS" pool-name="DefaultDS" enabled="true" use-java-context="true">
@@ -116,6 +116,7 @@
                     </security>
                 </datasource>
                 <drivers>
+                    <driver name="mysql" module="com.mysql"/>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
@@ -427,7 +428,7 @@
 
     <deployments>
         <deployment name="fhbay-ear.ear" runtime-name="fhbay-ear.ear">
-            <content sha1="bc77c13ec9a8100fee1adc485a54ec37289bc756"/>
+            <content sha1="6344ff5c56288f61bb013f86250f7f5fc5f62050"/>
         </deployment>
     </deployments>
 </server>
