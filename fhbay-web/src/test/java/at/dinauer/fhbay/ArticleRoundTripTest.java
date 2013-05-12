@@ -16,9 +16,11 @@ import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.ArticleState;
+import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
+import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.util.DateUtil;
 
@@ -26,12 +28,14 @@ import at.dinauer.fhbay.util.DateUtil;
 public class ArticleRoundTripTest {
 	private ArticleAdminRemote articleAdmin;
 	private CustomerAdminRemote customerAdmin;
+	private CategoryAdminRemote categoryAdmin;
 	
 	@Before
 	public void lookupBeans() throws Exception {
 		ServiceLocator serviceLocator = new ServiceLocator();
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
+		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
 	}
 	
 	@Before
@@ -60,11 +64,8 @@ public class ArticleRoundTripTest {
 	
 	@Test
 	public void canSaveMultipleArticlesAndRetrieveAllOfThem() throws Exception {
-		Article eos7D = anArticle();
-		eos7D.setName("Canon EOS 7D");
-		
-		Article eos1DX = anArticle();
-		eos1DX.setName("Canon EOS 1D X");
+		Article eos7D = articleWithName("Canon EOS 7D");
+		Article eos1DX = articleWithName("Canon EOS 1D X");
 		
 		Customer aSeller = aSeller();
 		articleAdmin.offerArticle(eos7D, aSeller.getId());
@@ -78,26 +79,63 @@ public class ArticleRoundTripTest {
 	}
 	
 	@Test
-	public void findsOnlyArticlesMatchingAPattern() throws Exception {
-		Article eos7D = anArticle();
-		eos7D.setName("Canon EOS 7D");
+	public void findsOnlyArticlesMatchingAPatternInGivenCategory() throws Exception {
+		Article eos7D = articleWithName("Canon EOS 7D");
+		Article d40 = articleWithName("Nikon D40");
+		Article nex7 = articleWithName("Sony Alpha NEX-7");
+
 		
-		Article d40 = anArticle();
-		d40.setName("Nikon D40");
+		Category cameras = categoryWithName("Cameras");
+//		cameras.addArticle(nex7);
+//		cameras.addArticle(eos7D);
+//		cameras.addArticle(d40);
+		nex7.addCategory(cameras);
+		eos7D.addCategory(cameras);
+		d40.addCategory(cameras);
 		
-		Article nex7 = anArticle();
-		nex7.setName("Sony Alpha NEX-7");
+		Article kd84 = articleWithName("Sony KD-84X9005");
+		
+		Category tvs = categoryWithName("TVs");
+//		tvs.addArticle(kd84);
+		kd84.addCategory(tvs);
 		
 		Customer aSeller = aSeller();
-		articleAdmin.offerArticle(eos7D, aSeller.getId());
-		articleAdmin.offerArticle(d40, aSeller.getId());
-		articleAdmin.offerArticle(nex7, aSeller.getId());
 		
-		List<Article> articles = articleAdmin.findAllMatchingArticles(null, "Sony", true);
+		eos7D.setSeller(aSeller);
+		d40.setSeller(aSeller);
+		nex7.setSeller(aSeller);
+		kd84.setSeller(aSeller);
+		
+		cameras.setId(categoryAdmin.saveCategory(cameras));
+		tvs.setId(categoryAdmin.saveCategory(tvs));
+		
+		eos7D.setId(articleAdmin.offerArticle(eos7D, aSeller.getId()));
+		d40.setId(articleAdmin.offerArticle(d40, aSeller.getId()));
+		nex7.setId(articleAdmin.offerArticle(nex7, aSeller.getId()));
+		kd84.setId(articleAdmin.offerArticle(kd84, aSeller.getId()));
+		
+		List<Article> articles = articleAdmin.findAllMatchingArticles(cameras.getId(), "Sony", true);
 		
 		assertThat(articles, contains(anArticleWithName("Sony Alpha NEX-7")));
 		assertThat(articles, not(contains(anArticleWithName("Canon EOS 7D"))));
 		assertThat(articles, not(contains(anArticleWithName("Nikon D40"))));
+		assertThat(articles, not(contains(anArticleWithName("Sony KD-84X9005"))));
+	}
+
+	private Category categoryWithName(String name) {
+		Category category = new Category();
+		
+		category.setName(name);
+		
+		return category;
+	}
+
+	private Article articleWithName(String name) {
+		Article article = anArticle();
+		
+		article.setName(name);
+		
+		return article;
 	}
 
 	private Matcher<Article> anArticleWithName(final String name) {
@@ -122,6 +160,11 @@ public class ArticleRoundTripTest {
 
 	private Customer aSeller() {
 		Customer seller = new Customer();
+		
+		seller.setUserName("tom.seller");
+		seller.setFirstName("Tom");
+		seller.setLastName("Seller");
+		
 		seller.setId(customerAdmin.saveCustomer(seller));
 		return seller;
 	}

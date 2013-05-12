@@ -8,8 +8,10 @@ public class DatabaseCleaner {
 	private static final String[] TABLES_TO_CLEAN = {
 		"Address",
 		"Article",
+		"Article_Category",
 		"Category",
 		"Customer",
+		"Customer_Phone",
 		"PaymentData",
 		"Phone"
 	};

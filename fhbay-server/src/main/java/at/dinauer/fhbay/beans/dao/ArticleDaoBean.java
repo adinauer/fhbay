@@ -14,16 +14,10 @@ import at.dinauer.fhbay.interfaces.dao.ArticleDao;
 public class ArticleDaoBean extends AbstractDaoBean<Article, Long> implements ArticleDao {
 
 	public List<Article> findByCategoryAndPattern(Long categoryId, String pattern) {
-		// non named query
-//		TypedQuery<Article> articleQuery = getEntityManager().createQuery(
-////			"SELECT a FROM Article a, INNER JOIN a.categories c WHERE c.id = :catId AND (lower(a.name) LIKE :pattern OR lower(a.description) LIKE :pattern)", 
-//			"SELECT a FROM Article a WHERE lower(a.name) LIKE :pattern OR lower(a.description) LIKE :pattern",
-//			Article.class);
-		
-		// named query
 		TypedQuery<Article> articleQuery = getEntityManager().createNamedQuery("qryFindByCategoryAndPattern", Article.class);
 		
 		articleQuery.setParameter("pattern", "%" + pattern.toLowerCase() + "%");
+		articleQuery.setParameter("catId", categoryId);
 		
 		return articleQuery.getResultList();
 	}

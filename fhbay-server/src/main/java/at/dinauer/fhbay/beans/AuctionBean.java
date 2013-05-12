@@ -26,15 +26,25 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 	private ArticleDao articleDao;
 	
 	public void addAuctionFinishTimer(Article article) {
+		System.out.println("creating timer for article with id: " + article.getId());
+		System.out.println("creating timer for article : " + article);
 		timerService.createTimer(article.getEndDate(), article.getId());
 	}
 	
 	@Timeout
 	public void finishAuction(Timer timer) {
 		Long articleId = (Long) timer.getInfo();
+		if (articleId == null) {
+			System.out.println("tried to end auction but article id was null");
+			return;
+		}
 		Article article = articleDao.findById(articleId);
 
-		// TODO: end auction
-		System.out.println("$$$$$ auction has ended for article " + article.getName());
+		if (article == null) {
+			System.out.println("no article found with id: " + articleId);
+		} else {
+			// TODO: end auction
+			System.out.println("$$$$$ auction has ended for article " + article.getName());
+		}
 	}
 }

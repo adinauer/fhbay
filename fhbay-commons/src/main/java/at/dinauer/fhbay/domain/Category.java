@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -30,7 +31,7 @@ public class Category implements Serializable {
 	@JoinColumn(name = "parent_id")
 	private List<Category> subCategories = new ArrayList<>();
 	  
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Article> articles = new ArrayList<>();
 
 	public Category(String name) {
