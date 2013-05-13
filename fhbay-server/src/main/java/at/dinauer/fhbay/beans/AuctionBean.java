@@ -57,8 +57,13 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 		} else {
 			 double currentPrice = findCurrentPriceForArticle(articleId);
 			 article.setFinalPrice(currentPrice);
-			 if (haveBidsBeenPlacedForArticle(articleId)) {
+			 List<Bid> bids = findBidsForArticle(articleId);
+			 if (haveBidsBeenPlacedForArticle(bids)) {
 				 article.setState(ArticleState.SOLD);
+				 BidSorter bidSorter = new BidSorter();
+				 Bid succesfulBid = bidSorter.sortBidsByAmountDescending(bids).get(0);
+				 article.setBuyer(succesfulBid.getBidder());
+				 article.setSuccesfulBid(succesfulBid);
 			 } else {
 				 article.setState(ArticleState.UNSALEABLE);
 			 }
@@ -66,9 +71,9 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 		}
 	}
 
-	private boolean haveBidsBeenPlacedForArticle(Long articleId)
+	private boolean haveBidsBeenPlacedForArticle(List<Bid> bids)
 			throws IdNotFoundException {
-		return findBidsForArticle(articleId).size() > 0;
+		return bids.size() > 0;
 	}
 
 	public BidInfo placeBid(Long articleId, Long customerId, double amount) throws IdNotFoundException {

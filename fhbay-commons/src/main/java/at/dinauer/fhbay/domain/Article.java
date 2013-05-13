@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -62,6 +63,9 @@ public class Article implements Serializable, Comparable<Article> {
 		joinColumns = {@JoinColumn(name = "article_id")},
 		inverseJoinColumns = {@JoinColumn(name = "category_id")})
 	private List<Category> categories = new ArrayList<>();
+	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Bid succesfulBid;
 
 	public Article() {
 	}
@@ -179,5 +183,104 @@ public class Article implements Serializable, Comparable<Article> {
 	
 	public void addCategory(Category category) {
 		categories.add(category);
+	}
+	
+	public Bid getSuccesfulBid() {
+		return succesfulBid;
+	}
+
+	public void setSuccesfulBid(Bid succesfulBid) {
+		this.succesfulBid = succesfulBid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((buyer == null) ? 0 : buyer.hashCode());
+		result = prime * result
+				+ ((categories == null) ? 0 : categories.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(finalPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		temp = Double.doubleToLongBits(initialPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((seller == null) ? 0 : seller.hashCode());
+		result = prime * result
+				+ ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result
+				+ ((succesfulBid == null) ? 0 : succesfulBid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		if (buyer == null) {
+			if (other.buyer != null)
+				return false;
+		} else if (!buyer.equals(other.buyer))
+			return false;
+		if (categories == null) {
+			if (other.categories != null)
+				return false;
+		} else if (!categories.equals(other.categories))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (Double.doubleToLongBits(finalPrice) != Double
+				.doubleToLongBits(other.finalPrice))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (Double.doubleToLongBits(initialPrice) != Double
+				.doubleToLongBits(other.initialPrice))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (seller == null) {
+			if (other.seller != null)
+				return false;
+		} else if (!seller.equals(other.seller))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (state != other.state)
+			return false;
+		if (succesfulBid == null) {
+			if (other.succesfulBid != null)
+				return false;
+		} else if (!succesfulBid.equals(other.succesfulBid))
+			return false;
+		return true;
 	}
 }
