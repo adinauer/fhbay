@@ -16,7 +16,6 @@ import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.interfaces.ArticleAdminLocal;
 
 
-// queue sends messages to MDB
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/FhBayQueue") })
@@ -28,7 +27,6 @@ public class ArticleProcessorBean implements MessageListener {
 	private Random random = new Random();
 	
 	public void onMessage(Message message) {
-		// map = key-value wobei value nur einache werte (keine objekte) sein duerfen
 		MapMessage articleMessage = (MapMessage) message;
 		
 		try {
