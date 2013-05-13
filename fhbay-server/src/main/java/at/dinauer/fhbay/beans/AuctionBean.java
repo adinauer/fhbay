@@ -1,6 +1,7 @@
 package at.dinauer.fhbay.beans;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -19,6 +20,9 @@ import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.dao.ArticleDao;
 import at.dinauer.fhbay.interfaces.dao.BidDao;
 import at.dinauer.fhbay.interfaces.dao.CustomerDao;
+import at.dinauer.fhbay.logic.BidAmountChecker;
+import at.dinauer.fhbay.logic.BidSorter;
+import at.dinauer.fhbay.logic.CurrentPriceCalculator;
 
 
 @Stateless
@@ -37,9 +41,8 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 	
 	@EJB
 	private BidDao bidDao;
-	
+
 	public void addAuctionFinishTimer(Article article) {
-		System.out.println("creating timer for article : " + article);
 		timerService.createTimer(article.getEndDate(), article.getId());
 	}
 	
@@ -52,6 +55,12 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 			System.out.println("no article found with id: " + articleId);
 		} else {
 			// TODO: end auction
+			// double currentPrice = auction.getCurrentPriceForArticle(articleId);
+			// article.setFinalPrice(currentPrice);
+			// if (noBidsPlaced)
+			//   article.setState(ArticleState.UNSALEABLE);
+			// else
+			//   article.setState(ArticleState.SOLD);
 			System.out.println("$$$$$ auction has ended for article " + article.getName());
 		}
 	}
@@ -63,9 +72,7 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 		Date now = new Date();
 		if (isBidTooEarly(article, now)) return BidInfo.TOO_EARLY;
 		if (isBidTooLate(article, now)) return BidInfo.TOO_LATE;
-		
-		//TODO: isTooLow?
-//		return BidInfo.TOO_LOW;
+		if (isAmountTooLow(articleId, amount, article.getInitialPrice())) return BidInfo.TOO_LOW; 
 		
 		Customer bidder = customerDao.findById(customerId);
 		if (bidder == null) throw new IdNotFoundException(customerId, "customer");
@@ -81,11 +88,32 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 		return BidInfo.ACCEPTED;
 	}
 
+	private boolean isAmountTooLow(Long articleId, double amount, double initialPrice) throws IdNotFoundException {
+		// todo extract constant for minimum increment
+		BidAmountChecker amountChecker = new BidAmountChecker(new BidSorter(), 1.0);
+		List<Bid> bids = findBidsForArticle(articleId);
+		
+		return !amountChecker.isAmountHighEnough(bids, initialPrice, amount);
+	}
+
 	private boolean isBidTooLate(Article article, Date now) {
 		return now.getTime() > article.getEndDate().getTime();
 	}
 
 	private boolean isBidTooEarly(Article article, Date now) {
 		return now.getTime() < article.getStartDate().getTime();
+	}
+
+	public List<Bid> findBidsForArticle(Long articleId) throws IdNotFoundException {
+		return bidDao.findBidsForArticle(articleId);
+	}
+
+	public double findCurrentPriceForArticle(Long articleId) throws IdNotFoundException {
+		CurrentPriceCalculator priceCalculator = new CurrentPriceCalculator(new BidSorter());
+		List<Bid> bids = findBidsForArticle(articleId);
+		
+		double initialPrice = articleDao.findById(articleId).getInitialPrice();
+		
+		return priceCalculator.calculateCurrentPrice(bids, initialPrice);
 	}
 }

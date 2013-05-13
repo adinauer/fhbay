@@ -3,12 +3,16 @@ package at.dinauer.fhbay;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static at.dinauer.fhbay.domain.BidInfo.*;
+import static at.dinauer.fhbay.FhBayMatchers.*;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.ArticleState;
+import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
@@ -39,6 +43,7 @@ public class BidRoundTripTest {
 	@Test
 	public void acceptsBidThatIsInTime() throws Exception {
 		Article article = anArticle();
+		article.setInitialPrice(50.0);
 		article.setStartDate(DateUtil.addSeconds(DateUtil.now(), -10));
 		article.setEndDate(DateUtil.addSeconds(DateUtil.now(), 10));
 		
@@ -73,6 +78,49 @@ public class BidRoundTripTest {
 		assertThat(bidInfo, is(TOO_LATE));
 	}
 	
+	@Test
+	public void rejectsBidThatIsTooLow() throws Exception {
+		Article article = anArticle();
+		article.setInitialPrice(50.0);
+		
+		Long articleId = articleAdmin.offerArticle(article, aSeller().getId());
+		
+		BidInfo bidInfo = auction.placeBid(articleId, aBidder().getId(), 10.0);
+		
+		assertThat(bidInfo, is(TOO_LOW));
+	}
+	
+	
+	@Test
+	public void findsBidsForArticle() throws Exception {
+		Long eos7D = articleAdmin.offerArticle(anArticle(), aSeller().getId());
+		Long nex5 = articleAdmin.offerArticle(anArticle(), aSeller().getId());
+		
+		auction.placeBid(eos7D, aBidder().getId(), 800.0);
+		auction.placeBid(eos7D, aBidder().getId(), 999.0);
+		auction.placeBid(nex5, aBidder().getId(), 50.0);
+		
+		List<Bid> bids = auction.findBidsForArticle(eos7D);
+		
+		assertThat(bids, containsInAnyOrder(
+				aBidWithAmount(800.0),
+				aBidWithAmount(999.0)));
+		assertThat(bids, not(contains(aBidWithAmount(50.0))));
+	}
+	
+	@Test
+	public void findsCurrentPriceForArticle() throws Exception {
+		Long eos7D = articleAdmin.offerArticle(anArticle(), aSeller().getId());
+		
+		auction.placeBid(eos7D, aBidder().getId(), 800.0);
+		auction.placeBid(eos7D, aBidder().getId(), 999.0);
+		auction.placeBid(eos7D, aBidder().getId(), 1199.0);
+		
+		double currentPrice = auction.findCurrentPriceForArticle(eos7D);
+		
+		assertThat(currentPrice, is(equalTo(999.0)));
+	}
+
 	private Article anArticle() {
 		Article article = new Article();
 		
