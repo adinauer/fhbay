@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Bid;
+import at.dinauer.fhbay.util.BidSorter;
 
 
 

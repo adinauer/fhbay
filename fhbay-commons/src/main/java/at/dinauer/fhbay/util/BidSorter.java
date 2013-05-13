@@ -1,4 +1,4 @@
-package at.dinauer.fhbay.logic;
+package at.dinauer.fhbay.util;
 
 import java.util.ArrayList;
 import java.util.Collections;

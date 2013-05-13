@@ -22,8 +22,8 @@ import at.dinauer.fhbay.interfaces.dao.ArticleDao;
 import at.dinauer.fhbay.interfaces.dao.BidDao;
 import at.dinauer.fhbay.interfaces.dao.CustomerDao;
 import at.dinauer.fhbay.logic.BidAmountChecker;
-import at.dinauer.fhbay.logic.BidSorter;
 import at.dinauer.fhbay.logic.CurrentPriceCalculator;
+import at.dinauer.fhbay.util.BidSorter;
 
 
 @Stateless

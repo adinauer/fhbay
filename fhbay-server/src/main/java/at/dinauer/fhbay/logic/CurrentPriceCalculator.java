@@ -3,6 +3,7 @@ package at.dinauer.fhbay.logic;
 import java.util.List;
 
 import at.dinauer.fhbay.domain.Bid;
+import at.dinauer.fhbay.util.BidSorter;
 
 /**
  * Calculates the price according to the Vickrey Auction rules.
