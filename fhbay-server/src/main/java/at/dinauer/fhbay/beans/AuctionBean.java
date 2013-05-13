@@ -11,6 +11,7 @@ import javax.ejb.Timer;
 import javax.ejb.TimerService;
 
 import at.dinauer.fhbay.domain.Article;
+import at.dinauer.fhbay.domain.ArticleState;
 import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Customer;
@@ -47,22 +48,27 @@ public class AuctionBean implements AuctionLocal, AuctionRemote {
 	}
 	
 	@Timeout
-	public void finishAuction(Timer timer) {
+	public void finishAuction(Timer timer) throws IdNotFoundException {
 		Long articleId = (Long) timer.getInfo();
 		Article article = articleDao.findById(articleId);
 
 		if (article == null) {
-			System.out.println("no article found with id: " + articleId);
+			System.out.println("tried to end auction for article, but no article found with id: " + articleId);
 		} else {
-			// TODO: end auction
-			// double currentPrice = auction.getCurrentPriceForArticle(articleId);
-			// article.setFinalPrice(currentPrice);
-			// if (noBidsPlaced)
-			//   article.setState(ArticleState.UNSALEABLE);
-			// else
-			//   article.setState(ArticleState.SOLD);
-			System.out.println("$$$$$ auction has ended for article " + article.getName());
+			 double currentPrice = findCurrentPriceForArticle(articleId);
+			 article.setFinalPrice(currentPrice);
+			 if (haveBidsBeenPlacedForArticle(articleId)) {
+				 article.setState(ArticleState.SOLD);
+			 } else {
+				 article.setState(ArticleState.UNSALEABLE);
+			 }
+			System.out.println("$$$$$ auction has ended for article " + article.getName() + ", state is now: " + article.getState());
 		}
+	}
+
+	private boolean haveBidsBeenPlacedForArticle(Long articleId)
+			throws IdNotFoundException {
+		return findBidsForArticle(articleId).size() > 0;
 	}
 
 	public BidInfo placeBid(Long articleId, Long customerId, double amount) throws IdNotFoundException {
