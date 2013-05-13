@@ -81,7 +81,10 @@ public class Category implements Serializable {
 	public List<Article> getArticles() {
 		return articles;
 	}
-	
+
+	public String toString() {
+		return String.format("Category (%d): name=%s", id, name);
+	}
 
 	@Override
 	public int hashCode() {

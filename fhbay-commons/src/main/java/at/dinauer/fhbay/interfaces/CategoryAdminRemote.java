@@ -14,4 +14,6 @@ public interface CategoryAdminRemote {
 	List<Category> findAllCategories();
 
 	Category findCategoryById(Long id) throws IdNotFoundException;
+
+	List<Category> findRootCategories();
 }

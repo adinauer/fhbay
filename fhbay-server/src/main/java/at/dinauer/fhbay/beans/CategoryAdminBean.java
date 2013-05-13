@@ -34,4 +34,8 @@ public class CategoryAdminBean implements CategoryAdminRemote {
 		
 		return category;
 	}
+
+	public List<Category> findRootCategories() {
+		return categoryDao.findRootCategories();
+	}
 }
