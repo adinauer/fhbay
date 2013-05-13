@@ -16,10 +16,12 @@ public class BidAmountChecker {
 
 	public boolean isAmountHighEnough(List<Bid> bids, double initialPrice, double amountToCheck) {
 		if (amountToCheck < initialPrice) return false;
-		if (bids.size() > 0) {
-			List<Bid> sortedBids = bidSorter.sortBidsByAmountDescending(bids);
-			
-			return amountToCheck > (sortedBids.get(0).getAmount() + minimumIncrement);
+		List<Bid> sortedBids = bidSorter.sortBidsByAmountDescending(bids);
+		if (bids.size() == 1) {
+			return amountToCheck > (initialPrice + minimumIncrement);
+		}
+		if (bids.size() > 1) {
+			return amountToCheck > (sortedBids.get(1).getAmount() + minimumIncrement);
 		}
 		
 		return true;

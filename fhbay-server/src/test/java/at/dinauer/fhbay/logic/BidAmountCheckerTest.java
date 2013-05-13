@@ -47,17 +47,47 @@ public class BidAmountCheckerTest {
 	}
 
 	@Test
-	public void rejectsABidThatIsLowerThanTheHighestBid() {
-		boolean isHighEnough = checker.isAmountHighEnough(bids(11.0, 15.0, 20.0, 25.0), 10.0, 24.0);
+	public void acceptsABidThatIsHigherThanTheSecondHighestBid() {
+		boolean isHighEnough = checker.isAmountHighEnough(bids(11.0, 15.0, 20.0, 25.0), 10.0, 22.0);
+		
+		assertThat(isHighEnough, is(true));
+	}
+
+	@Test
+	public void rejectsABidThatIsLowerThanTheSecondHighestBid() {
+		boolean isHighEnough = checker.isAmountHighEnough(bids(11.0, 15.0, 20.0, 25.0), 10.0, 19.0);
+		
+		assertThat(isHighEnough, is(false));
+	}
+
+	@Test
+	public void rejectsABidThatIsAsHighAsTheSecondHighestBid() {
+		boolean isHighEnough = checker.isAmountHighEnough(bids(11.0, 15.0, 20.0, 25.0), 10.0, 20.0);
 		
 		assertThat(isHighEnough, is(false));
 	}
 	
 	@Test
-	public void rejectsABidThatIsNotHigherThanTheHighestBidPlusMinimumIncrement() {
-		double highestBid = 25.0;
-		double lowerThanHighestBidPlusIncrement = highestBid + MINIMUM_INCREMENT - 0.1;
-		boolean isHighEnough = checker.isAmountHighEnough(bids(highestBid), 10.0, lowerThanHighestBidPlusIncrement);
+	public void rejectsABidThatIsNotHigherThanTheSecondHighestBidPlusMinimumIncrement() {
+		double secondHighestBid = 25.0;
+		double lowerThanHighestBidPlusIncrement = secondHighestBid + MINIMUM_INCREMENT - 0.1;
+		boolean isHighEnough = checker.isAmountHighEnough(bids(secondHighestBid, 30), 10.0, lowerThanHighestBidPlusIncrement);
+		
+		assertThat(isHighEnough, is(false));
+	}
+	
+	@Test
+	public void acceptsABidThatIsHigherThanTheInitialPricePlusMinimumIncrementButLowerThanTheHighestBid() {
+		boolean isHighEnough = checker.isAmountHighEnough(bids(15.0), 10.0, 14.0);
+		
+		assertThat(isHighEnough, is(true));
+	}
+	
+	@Test
+	public void rejectsABidThatIsLowerThanInitialPricePlusMinimumIncrementIfOneBidHasBeenPlaced() {
+		double initialPrice = 10.0;
+		double lowerThanInitialPricePlusIncrement = initialPrice + MINIMUM_INCREMENT - 0.1;
+		boolean isHighEnough = checker.isAmountHighEnough(bids(15.0), initialPrice, lowerThanInitialPricePlusIncrement);
 		
 		assertThat(isHighEnough, is(false));
 	}
