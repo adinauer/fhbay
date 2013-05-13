@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
-import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
@@ -89,6 +88,7 @@ public class IndexController {
 		model.addAttribute("showBids", true);
 
 		fetchCategories(model);
+		fetchBids(model);
 		
 		PmodArticle selectedArticle = new PmodArticle();
 		selectedArticle.setName("Nikon D40 (SLR) Body");
@@ -149,11 +149,6 @@ public class IndexController {
 		return "index";
 	}
 
-	private void fetchDomainData(Model model) throws Exception {
-		fetchCategories(model);
-		fetchBids(model);
-	}
-
 	private void fetchBids(Model model) {
 		List<PmodBid> bids = new ArrayList<>();
 		
@@ -202,16 +197,12 @@ public class IndexController {
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		auction = serviceLocator.locate(AuctionRemote.class);
 		
-		if (pattern != null && !pattern.equals("") && categoryId <= 0) {
+		if (categoryId != null && categoryId <= 0) {
 			for (Article article : articleAdmin.findAllMatchingArticles(pattern)) {
 				articles.add(fetchArticleDetails(article));
 			}
-		} else if (pattern != null && !pattern.equals("") && categoryId > 0) {
-			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
-				articles.add(fetchArticleDetails(article));				
-			}
 		} else if (categoryId != null) {
-			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, "", includeSubCategories)) {
+			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
 				articles.add(fetchArticleDetails(article));				
 			}
 		} else {
