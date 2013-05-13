@@ -15,7 +15,7 @@ public class PmodBid {
 	private boolean isWinning = false;
 	
 	public PmodBid() {
-		dateAndTimeFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+		dateAndTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 	}
 	
 	public PmodBid(Bid bid) {

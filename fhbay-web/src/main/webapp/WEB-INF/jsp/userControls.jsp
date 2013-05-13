@@ -4,7 +4,7 @@
 		<sec:authentication property="principal" var="user"/>
 		<legend>${user}</legend>
 		
-		<span id="logout">[ <a href="<c:url value="j_spring_security_logout" />" >Logout</a> ]</span><br />
+		<span id="logout">[ <a href="<c:url value="/j_spring_security_logout" />" >Logout</a> ]</span><br />
 		
 		<ul id="userLinks">
 			<li>

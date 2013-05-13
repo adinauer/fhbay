@@ -1,8 +1,10 @@
 package at.dinauer.fhbay.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Bid;
+import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
-import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.presentation.PmodArticle;
 import at.dinauer.fhbay.presentation.PmodBid;
 import at.dinauer.fhbay.presentation.PmodCategory;
+import at.dinauer.fhbay.security.User;
 import at.dinauer.fhbay.util.BidSorter;
-import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
 public class IndexController {
@@ -31,11 +33,13 @@ public class IndexController {
 	private ServiceLocator serviceLocator;
 	private ArticleAdminRemote articleAdmin;
 	private AuctionRemote auction;
+	private CategoryAdminRemote categoryAdmin;
 	
 	public IndexController() throws Exception {
 		serviceLocator = new ServiceLocator();
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		auction = serviceLocator.locate(AuctionRemote.class);
+		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
 	}
 	
 	@RequestMapping(value = {
@@ -56,7 +60,6 @@ public class IndexController {
 			"/article/{articleId}/{name}", 
 			"/article/{articleId}"})
 	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) throws Exception {
-		System.out.println("showing details for article with id: " + articleId);
 		model.addAttribute("showArticleDetails", true);
 
 		fetchCategories(model);
@@ -70,7 +73,6 @@ public class IndexController {
 			"/category/{categoryId}/{name}", 
 			"/category/{categoryId}"})
 	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) throws Exception {
-		System.out.println("showing articles in category with id: " + categoryId);
 		model.addAttribute("showArticleList", true);
 
 		fetchCategories(model);
@@ -83,7 +85,6 @@ public class IndexController {
 
 	@RequestMapping(value = "/bidHistory")
 	public String showBidHistory(Model model, @RequestParam("articleId") String articleId) throws Exception {
-		System.out.println("showing bids for article with id: " + articleId);
 		model.addAttribute("showBids", true);
 
 		fetchCategories(model);
@@ -96,6 +97,9 @@ public class IndexController {
 	@RequestMapping(value = "/bid", method = RequestMethod.POST)
 	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") String amount) throws Exception {
 		System.out.println("received new bid for article " + articleId + ": " + amount);
+		
+		BidInfo bidInfo = auction.placeBid(articleId, getLoggedInUser().getId(), Double.parseDouble(amount));
+		model.addAttribute("bidInfo", bidInfo);
 		
 		return "redirect:/article/" + articleId;
 	}
@@ -125,14 +129,28 @@ public class IndexController {
 		System.out.println("categoryId: " + categoryId);
 		System.out.println("description: " + description);
 		
-		Long articleId = 666L;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+		Article article = new Article();
+		
+		article.setName(name);
+		article.setInitialPrice(Double.parseDouble(initialPrice));
+		article.setStartDate(dateFormat.parse(startDate));
+		article.setEndDate(dateFormat.parse(endDate));
+		article.setDescription(description);
+		
+		Long articleId = articleAdmin.offerArticle(article, getLoggedInUser().getId());
+		
+		Long categoryIdNumeric = Long.parseLong(categoryId);
+		if (categoryIdNumeric > 0) {
+			articleAdmin.assignArticleToCategory(articleId, categoryIdNumeric);
+		}
 		
 		return "redirect:/article/" + articleId;
 	}
 
 	@RequestMapping(value = "/search")
 	public String search(Model model, @RequestParam("q") String searchString, @RequestParam("category") String categoryId) throws Exception {
-		System.out.println("searching for articles: " + searchString);
 		model.addAttribute("showArticleList", true);
 		model.addAttribute("searchString", searchString);
 
@@ -171,8 +189,6 @@ public class IndexController {
 
 	private void fetchCategories(Model model) throws Exception {
 		List<PmodCategory> categories = new ArrayList<>();
-		
-		CategoryAdminRemote categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
 		
 		for (Category rootCategory : categoryAdmin.findRootCategories()) {
 			categories.add(new PmodCategory(rootCategory));
@@ -226,5 +242,10 @@ public class IndexController {
 		pmodArticle.setSellerName(String.format("%s %s (%s)", seller.getFirstName(), seller.getLastName(), seller.getUserName()));
 		
 		return pmodArticle;
+	}
+
+	private User getLoggedInUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return user;
 	}
 }

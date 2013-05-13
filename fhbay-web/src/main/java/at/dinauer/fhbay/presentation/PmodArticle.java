@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -41,7 +42,7 @@ public class PmodArticle {
 		
 		deliveryDateFormat = new SimpleDateFormat("EEE. MMM. d", Locale.US);
 		
-		dateAndTimeFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+		dateAndTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		
 		timeRemainingFormat = new PeriodFormatterBuilder()
 	        .appendDays().appendSuffix(" day ", " days ")
@@ -99,7 +100,7 @@ public class PmodArticle {
 	}
 	
 	public String getTimeRemainingFormatted() {
-		Period timeRemaining = new Period(new DateTime(now), new DateTime(endDate));
+		Period timeRemaining = new Period(new DateTime(now), new DateTime(endDate), PeriodType.dayTime());
 		return timeRemainingFormat.print(timeRemaining);
 	}
 	

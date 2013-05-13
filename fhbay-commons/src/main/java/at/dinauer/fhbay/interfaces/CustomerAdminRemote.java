@@ -14,4 +14,6 @@ public interface CustomerAdminRemote {
 	List<Customer> findAllCustomers();
 
 	Customer findCustomerById(Long id) throws IdNotFoundException;
+
+	Customer findCustomerByUserName(String username);
 }

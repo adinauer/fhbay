@@ -5,14 +5,22 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import at.dinauer.fhbay.ServiceLocator;
+import at.dinauer.fhbay.domain.Customer;
+import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
+
 
 public class FhBayAuthenticationProvider implements AuthenticationProvider  {
+	
+	ServiceLocator serviceLocator = new ServiceLocator();
 
 	public Authentication authenticate(Authentication incomingAuthentication)
 			throws AuthenticationException {
@@ -20,13 +28,32 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 		String password = String.valueOf(incomingAuthentication.getCredentials());
 		
 		System.out.println(format("user: %s; pwd: %s, ok? %s", username, password, incomingAuthentication.isAuthenticated()));
-
-		List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-		grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_USER.toString()));
-		grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_ADMIN.toString()));
+		Authentication processedAuthentication = null;
+		try {
+			CustomerAdminRemote customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
+			Customer customer = customerAdmin.findCustomerByUserName(username);
+			
+			if (customer == null) {
+				System.out.println("No customer found with username: " + username);
+				return incomingAuthentication;
+			}
+			
+			User user = new User();
+			user.setId(customer.getId());
+			user.setUsername(customer.getUserName());
+			user.setFirstName(customer.getFirstName());
+			user.setLastName(customer.getLastName());
+			
+			List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+			grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_USER.toString()));
+			grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_ADMIN.toString()));
+			
+			processedAuthentication = new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
+		} catch (NamingException e) {
+			throw new RuntimeException(e);
+		}
 		
-		Authentication processedAuthentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
-		System.out.println(format("user: %s; pwd: %s, ok? %s", username, password, processedAuthentication.isAuthenticated()));
+		System.out.println(format("user: %s; pwd: ***, ok? %s", username, processedAuthentication.isAuthenticated()));
 		System.out.println("authorities: " + processedAuthentication.getAuthorities());
 		
 		return processedAuthentication;
