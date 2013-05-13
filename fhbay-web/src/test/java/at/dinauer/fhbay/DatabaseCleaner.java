@@ -8,7 +8,7 @@ public class DatabaseCleaner {
 	private static final String[] TABLES_TO_CLEAN = {
 		"Address",
 		"Article",
-		"Article_Category",
+		"ArticleCategory",
 		"Category",
 		"Customer",
 		"Customer_Phone",

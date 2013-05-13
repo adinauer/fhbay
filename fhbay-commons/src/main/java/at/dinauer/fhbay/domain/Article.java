@@ -59,6 +59,9 @@ public class Article implements Serializable, Comparable<Article> {
 	private ArticleState state = ArticleState.OFFERED;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "ArticleCategory",
+		joinColumns = {@JoinColumn(name = "article_id")},
+		inverseJoinColumns = {@JoinColumn(name = "category_id")})
 	private List<Category> categories = new ArrayList<>();
 
 	public Article() {

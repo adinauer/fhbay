@@ -1,7 +1,6 @@
 package at.dinauer.fhbay;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.util.Date;
@@ -18,7 +17,6 @@ import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.ArticleState;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
-import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
@@ -33,6 +31,7 @@ public class ArticleRoundTripTest {
 	@Before
 	public void lookupBeans() throws Exception {
 		ServiceLocator serviceLocator = new ServiceLocator();
+		
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
 		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
@@ -86,9 +85,6 @@ public class ArticleRoundTripTest {
 
 		
 		Category cameras = categoryWithName("Cameras");
-//		cameras.addArticle(nex7);
-//		cameras.addArticle(eos7D);
-//		cameras.addArticle(d40);
 		nex7.addCategory(cameras);
 		eos7D.addCategory(cameras);
 		d40.addCategory(cameras);
@@ -96,7 +92,6 @@ public class ArticleRoundTripTest {
 		Article kd84 = articleWithName("Sony KD-84X9005");
 		
 		Category tvs = categoryWithName("TVs");
-//		tvs.addArticle(kd84);
 		kd84.addCategory(tvs);
 		
 		Customer aSeller = aSeller();
@@ -107,6 +102,7 @@ public class ArticleRoundTripTest {
 		kd84.setSeller(aSeller);
 		
 		Category photography = new Category();
+		photography.setName("Photography");
 		photography.setId(categoryAdmin.saveCategory(photography));
 		cameras.setParent(photography);
 		
