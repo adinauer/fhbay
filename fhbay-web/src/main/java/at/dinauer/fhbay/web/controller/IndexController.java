@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
+import at.dinauer.fhbay.exceptions.IdNotFoundException;
+import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
+import at.dinauer.fhbay.interfaces.AuctionRemote;
+import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.presentation.PmodArticle;
 import at.dinauer.fhbay.presentation.PmodBid;
 import at.dinauer.fhbay.presentation.PmodCategory;
@@ -20,15 +25,20 @@ import at.dinauer.fhbay.util.DateUtil;
 @Controller
 public class IndexController {
 
+	private ServiceLocator serviceLocator = new ServiceLocator();
+	private ArticleAdminRemote articleAdmin;
+	private AuctionRemote auction;
+	
 	@RequestMapping(value = {
 			"/", 
 			"/login", 
 			"/loginfailed", 
 			"/logout"})
-	public String showArticles(Model model) {
+	public String showArticles(Model model) throws Exception {
 		model.addAttribute("showArticleList", true);
 
-		fetchDomainData(model);
+		fetchCategories(model);
+		fetchAllArticles(model);
 		
 		return "index";
 	}
@@ -36,11 +46,11 @@ public class IndexController {
 	@RequestMapping(value = {
 			"/article/{articleId}/{name}", 
 			"/article/{articleId}"})
-	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) {
+	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) throws Exception {
 		System.out.println("showing details for article with id: " + articleId);
 		model.addAttribute("showArticleDetails", true);
-		
-		fetchDomainData(model);
+
+		fetchCategories(model);
 		
 		PmodArticle selectedArticle = new PmodArticle();
 		selectedArticle.setId(123456L);
@@ -61,11 +71,12 @@ public class IndexController {
 			"/category/{categoryId}/{categoryName}/{subCategoryName}", 
 			"/category/{categoryId}/{name}", 
 			"/category/{categoryId}"})
-	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) {
+	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) throws Exception {
 		System.out.println("showing articles in category with id: " + categoryId);
 		model.addAttribute("showArticleList", true);
-		
-		fetchDomainData(model);
+
+		fetchCategories(model);
+		fetchArticlesByCategory(model, categoryId);
 		
 		model.addAttribute("selectedCategoryName", "Photography > Cameras");
 
@@ -73,11 +84,11 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "/bidHistory")
-	public String showBidHistory(Model model, @RequestParam("articleId") String articleId) {
+	public String showBidHistory(Model model, @RequestParam("articleId") String articleId) throws Exception {
 		System.out.println("showing bids for article with id: " + articleId);
 		model.addAttribute("showBids", true);
-		
-		fetchDomainData(model);
+
+		fetchCategories(model);
 		
 		PmodArticle selectedArticle = new PmodArticle();
 		selectedArticle.setName("Nikon D40 (SLR) Body");
@@ -90,17 +101,17 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value = "/bid", method = RequestMethod.POST)
-	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") String amount) {
+	public String bidOnArticle(Model model, @RequestParam("articleId") Long articleId, @RequestParam("amount") String amount) throws Exception {
 		System.out.println("received new bid for article " + articleId + ": " + amount);
 		
 		return "redirect:/article/" + articleId;
 	}
 
 	@RequestMapping(value = "/offerArticle", method = RequestMethod.GET)
-	public String showOfferArticleForm(Model model) {
+	public String showOfferArticleForm(Model model) throws Exception {
 		model.addAttribute("showOfferArticleForm", true);
 
-		fetchDomainData(model);
+		fetchCategories(model);
 		
 		return "index";
 	}
@@ -112,7 +123,7 @@ public class IndexController {
 			@RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate,
 			@RequestParam("category") String categoryId,
-			@RequestParam("description") String description) {
+			@RequestParam("description") String description) throws Exception {
 		
 		System.out.println("name: " + name);
 		System.out.println("initialPrice: " + initialPrice);
@@ -127,19 +138,19 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "/search")
-	public String search(Model model, @RequestParam("q") String searchString) {
+	public String search(Model model, @RequestParam("q") String searchString, @RequestParam("category") String categoryId) throws Exception {
 		System.out.println("searching for articles: " + searchString);
 		model.addAttribute("showArticleList", true);
 		model.addAttribute("searchString", searchString);
 
-		fetchDomainData(model);
+		fetchCategories(model);
+		fetchArticles(model, Long.parseLong(categoryId), searchString, true);
 		
 		return "index";
 	}
 
-	private void fetchDomainData(Model model) {
+	private void fetchDomainData(Model model) throws Exception {
 		fetchCategories(model);
-		fetchArticles(model);
 		fetchBids(model);
 	}
 
@@ -165,67 +176,59 @@ public class IndexController {
 		model.addAttribute("bids", bids);
 	}
 
-	private void fetchArticles(Model model) {
+	private void fetchCategories(Model model) throws Exception {
+		List<PmodCategory> categories = new ArrayList<>();
+		
+		CategoryAdminRemote categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
+		
+		for (Category rootCategory : categoryAdmin.findRootCategories()) {
+			categories.add(new PmodCategory(rootCategory));
+		}
+		
+		model.addAttribute("categories", categories);
+	}
+
+	private void fetchAllArticles(Model model) throws Exception {
+		fetchArticles(model, null, "", true);
+	}
+
+	private void fetchArticlesByCategory(Model model, String categoryId) throws Exception {
+		fetchArticles(model, Long.parseLong(categoryId), "", true);
+	}
+
+	private void fetchArticles(Model model, Long categoryId, String pattern, boolean includeSubCategories) throws Exception {
 		List<PmodArticle> articles = new ArrayList<>();
+
+		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
+		auction = serviceLocator.locate(AuctionRemote.class);
 		
-		Article canonEos1Dx = new Article("Canon EOS 1D X (SLR) Body", "bla bla", 6499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 50));
-		Article canonEos7D = new Article("Canon EOS 7D (SLR) Body", "bla blub", 1199.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 100));
-		Article canonEos60D = new Article("Canon EOS 60D (SLR) Body", "bla blub bla", 799.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 200));
-		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
-		Article canonEos1000D = new Article("Canon EOS 1000D (SLR) Body", "bla blub blub", 399.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), -60));
-		
-		canonEos1Dx.setId(12345L);
-		
-		articles.add(new PmodArticle(canonEos1Dx));
-		articles.add(new PmodArticle(canonEos7D));
-		articles.add(new PmodArticle(canonEos60D));
-		articles.add(new PmodArticle(canonEos500D));
-		articles.add(new PmodArticle(canonEos1000D));
+		if (pattern != null && !pattern.equals("") && categoryId <= 0) {
+			for (Article article : articleAdmin.findAllMatchingArticles(pattern)) {
+				articles.add(fetchArticleDetails(article));
+			}
+		} else if (pattern != null && !pattern.equals("") && categoryId > 0) {
+			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
+				articles.add(fetchArticleDetails(article));				
+			}
+		} else if (categoryId != null) {
+			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, "", includeSubCategories)) {
+				articles.add(fetchArticleDetails(article));				
+			}
+		} else {
+			for (Article article : articleAdmin.findAllArticles()) {
+				articles.add(fetchArticleDetails(article));
+			}
+		}
 		
 		model.addAttribute("articles", articles);
 	}
+	
+	private PmodArticle fetchArticleDetails(Article article) throws Exception {
+		PmodArticle pmodArticle = new PmodArticle(article);
 
-	private void fetchCategories(Model model) {
-		List<PmodCategory> categories = new ArrayList<>();
+		pmodArticle.setCurrentPrice(auction.findCurrentPriceForArticle(article.getId()));
+		pmodArticle.setNumberOfBids(auction.findBidsForArticle(article.getId()).size());
 		
-		Category photography = new Category("Photography");
-		photography.setId(1L);
-			Category cameras = new Category("Cameras");
-			cameras.setId(2L);
-			Category lenses = new Category("Lenses");
-			Category memoryCards = new Category("Memory Cards");
-			Category batteries = new Category("Batteries");
-			
-			photography.addSubCategory(cameras);
-			photography.addSubCategory(lenses);
-			photography.addSubCategory(memoryCards);
-			photography.addSubCategory(batteries);
-			
-		Category software = new Category("Software");
-		
-		Category audio = new Category("Audio");
-			Category receiver = new Category("Receiver");
-			Category speakers = new Category("Speakers");
-			Category audiocables = new Category("Cables");
-			
-			audio.addSubCategory(receiver);
-			audio.addSubCategory(speakers);
-			audio.addSubCategory(audiocables);
-		
-		Category video = new Category("Video");
-			Category tvs = new Category("TVs");
-			Category videoCables = new Category("Cables");
-			Category recorder = new Category("Recorder");
-			
-			video.addSubCategory(tvs);
-			video.addSubCategory(videoCables);
-			video.addSubCategory(recorder);
-		
-		categories.add(new PmodCategory(photography));
-		categories.add(new PmodCategory(software));
-		categories.add(new PmodCategory(audio));
-		categories.add(new PmodCategory(video));
-		
-		model.addAttribute("categories", categories);
+		return pmodArticle;
 	}
 }

@@ -12,4 +12,6 @@ import at.dinauer.fhbay.domain.Article;
 @Local
 public interface ArticleDao extends Dao<Article, Long> {
 	List<Article> findByCategoryAndPattern(Long categoryId, String pattern);
+
+	List<Article> findByCategoryAndPattern(String pattern);
 }

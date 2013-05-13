@@ -8,11 +8,11 @@ import at.dinauer.fhbay.exceptions.IdNotFoundException;
 public interface ArticleAdmin {
 	Article findArticleById(Long id) throws IdNotFoundException;
 
-	List<Article> findAllMatchingArticles(Long categoryId, String pattern,
-		boolean includeSubCategories) throws IdNotFoundException;
+	List<Article> findAllMatchingArticles(Long categoryId, String pattern, boolean includeSubCategories) throws IdNotFoundException;
 
-	Long offerArticle(Article article, Long sellerId)
-		throws IdNotFoundException;
+	List<Article> findAllMatchingArticles(String pattern);
+	
+	Long offerArticle(Article article, Long sellerId) throws IdNotFoundException;
 	
 	List<Article> findAllArticles();
 

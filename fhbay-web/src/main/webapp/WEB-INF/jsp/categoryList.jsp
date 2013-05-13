@@ -20,7 +20,7 @@
 					</c:when>
 					<c:otherwise>
 						<img class="visibilityToggle" src="<c:url value='/static/img/dash.png' />" />
-						${category.name}
+						<a href="<c:url value='/category/${category.id}/' />${category.urlName}">${category.name}</a>
 					</c:otherwise>
 				</c:choose>
 			</li>

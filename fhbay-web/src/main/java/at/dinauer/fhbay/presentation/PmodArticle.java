@@ -32,6 +32,10 @@ public class PmodArticle {
 
 	private String categoryName;
 
+	private double currentPrice;
+
+	private int numberOfBids;
+
 	public PmodArticle() {
 		now = DateUtil.now();
 		
@@ -59,7 +63,11 @@ public class PmodArticle {
 	}
 	
 	public int getNumberOfBids() {
-		return 10;
+		return numberOfBids;
+	}
+
+	public void setNumberOfBids(int numberOfBids) {
+		this.numberOfBids = numberOfBids;
 	}
 
 	public Long getId() {
@@ -69,13 +77,17 @@ public class PmodArticle {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public void setCurrentPrice(double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
 	
 	public double getCurrentPrice() {
-		return initialPrice;
+		return currentPrice;
 	}
 	
 	public double getMinimumBid() {
-		return initialPrice + 1.0;
+		return currentPrice + 1.0;
 	}
 	
 	public boolean getHasAuctionStarted() {

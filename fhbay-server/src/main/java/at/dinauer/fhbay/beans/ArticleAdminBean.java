@@ -40,12 +40,14 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 		return article;
 	}
 
-	public List<Article> findAllMatchingArticles(Long categoryId,
-			String pattern, boolean includeSubCategories)
-			throws IdNotFoundException {
+	public List<Article> findAllMatchingArticles(Long categoryId, String pattern, boolean includeSubCategories) throws IdNotFoundException {
 		Category category = categoryDao.findById(categoryId);
 		
 		return findAllMatchingArticles(category, pattern, includeSubCategories);
+	}
+
+	public List<Article> findAllMatchingArticles(String pattern) {
+		return articleDao.findByCategoryAndPattern(pattern);
 	}
 
 	private List<Article> findAllMatchingArticles(Category category, String pattern, boolean includeSubCategories) throws IdNotFoundException {
