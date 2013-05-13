@@ -13,6 +13,4 @@ public interface Auction {
 	List<Bid> findBidsForArticle(Long articleId) throws IdNotFoundException;
 
 	double findCurrentPriceForArticle(Long articleId) throws IdNotFoundException;
-	
-	// getBidInfo = max bid
 }

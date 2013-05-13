@@ -29,8 +29,6 @@ import at.dinauer.fhbay.logic.CurrentPriceCalculator;
 @Stateless
 public class AuctionBean implements AuctionLocal, AuctionRemote {
 
-	//public x getBidInfo(...)
-
 	@Resource
 	private TimerService timerService;
 	
