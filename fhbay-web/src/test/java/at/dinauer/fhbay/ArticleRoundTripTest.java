@@ -7,10 +7,6 @@ import static at.dinauer.fhbay.FhBayMatchers.*;
 import java.util.Date;
 import java.util.List;
 
-
-
-import org.hamcrest.FeatureMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 

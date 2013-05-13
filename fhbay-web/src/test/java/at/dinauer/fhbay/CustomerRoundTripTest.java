@@ -1,15 +1,13 @@
 package at.dinauer.fhbay;
 
+import static at.dinauer.fhbay.FhBayMatchers.aCustomerWithUserName;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static at.dinauer.fhbay.FhBayMatchers.*;
 
 import java.util.Collection;
 
-import org.hamcrest.FeatureMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 
