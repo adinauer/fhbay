@@ -12,21 +12,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
+import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.Category;
+import at.dinauer.fhbay.domain.Customer;
+import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.presentation.PmodArticle;
 import at.dinauer.fhbay.presentation.PmodBid;
 import at.dinauer.fhbay.presentation.PmodCategory;
+import at.dinauer.fhbay.util.BidSorter;
 import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
 public class IndexController {
 
-	private ServiceLocator serviceLocator = new ServiceLocator();
+	private ServiceLocator serviceLocator;
 	private ArticleAdminRemote articleAdmin;
 	private AuctionRemote auction;
+	
+	public IndexController() throws Exception {
+		serviceLocator = new ServiceLocator();
+		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
+		auction = serviceLocator.locate(AuctionRemote.class);
+	}
 	
 	@RequestMapping(value = {
 			"/", 
@@ -50,18 +60,7 @@ public class IndexController {
 		model.addAttribute("showArticleDetails", true);
 
 		fetchCategories(model);
-		
-		PmodArticle selectedArticle = new PmodArticle();
-		selectedArticle.setId(123456L);
-		selectedArticle.setName("Nikon D40 (SLR) Body");
-		selectedArticle.setDescription("abcdefg");
-		selectedArticle.setInitialPrice(599.00);
-		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -30));
-		selectedArticle.setEndDate(DateUtil.addSeconds(DateUtil.now(), 600));
-		selectedArticle.setSellerName("Joe User");
-		selectedArticle.setCategoryName("Photography > Cameras");
-		
-		model.addAttribute("selectedArticle", selectedArticle);
+		fetchArticleById(model, articleId);
 		
 		return "index";
 	}
@@ -88,14 +87,8 @@ public class IndexController {
 		model.addAttribute("showBids", true);
 
 		fetchCategories(model);
-		fetchBids(model);
-		
-		PmodArticle selectedArticle = new PmodArticle();
-		selectedArticle.setName("Nikon D40 (SLR) Body");
-		selectedArticle.setInitialPrice(599.00);
-		selectedArticle.setStartDate(DateUtil.addSeconds(DateUtil.now(), -300));
-		
-		model.addAttribute("selectedArticle", selectedArticle);
+		fetchBids(model, Long.parseLong(articleId));
+		fetchArticleById(model, articleId);
 
 		return "index";
 	}
@@ -149,24 +142,29 @@ public class IndexController {
 		return "index";
 	}
 
-	private void fetchBids(Model model) {
+	private void fetchBids(Model model, long articleId) throws Exception {
 		List<PmodBid> bids = new ArrayList<>();
 		
-		PmodBid johnDoe199 = new PmodBid();
-		johnDoe199.setBidderName("John Doe");
-		johnDoe199.setAmount(1.99);
-		johnDoe199.setBidTime(DateUtil.addSeconds(DateUtil.now(), -100));
-		johnDoe199.setPriceAtBidTime(0.99);
+		List<Bid> bidsForArticle = auction.findBidsForArticle(articleId);
+		bidsForArticle = new BidSorter().sortBidsByAmountDescending(bidsForArticle);
 		
-		PmodBid joeUser299 = new PmodBid();
-		joeUser299.setBidderName("Joe User");
-		joeUser299.setAmount(2.99);
-		joeUser299.setBidTime(DateUtil.addSeconds(DateUtil.now(), -50));
-		joeUser299.setPriceAtBidTime(1.99);
-		joeUser299.setWinning(true);
+		PmodBid pmod = new PmodBid();
+		boolean isFirstLoop = true;
+		for (Bid bid : bidsForArticle) {
+			// set amount as priceAtBidTime for the next bid(which is actually the previous bid in this loop; because of descending sort order) 
+			pmod.setPriceAtBidTime(bid.getAmount());
+			
+			pmod = new PmodBid(bid);
+			pmod.setWinning(isFirstLoop);
+			
+			bids.add(pmod);
+			
+			isFirstLoop = false;
+		}
 		
-		bids.add(joeUser299);
-		bids.add(johnDoe199);
+		// set priceAtBidTime to initialPrice for the first bid
+		Article article = articleAdmin.findArticleById(articleId);
+		pmod.setPriceAtBidTime(article.getInitialPrice());
 		
 		model.addAttribute("bids", bids);
 	}
@@ -193,9 +191,6 @@ public class IndexController {
 
 	private void fetchArticles(Model model, Long categoryId, String pattern, boolean includeSubCategories) throws Exception {
 		List<PmodArticle> articles = new ArrayList<>();
-
-		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
-		auction = serviceLocator.locate(AuctionRemote.class);
 		
 		if (categoryId != null && categoryId <= 0) {
 			for (Article article : articleAdmin.findAllMatchingArticles(pattern)) {
@@ -213,12 +208,22 @@ public class IndexController {
 		
 		model.addAttribute("articles", articles);
 	}
+
+	private void fetchArticleById(Model model, String articleId) throws Exception {
+		Article article = articleAdmin.findArticleById(Long.parseLong(articleId));
+		PmodArticle selectedArticle = fetchArticleDetails(article);
+		
+		model.addAttribute("selectedArticle", selectedArticle);
+	}
 	
 	private PmodArticle fetchArticleDetails(Article article) throws Exception {
 		PmodArticle pmodArticle = new PmodArticle(article);
 
 		pmodArticle.setCurrentPrice(auction.findCurrentPriceForArticle(article.getId()));
 		pmodArticle.setNumberOfBids(auction.findBidsForArticle(article.getId()).size());
+
+		Customer seller = article.getSeller();
+		pmodArticle.setSellerName(String.format("%s %s (%s)", seller.getFirstName(), seller.getLastName(), seller.getUserName()));
 		
 		return pmodArticle;
 	}

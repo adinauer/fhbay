@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
+import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
+import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.util.DateUtil;
@@ -74,13 +76,23 @@ public class TestController {
 	 ******************/
 		CustomerAdminRemote customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
 		
-		Customer seller1 = new Customer();
+		Customer seller = new Customer();
+		seller.setFirstName("Tom");
+		seller.setLastName("Seller");
+		seller.setUserName("tom.seller");
+		seller.setId(customerAdmin.saveCustomer(seller));
 		
-		seller1.setFirstName("Tom");
-		seller1.setLastName("Seller");
-		seller1.setUserName("tom.seller");
-		seller1.setId(customerAdmin.saveCustomer(seller1));
-		Customer seller = seller1;
+		Customer bidder = new Customer();
+		bidder.setFirstName("Bud");
+		bidder.setLastName("Bidder");
+		bidder.setUserName("bud.bidder");
+		bidder.setId(customerAdmin.saveCustomer(bidder));
+		
+		Customer otherBidder = new Customer();
+		otherBidder.setFirstName("Otto");
+		otherBidder.setLastName("Other-Bidder");
+		otherBidder.setUserName("otto.other-bidder");
+		otherBidder.setId(customerAdmin.saveCustomer(otherBidder));
 		
 		
 	/*****************
@@ -90,9 +102,9 @@ public class TestController {
 		
 		Article canonEos1Dx = new Article("Canon EOS 1D X (SLR) Body", "bla bla", 6499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 50));
 		Article canonEos7D = new Article("Canon EOS 7D (SLR) Body", "bla blub", 1199.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 100));
-		Article canonEos60D = new Article("Canon EOS 60D (SLR) Body", "bla blub bla", 799.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 200));
-		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
-		Article canonEos1000D = new Article("Canon EOS 1000D (SLR) Body", "bla blub blub", 399.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), -60));
+		Article canonEos60D = new Article("Canon EOS 60D (SLR) Body", "bla blub bla", 799.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), -60));
+		Article canonEos500D = new Article("Canon EOS 500D (SLR) Body", "bla blub blub", 499.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 200));
+		Article canonEos1000D = new Article("Canon EOS 1000D (SLR) Body", "bla blub blub", 399.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 600));
 		Article sonyKD84X = new Article("Sony KD-84X9005", "television", 24990.00, DateUtil.now(), DateUtil.addSeconds(DateUtil.now(), 3600));
 
 		canonEos1Dx.setId(articleAdmin.offerArticle(canonEos1Dx, seller.getId()));
@@ -116,6 +128,19 @@ public class TestController {
 		articleAdmin.assignArticleToCategory(canonEos500D.getId(), camerasId);
 		articleAdmin.assignArticleToCategory(canonEos1000D.getId(), camerasId);
 		articleAdmin.assignArticleToCategory(sonyKD84X.getId(), tvsId);
+		
+
+	/*****************
+	 * bid
+	 ******************/
+		AuctionRemote auction = serviceLocator.locate(AuctionRemote.class);
+		
+		auction.placeBid(canonEos1000D.getId(), bidder.getId(), 410.0);
+		auction.placeBid(canonEos1000D.getId(), otherBidder.getId(), 415.0);
+		auction.placeBid(canonEos1000D.getId(), bidder.getId(), 420.0);
+		auction.placeBid(canonEos1000D.getId(), otherBidder.getId(), 500.0);
+		auction.placeBid(canonEos1000D.getId(), bidder.getId(), 425.0);
+		
 		
 		return "redirect:/";
 	}
