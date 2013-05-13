@@ -78,4 +78,16 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 		return articleDao.findAll();
 	}
 
+	public void assignArticleToCategory(Long articleId, Long categoryId)
+			throws IdNotFoundException {
+		Category category = categoryDao.findById(categoryId);
+		if(category == null) throw new IdNotFoundException(categoryId, "category");
+		
+		Article article = articleDao.findById(articleId);
+		if(article == null) throw new IdNotFoundException(articleId, "article");
+		
+		article.addCategory(category);
+		articleDao.merge(article);
+	}
+
 }

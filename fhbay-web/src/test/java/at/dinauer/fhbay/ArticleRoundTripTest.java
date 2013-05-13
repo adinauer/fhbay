@@ -2,6 +2,7 @@ package at.dinauer.fhbay;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static at.dinauer.fhbay.FhBayMatchers.*;
 
 import java.util.Date;
 import java.util.List;
@@ -129,6 +130,21 @@ public class ArticleRoundTripTest {
 		assertThat(articlesInPhotographyOrSubcategories, not(contains(anArticleWithName("Nikon D40"))));
 		assertThat(articlesInPhotographyOrSubcategories, not(contains(anArticleWithName("Sony KD-84X9005"))));
 	}
+	
+	@Test
+	public void canAssignAnArticleToCategory() throws Exception {
+		Article article = anArticle();
+		Category category = categoryWithName("Cables");
+		
+		Long articleId = articleAdmin.offerArticle(article, aSeller().getId());
+		Long categoryId = categoryAdmin.saveCategory(category);
+		
+		articleAdmin.assignArticleToCategory(articleId, categoryId);
+		
+		Article persistedArticle = articleAdmin.findArticleById(articleId);
+		
+		assertThat(persistedArticle.getCategories(), contains(aCategoryWithName("Cables")));
+	}
 
 	private Category categoryWithName(String name) {
 		Category category = new Category();
@@ -146,16 +162,9 @@ public class ArticleRoundTripTest {
 		return article;
 	}
 
-	private Matcher<Article> anArticleWithName(final String name) {
-		return new FeatureMatcher<Article, String>(equalTo(name), "article with name ", "was") {
-			protected String featureValueOf(Article actual) {
-				return actual.getName();
-			}
-		};
-	}
-
 	private Article anArticle() {
 		Article article = new Article();
+		
 		article.setName("Canon EOS 500D");
 		article.setInitialPrice(399.00);
 		article.setFinalPrice(547.00);
@@ -163,6 +172,7 @@ public class ArticleRoundTripTest {
 		article.setEndDate(DateUtil.addSeconds(DateUtil.now(), 100));
 		article.setDescription("DSLR Camera");
 		article.setState(ArticleState.OFFERED);
+		
 		return article;
 	}
 

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static at.dinauer.fhbay.FhBayMatchers.*;
 
 import java.util.Collection;
 
@@ -66,14 +67,6 @@ public class CustomerRoundTripTest {
 		assertThat(allCustomers, containsInAnyOrder(
 				aCustomerWithUserName("rory.gallagher"), 
 				aCustomerWithUserName("warren.zevon")));
-	}
-
-	private Matcher<Customer> aCustomerWithUserName(final String userName) {
-		return new FeatureMatcher<Customer, String>(equalTo(userName), "customer with username ", "was") {
-			protected String featureValueOf(Customer actual) {
-				return actual.getUserName();
-			}
-		};
 	}
 
 	private void assertSameCustomer(Customer expectedCustomer, Customer actualCustomer) {

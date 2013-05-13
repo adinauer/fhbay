@@ -2,16 +2,14 @@ package at.dinauer.fhbay;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static at.dinauer.fhbay.FhBayMatchers.*;
 
 import java.util.List;
 
-import org.hamcrest.FeatureMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Category;
-import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 
 
@@ -65,15 +63,7 @@ public class CategoryRoundTripTest {
 		assertThat(rootCategories, containsInAnyOrder(
 				aCategoryWithName("Photography"),
 				aCategoryWithName("Audio")));
-		assertThat(rootCategories, not(contains(aCategoryWithName("Cameras"))));
-	}
-
-	private Matcher<Category> aCategoryWithName(String name) {
-		return new FeatureMatcher<Category, String>(equalTo(name), "category with name ", "was") {
-			protected String featureValueOf(Category actual) {
-				return actual.getName();
-			}
-		};
+		assertThat(rootCategories, not(contains(FhBayMatchers.aCategoryWithName("Cameras"))));
 	}
 
 	private Category categoryWithName(String name) {

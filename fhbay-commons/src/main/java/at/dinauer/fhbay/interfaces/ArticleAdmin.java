@@ -16,14 +16,5 @@ public interface ArticleAdmin {
 	
 	List<Article> findAllArticles();
 
-//	Category findCategoryById(Long id) throws IdNotFoundException;
-//
-//	List<Category> findAllRootCategories();
-//
-//	Category findCategoryTree(Long categoryId) throws IdNotFoundException;
-//
-//	Long saveCategory(Category category);
-
-//	void assignArticleToCategory(Long articleId, Long categoryId)
-//		throws IdNotFoundException;
+	void assignArticleToCategory(Long articleId, Long categoryId) throws IdNotFoundException;
 }
