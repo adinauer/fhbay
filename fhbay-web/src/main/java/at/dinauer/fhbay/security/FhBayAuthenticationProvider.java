@@ -27,7 +27,6 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 		String username = String.valueOf(incomingAuthentication.getPrincipal());
 		String password = String.valueOf(incomingAuthentication.getCredentials());
 		
-		System.out.println(format("user: %s; pwd: %s, ok? %s", username, password, incomingAuthentication.isAuthenticated()));
 		Authentication processedAuthentication = null;
 		try {
 			CustomerAdminRemote customerAdmin = serviceLocator.locate(CustomerAdminRemote.class);
@@ -38,6 +37,11 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 				return incomingAuthentication;
 			}
 			
+			if (isPasswordIncorrect(password, customer)) {
+				System.out.println("Incorrect password!");
+				return incomingAuthentication;
+			}
+			
 			User user = new User();
 			user.setId(customer.getId());
 			user.setUsername(customer.getUserName());
@@ -45,8 +49,9 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 			user.setLastName(customer.getLastName());
 			
 			List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-			grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_USER.toString()));
-			grantedAuthorities.add(new SimpleGrantedAuthority(FhBayRoles.ROLE_ADMIN.toString()));
+			for (FhBayRoles role : customer.getRoles()) {
+				grantedAuthorities.add(new SimpleGrantedAuthority(role.toString()));
+			}
 			
 			processedAuthentication = new UsernamePasswordAuthenticationToken(user, null, grantedAuthorities);
 		} catch (NamingException e) {
@@ -57,6 +62,12 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 		System.out.println("authorities: " + processedAuthentication.getAuthorities());
 		
 		return processedAuthentication;
+	}
+
+	private boolean isPasswordIncorrect(String password, Customer customer) {
+		if (customer.getPassword() == null) return false;
+		
+		return !customer.getPassword().equals(password);
 	}
 
 	public boolean supports(Class<?> clazz) {

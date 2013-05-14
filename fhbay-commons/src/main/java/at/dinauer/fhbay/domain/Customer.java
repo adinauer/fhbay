@@ -3,12 +3,17 @@ package at.dinauer.fhbay.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +22,8 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
+
+import at.dinauer.fhbay.security.FhBayRoles;
 
 @Entity
 public class Customer implements Serializable {
@@ -50,6 +57,10 @@ public class Customer implements Serializable {
 	@JoinColumn(name="customer_id")
 	@OrderColumn(name="ordercol")
 	private List<PaymentData> paymentData = new ArrayList<>();
+
+	@ElementCollection(targetClass = FhBayRoles.class, fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	private Set<FhBayRoles> roles = new HashSet<>();
 	
 	
 	public Customer() {}
@@ -151,5 +162,13 @@ public class Customer implements Serializable {
 
 	public List<PaymentData> getPaymentData() {
 		return paymentData;
+	}
+
+	public void addRole(FhBayRoles role) {
+		roles.add(role);
+	}
+	
+	public Set<FhBayRoles> getRoles() {
+		return roles;
 	}
 }

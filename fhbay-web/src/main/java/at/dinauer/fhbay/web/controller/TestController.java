@@ -14,6 +14,7 @@ import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
+import at.dinauer.fhbay.security.FhBayRoles;
 import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
@@ -80,19 +81,33 @@ public class TestController {
 		seller.setFirstName("Tom");
 		seller.setLastName("Seller");
 		seller.setUserName("tom.seller");
+		seller.setPassword("expensive");
+		seller.addRole(FhBayRoles.ROLE_USER);
 		seller.setId(customerAdmin.saveCustomer(seller));
 		
 		Customer bidder = new Customer();
 		bidder.setFirstName("Bud");
 		bidder.setLastName("Bidder");
 		bidder.setUserName("bud.bidder");
+		bidder.setPassword("cheap");
+		bidder.addRole(FhBayRoles.ROLE_USER);
 		bidder.setId(customerAdmin.saveCustomer(bidder));
 		
 		Customer otherBidder = new Customer();
 		otherBidder.setFirstName("Otto");
 		otherBidder.setLastName("Other-Bidder");
 		otherBidder.setUserName("otto.other-bidder");
+		otherBidder.addRole(FhBayRoles.ROLE_USER);
 		otherBidder.setId(customerAdmin.saveCustomer(otherBidder));
+		
+		Customer admin = new Customer();
+		admin.setFirstName("Alfred");
+		admin.setLastName("Administrator");
+		admin.setUserName("admin");
+		admin.setPassword("power");
+		admin.addRole(FhBayRoles.ROLE_USER);
+		admin.addRole(FhBayRoles.ROLE_ADMIN);
+		admin.setId(customerAdmin.saveCustomer(admin));
 		
 		
 	/*****************
