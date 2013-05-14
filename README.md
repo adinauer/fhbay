@@ -53,7 +53,7 @@ Anonymous (everyone) can:
 * View article details: http://localhost:8080/fhbay-web/article/76/Canon-EOS-7D-(SLR)-Body
 * Search for articles by name and description: http://localhost:8080/ using the search form (top left)
 * Search for articles by name and description that are in a certain category or one of its subcategories: http://localhost:8080/ using the search form (top left)
-* Login using a username and password: {http://localhost:8080/} using the login form (middle left)
+* Login using a username and password: (http://localhost:8080/) using the login form (middle left)
 
 
 Internal Structure:
