@@ -40,7 +40,7 @@ Roles
 
 Users can:
 * Offer articles: [offer article page](http://localhost:8080/fhbay-web/offerArticle)
-* Bid on articles: [article details page](http://localhost:8080/fhbay-web/article/19/Canon-EOS-1D-X-(SLR)-Body) (calls http://localhost:8080/fhbay-web/bid)
+* Bid on articles: [article details page](http://localhost:8080/fhbay-web/article/19/Canon-EOS-1D-X) (calls http://localhost:8080/fhbay-web/bid)
 
 Admins can:
 * View the bid history: [bid history page](http://localhost:8080/fhbay-web/bidHistory?articleId=23)
