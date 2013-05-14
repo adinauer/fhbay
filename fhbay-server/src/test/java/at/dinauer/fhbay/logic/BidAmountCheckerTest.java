@@ -72,6 +72,7 @@ public class BidAmountCheckerTest {
 	public void rejectsABidThatIsNotHigherThanTheSecondHighestBidPlusMinimumIncrement() {
 		double secondHighestBid = 25.0;
 		double lowerThanHighestBidPlusIncrement = secondHighestBid + MINIMUM_INCREMENT - 0.1;
+		
 		boolean isHighEnough = checker.isAmountHighEnough(bids(secondHighestBid, 30), 10.0, lowerThanHighestBidPlusIncrement);
 		
 		assertThat(isHighEnough, is(false));
@@ -88,6 +89,7 @@ public class BidAmountCheckerTest {
 	public void rejectsABidThatIsLowerThanInitialPricePlusMinimumIncrementIfOneBidHasBeenPlaced() {
 		double initialPrice = 10.0;
 		double lowerThanInitialPricePlusIncrement = initialPrice + MINIMUM_INCREMENT - 0.1;
+		
 		boolean isHighEnough = checker.isAmountHighEnough(bids(15.0), initialPrice, lowerThanInitialPricePlusIncrement);
 		
 		assertThat(isHighEnough, is(false));
@@ -97,11 +99,32 @@ public class BidAmountCheckerTest {
 	public void doesNotCareAboutMinimumIncrementIfNoBidsHaveBeenPlaced() {
 		double initialPrice = 10.0;
 		double lowerThanInitialPricePlusIncrement = initialPrice + MINIMUM_INCREMENT - 0.1;
+		
 		boolean isHighEnough = checker.isAmountHighEnough(NO_BIDS, initialPrice, lowerThanInitialPricePlusIncrement);
 		
 		assertThat(isHighEnough, is(true));
 	}
 
+	@Test
+	public void acceptsABidThatIsExactlyTheSameAsTheSecondHighestBidPlusTheMinimumIncrementIfMultipleBidsHaveBeenPlaced() {
+		double secondHighestBid = 25.0;
+		double secondHighestBidPlusMinimumIncrement = secondHighestBid + MINIMUM_INCREMENT;
+		
+		boolean isHighEnough = checker.isAmountHighEnough(bids(secondHighestBid, 30), 10.0, secondHighestBidPlusMinimumIncrement);
+		
+		assertThat(isHighEnough, is(true));
+	}
+
+	@Test
+	public void acceptsABidThatIsExactlyTheSameAsTheInitialPricePlusTheMinimumIncrementIfOnlyOneBidHasBeenPlaced() {
+		double initialPrice = 10.0;
+		double initialPricePlusMinimumIncrement = initialPrice + MINIMUM_INCREMENT;
+		
+		boolean isHighEnough = checker.isAmountHighEnough(bids(30), initialPrice, initialPricePlusMinimumIncrement);
+		
+		assertThat(isHighEnough, is(true));
+	}
+	
 	private List<Bid> bids(double... amounts) {
 		List<Bid> bids = new ArrayList<>();
 		

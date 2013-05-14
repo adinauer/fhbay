@@ -19,10 +19,10 @@ public class BidAmountChecker {
 		if (amountToCheck < initialPrice) return false;
 		List<Bid> sortedBids = bidSorter.sortBidsByAmountDescending(bids);
 		if (bids.size() == 1) {
-			return amountToCheck > (initialPrice + minimumIncrement);
+			return amountToCheck >= (initialPrice + minimumIncrement);
 		}
 		if (bids.size() > 1) {
-			return amountToCheck > (sortedBids.get(1).getAmount() + minimumIncrement);
+			return amountToCheck >= (sortedBids.get(1).getAmount() + minimumIncrement);
 		}
 		
 		return true;
