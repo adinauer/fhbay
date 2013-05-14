@@ -14,7 +14,18 @@ public class BidSorter {
 		
 		Collections.sort(bids, new Comparator<Bid>() {
 			public int compare(Bid b1, Bid b2) {
-				return (-1) * new Double(b1.getAmount()).compareTo(b2.getAmount());
+				int amountComparison = (-1) * new Double(b1.getAmount()).compareTo(b2.getAmount());
+				int comparison = amountComparison;
+				
+				if (isSameAmount(amountComparison)) {
+					comparison = b1.getBidTime().compareTo(b2.getBidTime());
+				}
+				
+				return comparison;
+			}
+
+			private boolean isSameAmount(int amountComparison) {
+				return amountComparison == 0;
 			}
 		});
 		

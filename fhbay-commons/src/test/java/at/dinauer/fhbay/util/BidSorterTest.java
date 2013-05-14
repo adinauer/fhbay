@@ -1,6 +1,7 @@
 package at.dinauer.fhbay.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hamcrest.FeatureMatcher;
@@ -33,6 +34,27 @@ public class BidSorterTest {
 					aBidWithAmount(10.0),
 					aBidWithAmount(5.0)
 				));
+	}
+	
+	@Test
+	public void sortsBidsWithEqualAmountByBidTime() {
+		List<Bid> bids = new ArrayList<>(); 
+		Bid earlierBid = new Bid();
+		Bid laterBid = new Bid();
+		
+		earlierBid.setAmount(10.0);
+		laterBid.setAmount(10.0);
+		
+		earlierBid.setBidTime(new Date(100));
+		laterBid.setBidTime(new Date(200));
+		
+		bids.add(laterBid);
+		bids.add(earlierBid);
+		
+		List<Bid> sortedBids = sorter.sortBidsByAmountDescending(bids);
+		
+		assertThat(sortedBids.get(0), equalTo(earlierBid));
+		assertThat(sortedBids.get(1), equalTo(laterBid));
 	}
 	
 	@Test
