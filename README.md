@@ -2,12 +2,13 @@ FHBay
 =====
 
 This is an auction platform which allows you to offer articles and bid on them.
+This project is part of the SVE (Service Engineering) course at FH Hagenberg.
 
 
 Building and Deploying
 ----------------------
 
-To build the application and deploy it to JBoss (needs to be running) execute the following command in the root of the project.
+To build the application and deploy it to JBoss (JBoss and MySql need to be running and the fhbay database needs to exist) execute the following command in the root of the project.
     $ mvn clean install -DskipTests=true; mvn -pl fhbay-ear jboss-as:deploy
 
 After the EAR file has been deployed you can execute the tests with the command:
@@ -52,7 +53,7 @@ Anonymous (everyone) can:
 * View article details: http://localhost:8080/fhbay-web/article/76/Canon-EOS-7D-(SLR)-Body
 * Search for articles by name and description: http://localhost:8080/ using the search form (top left)
 * Search for articles by name and description that are in a certain category or one of its subcategories: http://localhost:8080/ using the search form (top left)
-* Login using a username and password: http://localhost:8080/ using the login form (middle left)
+* Login using a username and password: {http://localhost:8080/} using the login form (middle left)
 
 
 Internal Structure:
