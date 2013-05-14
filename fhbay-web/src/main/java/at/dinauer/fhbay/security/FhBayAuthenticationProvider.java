@@ -71,8 +71,6 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 	}
 
 	public boolean supports(Class<?> clazz) {
-		System.out.println("supports? " + clazz);
 		return true;
 	}
-
 }

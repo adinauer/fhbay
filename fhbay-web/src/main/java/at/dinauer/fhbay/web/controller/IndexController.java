@@ -18,6 +18,7 @@ import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
+import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
@@ -154,30 +155,34 @@ public class IndexController {
 	}
 
 	private void fetchBids(Model model, long articleId) throws Exception {
-		List<PmodBid> bids = new ArrayList<>();
-		
-		List<Bid> bidsForArticle = auction.findBidsForArticle(articleId);
-		bidsForArticle = new BidSorter().sortBidsByAmountDescending(bidsForArticle);
-		
-		PmodBid pmod = new PmodBid();
-		boolean isFirstLoop = true;
-		for (Bid bid : bidsForArticle) {
-			// set amount as priceAtBidTime for the next bid(which is actually the previous bid in this loop; because of descending sort order) 
-			pmod.setPriceAtBidTime(bid.getAmount());
+		try {
+			List<PmodBid> bids = new ArrayList<>();
 			
-			pmod = new PmodBid(bid);
-			pmod.setWinning(isFirstLoop);
+			List<Bid> bidsForArticle = auction.findBidsForArticle(articleId);
+			bidsForArticle = new BidSorter().sortBidsByAmountDescending(bidsForArticle);
 			
-			bids.add(pmod);
+			PmodBid pmod = new PmodBid();
+			boolean isFirstLoop = true;
+			for (Bid bid : bidsForArticle) {
+				// set amount as priceAtBidTime for the next bid(which is actually the previous bid in this loop; because of descending sort order) 
+				pmod.setPriceAtBidTime(bid.getAmount());
+				
+				pmod = new PmodBid(bid);
+				pmod.setWinning(isFirstLoop);
+				
+				bids.add(pmod);
+				
+				isFirstLoop = false;
+			}
 			
-			isFirstLoop = false;
+			// set priceAtBidTime to initialPrice for the first bid
+			Article article = articleAdmin.findArticleById(articleId);
+			pmod.setPriceAtBidTime(article.getInitialPrice());
+			
+			model.addAttribute("bids", bids);
+		} catch (IdNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
-		
-		// set priceAtBidTime to initialPrice for the first bid
-		Article article = articleAdmin.findArticleById(articleId);
-		pmod.setPriceAtBidTime(article.getInitialPrice());
-		
-		model.addAttribute("bids", bids);
 	}
 
 	private void fetchCategories(Model model) throws Exception {
@@ -206,8 +211,12 @@ public class IndexController {
 				articles.add(fetchArticleDetails(article));
 			}
 		} else if (categoryId != null) {
-			for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
-				articles.add(fetchArticleDetails(article));				
+			try {
+				for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
+					articles.add(fetchArticleDetails(article));				
+				}	
+			} catch (IdNotFoundException e) {
+				System.out.println(e.getMessage());
 			}
 		} else {
 			for (Article article : articleAdmin.findAllArticles()) {
@@ -219,10 +228,14 @@ public class IndexController {
 	}
 
 	private void fetchArticleById(Model model, String articleId) throws Exception {
-		Article article = articleAdmin.findArticleById(Long.parseLong(articleId));
-		PmodArticle selectedArticle = fetchArticleDetails(article);
-		
-		model.addAttribute("selectedArticle", selectedArticle);
+		try {
+			Article article = articleAdmin.findArticleById(Long.parseLong(articleId));
+			PmodArticle selectedArticle = fetchArticleDetails(article);
+			
+			model.addAttribute("selectedArticle", selectedArticle);	
+		} catch (IdNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	private PmodArticle fetchArticleDetails(Article article) throws Exception {

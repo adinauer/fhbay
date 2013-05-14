@@ -42,6 +42,7 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 
 	public List<Article> findAllMatchingArticles(Long categoryId, String pattern, boolean includeSubCategories) throws IdNotFoundException {
 		Category category = categoryDao.findById(categoryId);
+		if (category == null) throw new IdNotFoundException(categoryId, "Category");
 		
 		return findAllMatchingArticles(category, pattern, includeSubCategories);
 	}
@@ -62,10 +63,8 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 		return matchingArticles;
 	}
 	
-	public Long offerArticle(Article article, Long sellerId)
-			throws IdNotFoundException {
+	public Long offerArticle(Article article, Long sellerId) throws IdNotFoundException {
 		Customer seller = customerDao.findById(sellerId);
-		
 		if (seller == null) throw new IdNotFoundException(sellerId, "Customer");
 		
 		article.setSeller(seller);
@@ -83,10 +82,10 @@ public class ArticleAdminBean implements ArticleAdminLocal, ArticleAdminRemote {
 	public void assignArticleToCategory(Long articleId, Long categoryId)
 			throws IdNotFoundException {
 		Category category = categoryDao.findById(categoryId);
-		if(category == null) throw new IdNotFoundException(categoryId, "category");
+		if(category == null) throw new IdNotFoundException(categoryId, "Category");
 		
 		Article article = articleDao.findById(articleId);
-		if(article == null) throw new IdNotFoundException(articleId, "article");
+		if(article == null) throw new IdNotFoundException(articleId, "Article");
 		
 		article.addCategory(category);
 		articleDao.merge(article);
