@@ -46,9 +46,7 @@ public class IndexController {
 	
 	@RequestMapping(value = {
 			"/", 
-			"/login", 
-			"/loginfailed", 
-			"/logout"})
+			"/login"})
 	public String showArticles(Model model) throws Exception {
 		model.addAttribute("showArticleList", true);
 
@@ -56,6 +54,16 @@ public class IndexController {
 		fetchAllArticles(model);
 		
 		return "index";
+	}
+	
+	@RequestMapping(value = "/loginfailed")
+	public String loginFailed(Model model) throws Exception {
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/logout")
+	public String logout(Model model) throws Exception {
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = {

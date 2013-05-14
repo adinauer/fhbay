@@ -1,13 +1,10 @@
 package at.dinauer.fhbay.security;
 
-import static java.lang.String.format;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -29,6 +26,25 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 	
 	public Authentication authenticate(Authentication incomingAuthentication)
 			throws AuthenticationException {
+
+		String username = String.valueOf(incomingAuthentication.getPrincipal());
+		String password = String.valueOf(incomingAuthentication.getCredentials());
+		if (password != null) {
+			System.out.println("trying to log in with username: " + username + " and password: " + password.substring(0, 1) + "***");
+		} else {
+			System.out.println("trying to log in with username: " + username + " and password: " + password);
+		}
+		
+		Authentication outgoingAuthentication = doAuthentication(incomingAuthentication);
+
+		System.out.println("is authenticated: " + outgoingAuthentication.isAuthenticated());
+		System.out.println("granted roles: " + outgoingAuthentication.getAuthorities());
+		
+		return outgoingAuthentication;
+	}
+
+	private Authentication doAuthentication(
+			Authentication incomingAuthentication) {
 		String username = String.valueOf(incomingAuthentication.getPrincipal());
 		String password = String.valueOf(incomingAuthentication.getCredentials());
 		
