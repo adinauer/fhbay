@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div id="search">
-	<form name="searchForm" method="GET" action="search">
+	<form name="searchForm" method="GET" action="<c:url value='/search' />">
 	<fieldset>
 		<legend>Search</legend>
 	
