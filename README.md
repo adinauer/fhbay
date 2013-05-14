@@ -11,12 +11,12 @@ Building and Deploying
 
 To build the application and deploy it to JBoss (JBoss and MySql need to be running and the fhbay database needs to exist) execute the following command in the root of the project.
 
-    $ mvn clean install -DskipTests=true; mvn -pl fhbay-ear jboss-as:deploy
+    $ mvn clean package; mvn -pl fhbay-ear jboss-as:deploy
 
     
 After the EAR file has been deployed you can execute the tests with the command:
 
-    $ mvn test
+    $ mvn verify
 
 
 Inserting Test Data

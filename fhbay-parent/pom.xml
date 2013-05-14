@@ -40,6 +40,48 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.14.1</version>
+				<configuration>
+					<excludedGroups>
+						at.dinauer.fhbay.test.categories.IntegrationTest,  
+						at.dinauer.fhbay.test.categories.EndToEndTest
+					</excludedGroups>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.14.1</version>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/*.class</include>
+							</includes>
+							<groups>
+								at.dinauer.fhbay.test.categories.IntegrationTest,
+								at.dinauer.fhbay.test.categories.EndToEndTest
+							</groups>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

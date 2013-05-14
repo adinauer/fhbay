@@ -1,8 +1,12 @@
 package at.dinauer.fhbay;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-import static at.dinauer.fhbay.FhBayMatchers.*;
+import static at.dinauer.fhbay.FhBayMatchers.aCategoryWithName;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
@@ -11,8 +15,9 @@ import org.junit.Test;
 
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
+import at.dinauer.fhbay.test.categories.IntegrationTest;
 
-
+@org.junit.experimental.categories.Category(IntegrationTest.class)
 public class CategoryRoundTripTest {
 	private CategoryAdminRemote categoryAdmin;
 	

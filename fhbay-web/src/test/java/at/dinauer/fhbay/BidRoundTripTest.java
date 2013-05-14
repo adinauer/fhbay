@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.ArticleState;
@@ -18,9 +19,10 @@ import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
+import at.dinauer.fhbay.test.categories.IntegrationTest;
 import at.dinauer.fhbay.util.DateUtil;
 
-
+@Category(IntegrationTest.class)
 public class BidRoundTripTest {
 	private ArticleAdminRemote articleAdmin;
 	private CustomerAdminRemote customerAdmin;

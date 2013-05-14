@@ -17,9 +17,10 @@ import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
+import at.dinauer.fhbay.test.categories.IntegrationTest;
 import at.dinauer.fhbay.util.DateUtil;
 
-
+@org.junit.experimental.categories.Category(IntegrationTest.class)
 public class ArticleRoundTripTest {
 	private ArticleAdminRemote articleAdmin;
 	private CustomerAdminRemote customerAdmin;

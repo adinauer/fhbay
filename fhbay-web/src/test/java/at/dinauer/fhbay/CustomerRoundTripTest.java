@@ -10,12 +10,14 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import at.dinauer.fhbay.domain.Address;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
+import at.dinauer.fhbay.test.categories.IntegrationTest;
 
-
+@Category(IntegrationTest.class)
 public class CustomerRoundTripTest {
 	private CustomerAdminRemote customerAdmin;
 	
