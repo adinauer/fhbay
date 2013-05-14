@@ -14,7 +14,7 @@ To build the application and deploy it to JBoss (JBoss and MySql need to be runn
     $ mvn clean package; mvn -pl fhbay-ear jboss-as:deploy
 
     
-After the EAR file has been deployed you can execute the tests with the command:
+After the EAR file has been deployed you can execute the long running tests (Integration and EndToEnd) with the command:
 
     $ mvn verify
 
