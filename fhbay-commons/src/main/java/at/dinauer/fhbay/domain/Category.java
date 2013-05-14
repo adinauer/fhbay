@@ -116,4 +116,16 @@ public class Category implements Serializable {
 			return false;
 		return true;
 	}
+
+	public String getBreadcrumbs() {
+		String breadcrumbs = "";
+		
+		if (parent != null) {
+			breadcrumbs += parent.getBreadcrumbs() + " > ";
+		}
+		
+		breadcrumbs += name;
+		
+		return breadcrumbs;
+	}
 }

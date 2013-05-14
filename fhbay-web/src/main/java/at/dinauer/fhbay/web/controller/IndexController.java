@@ -38,6 +38,7 @@ public class IndexController {
 	
 	public IndexController() throws Exception {
 		serviceLocator = new ServiceLocator();
+		
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		auction = serviceLocator.locate(AuctionRemote.class);
 		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
@@ -78,8 +79,7 @@ public class IndexController {
 
 		fetchCategories(model);
 		fetchArticlesByCategory(model, categoryId);
-		
-		model.addAttribute("selectedCategoryName", "Photography > Cameras");
+		fetchCategoryBreadcrumbs(model, categoryId);
 
 		return "index";
 	}
@@ -150,8 +150,21 @@ public class IndexController {
 
 		fetchCategories(model);
 		fetchArticles(model, Long.parseLong(categoryId), searchString, true);
+		fetchCategoryBreadcrumbs(model, categoryId);
 		
 		return "index";
+	}
+
+	private void fetchCategoryBreadcrumbs(Model model, String categoryId) {
+		if (categoryId != null) {
+			try {
+				Category category = categoryAdmin.findCategoryById(Long.parseLong(categoryId)); 
+							
+				model.addAttribute("selectedCategoryName", category.getBreadcrumbs());
+			} catch (IdNotFoundException | NumberFormatException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 
 	private void fetchBids(Model model, long articleId) throws Exception {
