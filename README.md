@@ -23,7 +23,7 @@ Go to [insert test data page](http://localhost:8080/fhbay-web/insertTestData) to
 * Customers
 * Articles
 * Bids on some of the articles
-after the insert has finished you will be redirected to the index page (/)
+after the insert has finished you will be redirected to the [index page](http://localhost:8080/fhbay-web/)
 
 
 Login
@@ -52,7 +52,7 @@ Anonymous (everyone) can:
 * List only articles in a certain subcategory: [subcategory page](http://localhost:8080/fhbay-web/category/58/Photography/Cameras)
 * View article details: [article details page](http://localhost:8080/fhbay-web/article/76/Canon-EOS-7D-(SLR)-Body)
 * Search for articles by name and description: [index page](http://localhost:8080/fhbay-web/) using the search form (top left)
-* Search for articles by name and description that are in a certain category or one of its subcategories: http://localhost:8080/fhbay-web/ using the search form (top left)
+* Search for articles by name and description that are in a certain category or one of its subcategories: [index page](http://localhost:8080/fhbay-web/) using the search form (top left)
 * Login using a username and password: [index page](http://localhost:8080/fhbay-web/) using the login form (middle left)
 
 
