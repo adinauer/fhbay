@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import at.dinauer.fhbay.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
-import at.dinauer.fhbay.domain.BidInfo;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;

@@ -122,13 +122,6 @@ public class IndexController {
 			@RequestParam("category") String categoryId,
 			@RequestParam("description") String description) throws Exception {
 		
-		System.out.println("name: " + name);
-		System.out.println("initialPrice: " + initialPrice);
-		System.out.println("startDate: " + startDate);
-		System.out.println("endDate: " + endDate);
-		System.out.println("categoryId: " + categoryId);
-		System.out.println("description: " + description);
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 		Article article = new Article();
