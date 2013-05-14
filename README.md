@@ -27,7 +27,8 @@ Go to [insert test data page](http://localhost:8080/fhbay-web/insertTestData) to
 * Customers
 * Articles
 * Bids on some of the articles
-after the insert has finished you will be redirected to the [index page](http://localhost:8080/fhbay-web/)
+
+After the insert has finished you will be redirected to the [index page](http://localhost:8080/fhbay-web/)
 
 
 Login
