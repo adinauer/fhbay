@@ -20,6 +20,5 @@
 		<authentication-provider ref="authenticationProvider" />
 	</authentication-manager>
  
- 
 	<beans:bean id="authenticationProvider" class="at.dinauer.fhbay.security.FhBayAuthenticationProvider" />
 </beans:beans>

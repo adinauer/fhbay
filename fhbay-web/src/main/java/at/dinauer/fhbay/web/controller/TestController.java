@@ -2,6 +2,8 @@ package at.dinauer.fhbay.web.controller;
 
 import java.util.List;
 
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,11 +16,13 @@ import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.security.FhBayRoles;
+import at.dinauer.fhbay.security.User;
 import at.dinauer.fhbay.util.DateUtil;
 
 @Controller
 public class TestController {
 
+	private  PasswordEncoder passwordEncoder = new ShaPasswordEncoder();
 	private ServiceLocator serviceLocator = new ServiceLocator();
 	
 	@RequestMapping(value = "/insertTestData")
@@ -80,7 +84,7 @@ public class TestController {
 		seller.setFirstName("Tom");
 		seller.setLastName("Seller");
 		seller.setUserName("tom.seller");
-		seller.setPassword("expensive");
+		seller.setPassword(encodePassword("expensive"));
 		seller.addRole(FhBayRoles.ROLE_USER);
 		seller.setId(customerAdmin.saveCustomer(seller));
 		
@@ -88,14 +92,15 @@ public class TestController {
 		bidder.setFirstName("Bud");
 		bidder.setLastName("Bidder");
 		bidder.setUserName("bud.bidder");
-		bidder.setPassword("cheap");
+		bidder.setPassword(encodePassword("cheap"));
 		bidder.addRole(FhBayRoles.ROLE_USER);
 		bidder.setId(customerAdmin.saveCustomer(bidder));
 		
 		Customer otherBidder = new Customer();
 		otherBidder.setFirstName("Otto");
-		otherBidder.setLastName("Other-Bidder");
-		otherBidder.setUserName("otto.other-bidder");
+		otherBidder.setLastName("Otherbidder");
+		otherBidder.setUserName("otto.otherbidder");
+		otherBidder.setPassword(encodePassword("cheaper"));
 		otherBidder.addRole(FhBayRoles.ROLE_USER);
 		otherBidder.setId(customerAdmin.saveCustomer(otherBidder));
 		
@@ -103,7 +108,7 @@ public class TestController {
 		admin.setFirstName("Alfred");
 		admin.setLastName("Administrator");
 		admin.setUserName("admin");
-		admin.setPassword("power");
+		admin.setPassword(encodePassword("power"));
 		admin.addRole(FhBayRoles.ROLE_USER);
 		admin.addRole(FhBayRoles.ROLE_ADMIN);
 		admin.setId(customerAdmin.saveCustomer(admin));
@@ -157,5 +162,9 @@ public class TestController {
 		
 		
 		return "redirect:/";
+	}
+
+	private String encodePassword(String rawPassword) {
+		return passwordEncoder.encodePassword(rawPassword, User.PASSWORD_SALT);
 	}
 }

@@ -5,6 +5,7 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName;
+	public static final String PASSWORD_SALT = "FHBay";
 
 	public Long getId() {
 		return id;

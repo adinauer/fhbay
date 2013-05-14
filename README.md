@@ -34,13 +34,14 @@ After the insert has finished you will be redirected to the [index page](http://
 Login
 -----
 
-    +------------+-----------+-------------+
-    | USERNAME   | PASSWORD  | ROLES       |
-    +------------+-----------+-------------+
-    | tom.seller | expensive | USER        |
-    | bud.bidder | cheap     | USER        |
-    | admin      | power     | USER, ADMIN |
-    +------------+-----------+-------------+
+    +------------------+-----------+-------------+
+    | USERNAME         | PASSWORD  | ROLES       |
+    +------------------+-----------+-------------+
+    | tom.seller       | expensive | USER        |
+    | bud.bidder       | cheap     | USER        |
+    | admin            | power     | USER, ADMIN |
+    | otto.otherbidder | cheaper   | USER        |
+    +------------------+-----------+-------------+
 
 
 Roles

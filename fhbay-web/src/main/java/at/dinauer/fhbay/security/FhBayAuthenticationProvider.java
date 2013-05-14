@@ -7,8 +7,11 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,8 +23,10 @@ import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 
 public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 	
-	ServiceLocator serviceLocator = new ServiceLocator();
+	private PasswordEncoder passwordEncoder = new ShaPasswordEncoder();
+	private ServiceLocator serviceLocator = new ServiceLocator();
 
+	
 	public Authentication authenticate(Authentication incomingAuthentication)
 			throws AuthenticationException {
 		String username = String.valueOf(incomingAuthentication.getPrincipal());
@@ -58,16 +63,15 @@ public class FhBayAuthenticationProvider implements AuthenticationProvider  {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println(format("user: %s; pwd: ***, ok? %s", username, processedAuthentication.isAuthenticated()));
-		System.out.println("authorities: " + processedAuthentication.getAuthorities());
-		
 		return processedAuthentication;
 	}
 
 	private boolean isPasswordIncorrect(String password, Customer customer) {
-		if (customer.getPassword() == null) return false;
-		
-		return !customer.getPassword().equals(password);
+		return !isPasswordCorrect(password, customer);
+	}
+
+	private boolean isPasswordCorrect(String password, Customer customer) {
+		return passwordEncoder.isPasswordValid(customer.getPassword(), password, User.PASSWORD_SALT);
 	}
 
 	public boolean supports(Class<?> clazz) {
