@@ -33,10 +33,13 @@ after the insert has finished you will be redirected to the [index page](http://
 Login
 -----
 
-USERNAME: PASSWORD
-* tom.seller: expensive
-* bud.bidder: cheap
-* admin: power
+    +------------+-----------+-------------+
+    | USERNAME   | PASSWORD  | ROLES       |
+    +------------+-----------+-------------+
+    | tom.seller | expensive | USER        |
+    | bud.bidder | cheap     | USER        |
+    | admin      | power     | USER, ADMIN |
+    +------------+-----------+-------------+
 
 
 Roles
