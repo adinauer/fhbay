@@ -3,8 +3,6 @@ package at.dinauer.fhbay.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.ui.Model;
-
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.Category;
