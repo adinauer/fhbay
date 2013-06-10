@@ -68,6 +68,9 @@ Anonymous (everyone) can:
 Internal Structure:
 -------------------
 
+fhbay-client-commons
+* Contains common classes used by all the fhbay clients
+
 fhbay-commons
 * Contains classes used by fhbay-server and fhbay-web
 
