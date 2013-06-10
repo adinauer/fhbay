@@ -7,7 +7,7 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import at.dinauer.fhbay.ServiceLocator;
+import at.dinauer.fhbay.util.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.domain.Customer;

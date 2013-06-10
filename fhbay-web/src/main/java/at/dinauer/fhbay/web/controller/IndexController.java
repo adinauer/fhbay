@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import at.dinauer.fhbay.ServiceLocator;
+import at.dinauer.fhbay.util.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
 import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.BidInfo;

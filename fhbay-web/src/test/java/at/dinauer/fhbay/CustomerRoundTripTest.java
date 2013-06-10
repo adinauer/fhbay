@@ -16,6 +16,7 @@ import at.dinauer.fhbay.domain.Address;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.test.categories.IntegrationTest;
+import at.dinauer.fhbay.util.ServiceLocator;
 
 @Category(IntegrationTest.class)
 public class CustomerRoundTripTest {

@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import at.dinauer.fhbay.ServiceLocator;
+import at.dinauer.fhbay.util.ServiceLocator;
 import at.dinauer.fhbay.domain.Customer;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 

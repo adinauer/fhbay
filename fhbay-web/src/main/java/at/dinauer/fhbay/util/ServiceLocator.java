@@ -1,4 +1,4 @@
-package at.dinauer.fhbay;
+package at.dinauer.fhbay.util;
 
 import java.util.HashMap;
 import java.util.Map;

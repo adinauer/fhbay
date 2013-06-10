@@ -19,6 +19,7 @@ import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.test.categories.IntegrationTest;
 import at.dinauer.fhbay.util.DateUtil;
+import at.dinauer.fhbay.util.ServiceLocator;
 
 @org.junit.experimental.categories.Category(IntegrationTest.class)
 public class ArticleRoundTripTest {

@@ -16,6 +16,7 @@ import org.junit.Test;
 import at.dinauer.fhbay.domain.Category;
 import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
 import at.dinauer.fhbay.test.categories.IntegrationTest;
+import at.dinauer.fhbay.util.ServiceLocator;
 
 @org.junit.experimental.categories.Category(IntegrationTest.class)
 public class CategoryRoundTripTest {

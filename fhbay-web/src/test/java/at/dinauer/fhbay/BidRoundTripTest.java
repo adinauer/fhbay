@@ -21,6 +21,7 @@ import at.dinauer.fhbay.interfaces.AuctionRemote;
 import at.dinauer.fhbay.interfaces.CustomerAdminRemote;
 import at.dinauer.fhbay.test.categories.IntegrationTest;
 import at.dinauer.fhbay.util.DateUtil;
+import at.dinauer.fhbay.util.ServiceLocator;
 
 @Category(IntegrationTest.class)
 public class BidRoundTripTest {
