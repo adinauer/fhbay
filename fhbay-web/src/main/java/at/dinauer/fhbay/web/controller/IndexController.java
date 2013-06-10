@@ -1,8 +1,6 @@
 package at.dinauer.fhbay.web.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,36 +10,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import at.dinauer.fhbay.util.ServiceLocator;
 import at.dinauer.fhbay.domain.Article;
-import at.dinauer.fhbay.domain.Bid;
 import at.dinauer.fhbay.domain.BidInfo;
-import at.dinauer.fhbay.domain.Category;
-import at.dinauer.fhbay.domain.Customer;
-import at.dinauer.fhbay.exceptions.IdNotFoundException;
 import at.dinauer.fhbay.interfaces.ArticleAdminRemote;
 import at.dinauer.fhbay.interfaces.AuctionRemote;
-import at.dinauer.fhbay.interfaces.CategoryAdminRemote;
-import at.dinauer.fhbay.presentation.PmodArticle;
-import at.dinauer.fhbay.presentation.PmodBid;
-import at.dinauer.fhbay.presentation.PmodCategory;
 import at.dinauer.fhbay.security.User;
-import at.dinauer.fhbay.util.BidSorter;
+import at.dinauer.fhbay.util.DataFetcher;
+import at.dinauer.fhbay.util.ServiceLocator;
 
 @Controller
 public class IndexController {
 
+	private DataFetcher dataFetcher;
+	
 	private ServiceLocator serviceLocator;
 	private ArticleAdminRemote articleAdmin;
 	private AuctionRemote auction;
-	private CategoryAdminRemote categoryAdmin;
 	
 	public IndexController() throws Exception {
+		dataFetcher = new DataFetcher();
+		
 		serviceLocator = new ServiceLocator();
 		
 		articleAdmin = serviceLocator.locate(ArticleAdminRemote.class);
 		auction = serviceLocator.locate(AuctionRemote.class);
-		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
 	}
 	
 	@RequestMapping(value = {
@@ -50,8 +42,8 @@ public class IndexController {
 	public String showArticles(Model model) throws Exception {
 		model.addAttribute("showArticleList", true);
 
-		fetchCategories(model);
-		fetchAllArticles(model);
+		dataFetcher.fetchCategories(model);
+		dataFetcher.fetchAllArticles(model);
 		
 		return "index";
 	}
@@ -72,8 +64,8 @@ public class IndexController {
 	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) throws Exception {
 		model.addAttribute("showArticleDetails", true);
 
-		fetchCategories(model);
-		fetchArticleById(model, articleId);
+		dataFetcher.fetchCategories(model);
+		dataFetcher.fetchArticleById(model, articleId);
 		
 		return "index";
 	}
@@ -85,9 +77,9 @@ public class IndexController {
 	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) throws Exception {
 		model.addAttribute("showArticleList", true);
 
-		fetchCategories(model);
-		fetchArticlesByCategory(model, categoryId);
-		fetchCategoryBreadcrumbs(model, categoryId);
+		dataFetcher.fetchCategories(model);
+		dataFetcher.fetchArticlesByCategory(model, categoryId);
+		dataFetcher.fetchCategoryBreadcrumbs(model, categoryId);
 
 		return "index";
 	}
@@ -96,9 +88,9 @@ public class IndexController {
 	public String showBidHistory(Model model, @RequestParam("articleId") String articleId) throws Exception {
 		model.addAttribute("showBids", true);
 
-		fetchCategories(model);
-		fetchBids(model, Long.parseLong(articleId));
-		fetchArticleById(model, articleId);
+		dataFetcher.fetchCategories(model);
+		dataFetcher.fetchBids(model, Long.parseLong(articleId));
+		dataFetcher.fetchArticleById(model, articleId);
 
 		return "index";
 	}
@@ -117,7 +109,7 @@ public class IndexController {
 	public String showOfferArticleForm(Model model) throws Exception {
 		model.addAttribute("showOfferArticleForm", true);
 
-		fetchCategories(model);
+		dataFetcher.fetchCategories(model);
 		
 		return "index";
 	}
@@ -156,119 +148,11 @@ public class IndexController {
 		model.addAttribute("showArticleList", true);
 		model.addAttribute("searchString", searchString);
 
-		fetchCategories(model);
-		fetchArticles(model, Long.parseLong(categoryId), searchString, true);
-		fetchCategoryBreadcrumbs(model, categoryId);
+		dataFetcher.fetchCategories(model);
+		dataFetcher.fetchArticles(model, Long.parseLong(categoryId), searchString, true);
+		dataFetcher.fetchCategoryBreadcrumbs(model, categoryId);
 		
 		return "index";
-	}
-
-	private void fetchCategoryBreadcrumbs(Model model, String categoryId) {
-		if (categoryId != null) {
-			try {
-				Category category = categoryAdmin.findCategoryById(Long.parseLong(categoryId)); 
-							
-				model.addAttribute("selectedCategoryName", category.getBreadcrumbs());
-			} catch (IdNotFoundException | NumberFormatException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-
-	private void fetchBids(Model model, long articleId) throws Exception {
-		try {
-			List<PmodBid> bids = new ArrayList<>();
-			
-			List<Bid> bidsForArticle = auction.findBidsForArticle(articleId);
-			bidsForArticle = new BidSorter().sortBidsByAmountDescending(bidsForArticle);
-			
-			PmodBid pmod = new PmodBid();
-			boolean isFirstLoop = true;
-			for (Bid bid : bidsForArticle) {
-				// set amount as priceAtBidTime for the next bid(which is actually the previous bid in this loop; because of descending sort order) 
-				pmod.setPriceAtBidTime(bid.getAmount());
-				
-				pmod = new PmodBid(bid);
-				pmod.setWinning(isFirstLoop);
-				
-				bids.add(pmod);
-				
-				isFirstLoop = false;
-			}
-			
-			// set priceAtBidTime to initialPrice for the first bid
-			Article article = articleAdmin.findArticleById(articleId);
-			pmod.setPriceAtBidTime(article.getInitialPrice());
-			
-			model.addAttribute("bids", bids);
-		} catch (IdNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	private void fetchCategories(Model model) throws Exception {
-		List<PmodCategory> categories = new ArrayList<>();
-		
-		for (Category rootCategory : categoryAdmin.findRootCategories()) {
-			categories.add(new PmodCategory(rootCategory));
-		}
-		
-		model.addAttribute("categories", categories);
-	}
-
-	private void fetchAllArticles(Model model) throws Exception {
-		fetchArticles(model, null, "", true);
-	}
-
-	private void fetchArticlesByCategory(Model model, String categoryId) throws Exception {
-		fetchArticles(model, Long.parseLong(categoryId), "", true);
-	}
-
-	private void fetchArticles(Model model, Long categoryId, String pattern, boolean includeSubCategories) throws Exception {
-		List<PmodArticle> articles = new ArrayList<>();
-		
-		if (categoryId != null && categoryId <= 0) {
-			for (Article article : articleAdmin.findAllMatchingArticles(pattern)) {
-				articles.add(fetchArticleDetails(article));
-			}
-		} else if (categoryId != null) {
-			try {
-				for (Article article : articleAdmin.findAllMatchingArticles(categoryId, pattern, includeSubCategories)) {
-					articles.add(fetchArticleDetails(article));				
-				}	
-			} catch (IdNotFoundException e) {
-				System.out.println(e.getMessage());
-			}
-		} else {
-			for (Article article : articleAdmin.findAllArticles()) {
-				articles.add(fetchArticleDetails(article));
-			}
-		}
-		
-		model.addAttribute("articles", articles);
-	}
-
-	private void fetchArticleById(Model model, String articleId) throws Exception {
-		try {
-			Article article = articleAdmin.findArticleById(Long.parseLong(articleId));
-			PmodArticle selectedArticle = fetchArticleDetails(article);
-			
-			model.addAttribute("selectedArticle", selectedArticle);	
-		} catch (IdNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	private PmodArticle fetchArticleDetails(Article article) throws Exception {
-		PmodArticle pmodArticle = new PmodArticle(article);
-
-		pmodArticle.setCurrentPrice(auction.findCurrentPriceForArticle(article.getId()));
-		pmodArticle.setNumberOfBids(auction.findBidsForArticle(article.getId()).size());
-
-		Customer seller = article.getSeller();
-		pmodArticle.setSellerName(String.format("%s %s (%s)", seller.getFirstName(), seller.getLastName(), seller.getUserName()));
-		
-		return pmodArticle;
 	}
 
 	private User getLoggedInUser() {
