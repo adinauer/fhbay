@@ -42,8 +42,10 @@ public class IndexController {
 	public String showArticles(Model model) throws Exception {
 		model.addAttribute("showArticleList", true);
 
-		dataFetcher.fetchCategories(model);
-		dataFetcher.fetchAllArticles(model);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
+		dataFetcher.fetchAllArticles(dataStore);
 		
 		return "index";
 	}
@@ -64,8 +66,10 @@ public class IndexController {
 	public String showArticleDetails(Model model, @PathVariable("articleId") String articleId) throws Exception {
 		model.addAttribute("showArticleDetails", true);
 
-		dataFetcher.fetchCategories(model);
-		dataFetcher.fetchArticleById(model, articleId);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
+		dataFetcher.fetchArticleById(dataStore, articleId);
 		
 		return "index";
 	}
@@ -77,9 +81,11 @@ public class IndexController {
 	public String showArticlesInCategory(Model model, @PathVariable("categoryId") String categoryId) throws Exception {
 		model.addAttribute("showArticleList", true);
 
-		dataFetcher.fetchCategories(model);
-		dataFetcher.fetchArticlesByCategory(model, categoryId);
-		dataFetcher.fetchCategoryBreadcrumbs(model, categoryId);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
+		dataFetcher.fetchArticlesByCategory(dataStore, categoryId);
+		dataFetcher.fetchCategoryBreadcrumbs(dataStore, categoryId);
 
 		return "index";
 	}
@@ -88,9 +94,11 @@ public class IndexController {
 	public String showBidHistory(Model model, @RequestParam("articleId") String articleId) throws Exception {
 		model.addAttribute("showBids", true);
 
-		dataFetcher.fetchCategories(model);
-		dataFetcher.fetchBids(model, Long.parseLong(articleId));
-		dataFetcher.fetchArticleById(model, articleId);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
+		dataFetcher.fetchBids(dataStore, Long.parseLong(articleId));
+		dataFetcher.fetchArticleById(dataStore, articleId);
 
 		return "index";
 	}
@@ -109,7 +117,9 @@ public class IndexController {
 	public String showOfferArticleForm(Model model) throws Exception {
 		model.addAttribute("showOfferArticleForm", true);
 
-		dataFetcher.fetchCategories(model);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
 		
 		return "index";
 	}
@@ -148,9 +158,11 @@ public class IndexController {
 		model.addAttribute("showArticleList", true);
 		model.addAttribute("searchString", searchString);
 
-		dataFetcher.fetchCategories(model);
-		dataFetcher.fetchArticles(model, Long.parseLong(categoryId), searchString, true);
-		dataFetcher.fetchCategoryBreadcrumbs(model, categoryId);
+		SpringMvcDataStore dataStore = new SpringMvcDataStore(model);
+		
+		dataFetcher.fetchCategories(dataStore);
+		dataFetcher.fetchArticles(dataStore, Long.parseLong(categoryId), searchString, true);
+		dataFetcher.fetchCategoryBreadcrumbs(dataStore, categoryId);
 		
 		return "index";
 	}

@@ -32,19 +32,19 @@ public class DataFetcher {
 		categoryAdmin = serviceLocator.locate(CategoryAdminRemote.class);
 	}
 
-	public void fetchCategoryBreadcrumbs(Model model, String categoryId) {
+	public void fetchCategoryBreadcrumbs(DataStore dataStore, String categoryId) {
 		if (categoryId != null) {
 			try {
 				Category category = categoryAdmin.findCategoryById(Long.parseLong(categoryId)); 
 							
-				model.addAttribute("selectedCategoryName", category.getBreadcrumbs());
+				dataStore.storeBreadcrumbs(category.getBreadcrumbs());
 			} catch (IdNotFoundException | NumberFormatException e) {
 				System.out.println(e.getMessage());
 			}
 		}
 	}
 
-	public void fetchBids(Model model, long articleId) throws Exception {
+	public void fetchBids(DataStore dataStore, long articleId) throws Exception {
 		try {
 			List<PmodBid> bids = new ArrayList<>();
 			
@@ -69,31 +69,31 @@ public class DataFetcher {
 			Article article = articleAdmin.findArticleById(articleId);
 			pmod.setPriceAtBidTime(article.getInitialPrice());
 			
-			model.addAttribute("bids", bids);
+			dataStore.storeBids(bids);
 		} catch (IdNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public void fetchCategories(Model model) throws Exception {
+	public void fetchCategories(DataStore dataStore) throws Exception {
 		List<PmodCategory> categories = new ArrayList<>();
 		
 		for (Category rootCategory : categoryAdmin.findRootCategories()) {
 			categories.add(new PmodCategory(rootCategory));
 		}
 		
-		model.addAttribute("categories", categories);
+		dataStore.storeCategories(categories);
 	}
 
-	public void fetchAllArticles(Model model) throws Exception {
-		fetchArticles(model, null, "", true);
+	public void fetchAllArticles(DataStore dataStore) throws Exception {
+		fetchArticles(dataStore, null, "", true);
 	}
 
-	public void fetchArticlesByCategory(Model model, String categoryId) throws Exception {
-		fetchArticles(model, Long.parseLong(categoryId), "", true);
+	public void fetchArticlesByCategory(DataStore dataStore, String categoryId) throws Exception {
+		fetchArticles(dataStore, Long.parseLong(categoryId), "", true);
 	}
 
-	public void fetchArticles(Model model, Long categoryId, String pattern, boolean includeSubCategories) throws Exception {
+	public void fetchArticles(DataStore dataStore, Long categoryId, String pattern, boolean includeSubCategories) throws Exception {
 		List<PmodArticle> articles = new ArrayList<>();
 		
 		if (categoryId != null && categoryId <= 0) {
@@ -114,15 +114,15 @@ public class DataFetcher {
 			}
 		}
 		
-		model.addAttribute("articles", articles);
+		dataStore.storeArticles(articles);
 	}
 
-	public void fetchArticleById(Model model, String articleId) throws Exception {
+	public void fetchArticleById(DataStore dataStore, String articleId) throws Exception {
 		try {
 			Article article = articleAdmin.findArticleById(Long.parseLong(articleId));
 			PmodArticle selectedArticle = fetchArticleDetails(article);
 			
-			model.addAttribute("selectedArticle", selectedArticle);	
+			dataStore.storeSelectedArticle(selectedArticle);
 		} catch (IdNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
