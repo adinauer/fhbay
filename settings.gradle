@@ -1,0 +1,6 @@
+include 'fhbay-commons'
+include 'fhbay-config'
+include 'fhbay-server'
+include 'fhbay-client-commons'
+include 'fhbay-web'
+include 'fhbay-ear'

@@ -9,3 +9,5 @@ webContent
 fhbay-docs
 *.sublime-project
 *.sublime-workspace
+build
+.gradle
